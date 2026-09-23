@@ -11,6 +11,11 @@ use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
+    /**
+     * Daftar jurusan yang boleh mengirim karya (urutan = urutan tombol di halaman upload).
+     */
+    private const JURUSAN_LIST = ['PPLG', 'TKJ', 'DKV', 'TOI', 'TSM'];
+
     public function index()
     {
         $projects = Project::where('user_id', Auth::id())
@@ -51,17 +56,18 @@ class ProjectController extends Controller
         $request->validate([
             'title'            => 'required|string|max:255',
             'description'      => 'required|string',
-            'jurusan'          => 'required|string|max:255',
+            'jurusan'          => 'required|in:' . implode(',', self::JURUSAN_LIST),
             'technology_stack' => 'nullable|string|max:255',
             'live_link'        => 'nullable|url|max:255',
-            'iframe_link'      => 'nullable|url|max:500',
-            
+            'iframe_link'      => 'nullable|url|max:255',
+
             // ATURAN REVISI 1: Khusus PPLG WAJIB isi link GitHub
             'github_link'      => $request->jurusan === 'PPLG' ? 'required|url|max:255' : 'nullable|url|max:255',
-            
+
             // ATURAN REVISI 2: Foto opsional jika ada iframe_link, tapi minimal pilih salah satu
             'file_path'        => 'nullable|required_without:iframe_link|image|mimes:jpg,jpeg,png,webp|max:10240',
         ], [
+            'jurusan.in'                 => 'Jurusan yang dipilih tidak valid.',
             'github_link.required'       => 'Khusus siswa jurusan PPLG, link repository GitHub wajib diisi!',
             'file_path.required_without' => 'Wajib mengunggah gambar karya jika tidak menyertakan link iframe.',
             'file_path.image'            => 'File yang diunggah harus berupa gambar (JPG, JPEG, PNG, WEBP).',
@@ -74,7 +80,7 @@ class ProjectController extends Controller
         // 2. ATURAN REVISI 3: Logika Kompresi Gambar ke ~50 KB
         if ($request->hasFile('file_path')) {
             $file = $request->file('file_path');
-            
+
             // Proses kompresi gambar menggunakan fungsi di bawah
             $path = $this->compressAndSaveImage($file);
             $fileType = 'image/jpeg'; // Hasil kompresi selalu dikonversi ke JPEG
@@ -82,14 +88,15 @@ class ProjectController extends Controller
         }
 
         // 3. Simpan ke Database
+        // Kolom "iframe_link" tidak ada di tabel projects; link iframe/embed disimpan di kolom live_link
+        // (dipakai sebagai preview di halaman profil). Jika live_link kosong, pakai iframe_link.
         Project::create([
             'user_id'          => Auth::id(),
             'title'            => $request->title,
             'description'      => $request->description,
             'jurusan'          => $request->jurusan,
             'technology_stack' => $request->technology_stack,
-            'live_link'        => $request->live_link,
-            'iframe_link'      => $request->iframe_link,
+            'live_link'        => $request->live_link ?: $request->iframe_link,
             'github_link'      => $request->github_link,
             'file_path'        => $path,
             'file_type'        => $fileType,
@@ -104,18 +111,24 @@ class ProjectController extends Controller
 
     public function upload()
     {
-        $jurusanList = ['PPLG', 'DKV', 'TOI'];
+        $jurusanList = self::JURUSAN_LIST;
 
+        // Warna tombol jurusan & tombol kirim (setara Bootstrap:
+        // PPLG = success, TKJ = primary, DKV = warning, TOI = secondary, TSM = danger)
         $jurusanColor = [
             'PPLG' => 'bg-green-600 hover:bg-green-700',
+            'TKJ'  => 'bg-blue-600 hover:bg-blue-700',
             'DKV'  => 'bg-orange-500 hover:bg-orange-600',
             'TOI'  => 'bg-gray-500 hover:bg-gray-600',
+            'TSM'  => 'bg-red-600 hover:bg-red-700',
         ];
 
         $jurusanBadge = [
             'PPLG' => 'bg-green-600',
+            'TKJ'  => 'bg-blue-600',
             'DKV'  => 'bg-orange-500',
             'TOI'  => 'bg-gray-500',
+            'TSM'  => 'bg-red-600',
         ];
 
         return view('siswa.upload', compact('jurusanList', 'jurusanColor', 'jurusanBadge'));
@@ -159,9 +172,9 @@ class ProjectController extends Controller
             $width, $height
         );
 
-        // Algoritma Kompresi Target Max 60 KB
-        $maxFileSizeBytes = 60 * 1024;
-        $quality = 85; 
+        // Algoritma Kompresi Target Max 50 KB
+        $maxFileSizeBytes = 45 * 1024; // 50 KB
+        $quality = 85;
         $compressedContent = '';
 
         do {
@@ -169,9 +182,9 @@ class ProjectController extends Controller
             imagejpeg($resized, null, $quality);
             $compressedContent = ob_get_clean();
 
-            // Turunkan kualitas jika masih di atas target ukuran
-            $quality -= 5; 
-        } while (strlen($compressedContent) > $maxFileSizeBytes && $quality >= 35);
+            // Turunkan kualitas secara bertahap jika masih di atas 50 KB (batas minimal kualitas 25)
+            $quality -= 5;
+        } while (strlen($compressedContent) > $maxFileSizeBytes && $quality >= 25);
 
         // Bersihkan memori server
         imagedestroy($source);

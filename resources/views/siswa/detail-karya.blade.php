@@ -3,164 +3,228 @@
 @section('title', 'Detail Karya')
 
 @section('content')
-<div class="flex-1 p-6 md:p-10 overflow-y-auto">
+    @php
+        // Jurusan PPLG punya kolom tambahan: URL GitHub (wajib diisi)
+        $isPplg = strtoupper(trim($project->jurusan ?? '')) === 'PPLG';
 
-    <div class="max-w-3xl mx-auto">
+        // Warna baris "Catatan / Alasan Admin" mengikuti status project
+        $note = match ($project->status) {
+            'approved' => [
+                'row'   => 'bg-[#ECFDF5]',
+                'label' => 'bg-[#A7F3D0] text-emerald-950',
+                'text'  => 'text-emerald-900',
+                'badge' => 'bg-[#BBF7D0] text-emerald-950',
+            ],
+            'rejected' => [
+                'row'   => 'bg-[#FFF1F2]',
+                'label' => 'bg-[#FECDD3] text-rose-950',
+                'text'  => 'text-rose-900',
+                'badge' => 'bg-[#FDA4AF] text-rose-950',
+            ],
+            default => [
+                'row'   => 'bg-[#FFFBEB]',
+                'label' => 'bg-[#FDE68A] text-amber-950',
+                'text'  => 'text-amber-900',
+                'badge' => 'bg-[#FEF08A] text-amber-950',
+            ],
+        };
+    @endphp
 
-        {{-- Tombol Kembali --}}
-        <div class="mb-4">
-            <a href="{{ url('/siswa/karya') }}"
-               class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-gray-900 transition">
-                ← Kembali ke Daftar Karya
-            </a>
+    {{-- Header Topbar --}}
+    <header class="bg-white neo-border border-x-0 border-t-0 z-10 px-8 py-5">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-black text-slate-900 tracking-tight">Detail Karya</h1>
         </div>
+    </header>
 
-        {{-- Card Container --}}
-        <div class="bg-white rounded-lg shadow overflow-hidden relative min-h-[300px]">
+    {{-- Isi Halaman --}}
+    <div class="flex-1 p-6 md:p-10 overflow-y-auto">
+        <div class="max-w-3xl mx-auto">
 
-            {{-- Loading Screen --}}
-            <div id="loading-content"
-                class="absolute inset-0 bg-white z-40 flex flex-col items-center justify-center transition-opacity duration-300 ease-out">
-                <div class="flex items-center gap-3 bg-gray-50 px-6 py-3 rounded-full border border-gray-200 shadow-xs">
-                    <div class="w-5 h-5 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                    <p class="text-gray-700 font-medium text-sm tracking-wide">Memuat detail karya...</p>
+            {{-- Tombol Kembali --}}
+            <div class="mb-6">
+                <a href="{{ url('/siswa/karya') }}"
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-white text-slate-800 text-sm font-extrabold rounded-xl neo-border neo-shadow-sm neo-btn">
+                    ← Kembali ke Daftar Karya
+                </a>
+            </div>
+
+            {{-- Card Container Utama --}}
+            <div class="bg-white neo-border neo-shadow-lg rounded-2xl overflow-hidden relative min-h-[300px]">
+
+                {{-- Loading Screen --}}
+                <div id="loading-content"
+                    class="absolute inset-0 bg-white/95 z-40 flex flex-col items-center justify-center transition-opacity duration-300 ease-out">
+                    <div class="flex items-center gap-3 bg-[#E0E7FF] px-6 py-3 rounded-xl neo-border neo-shadow-sm">
+                        <div class="w-5 h-5 border-3 border-slate-900 border-t-transparent rounded-full animate-spin"></div>
+                        <p class="text-slate-900 font-black text-sm tracking-wide">Memuat detail karya...</p>
+                    </div>
                 </div>
-            </div>
 
-            {{-- Header Card --}}
-            <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
-                <h2 class="text-xl font-bold text-gray-900">Detail Informasi Karya</h2>
-                <p class="text-sm text-gray-500 mt-0.5">Berikut rincian data project beserta umpan balik dari admin.</p>
-            </div>
+                {{-- Header Card --}}
+                <div class="px-6 py-5 border-b-[3px] border-slate-900 bg-[#FEF3C7]">
+                    <h2 class="text-xl font-black text-slate-900">Detail Informasi Karya</h2>
+                    <p class="text-xs font-extrabold text-slate-700 mt-1">Berikut rincian data project beserta umpan balik dari admin.</p>
+                </div>
 
-            {{-- Table Detail --}}
-            <div class="p-6">
-                <div class="overflow-hidden border border-gray-200 rounded-lg">
-                    <table class="w-full text-sm text-left text-gray-600">
-                        <tbody class="divide-y divide-gray-200">
-                            <tr class="bg-gray-50/50">
-                                <td class="px-6 py-4 font-semibold text-gray-900 w-1/4">Judul Karya</td>
-                                <td class="px-6 py-4 text-gray-800">{{ $project->title }}</td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 font-semibold text-gray-900">Jurusan</td>
-                                <td class="px-6 py-4">
-                                    <span class="px-2.5 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
-                                        {{ $project->jurusan ?? '-' }}
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr class="bg-gray-50/50">
-                                <td class="px-6 py-4 font-semibold text-gray-900">Deskripsi</td>
-                                <td class="px-6 py-4 leading-relaxed text-gray-700">{{ $project->description }}</td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 font-semibold text-gray-900">URL Project</td>
-                                <td class="px-6 py-4">
-                                    @if ($project->live_link)
-                                        <a href="{{ $project->live_link }}" target="_blank"
-                                           class="text-blue-600 hover:text-blue-800 font-medium underline inline-flex items-center gap-1 break-all">
-                                            {{ $project->live_link }} ↗
-                                        </a>
-                                    @else
-                                        <span class="text-gray-500">Tidak ada link</span>
-                                    @endif
-                                </td>
-                            </tr>
-                            <tr class="bg-gray-50/50">
-                                <td class="px-6 py-4 font-semibold text-gray-900">Dokumentasi project</td>
-                                <td class="px-6 py-4">
-                                    @if ($project->file_path)
-                                        {{-- Tampilan Gambar Utama (Bisa Diklik) --}}
-                                        <div class="relative inline-block">
-                                            <img src="{{ asset('storage/' . $project->file_path) }}" alt="Dokumentasi"
-                                                class="w-32 h-auto rounded-lg object-cover shadow-sm cursor-pointer hover:opacity-80 transition duration-200"
-                                                onclick="openModal(this.src)">
-                                        </div>
+                {{-- Table Detail --}}
+                <div class="p-6">
+                    <div class="overflow-hidden neo-border rounded-xl">
+                        <table class="w-full text-sm text-left">
+                            <tbody class="divide-y-[3px] divide-slate-900 font-bold">
 
-                                        {{-- Modal Pop-up Preview Gambar --}}
-                                        <div id="imageModal"
-                                            class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
-                                            onclick="closeModal()">
-                                            <div class="relative max-w-3xl max-h-[90vh] bg-white rounded-xl p-2 shadow-2xl"
-                                                onclick="event.stopPropagation()">
-                                                <button onclick="closeModal()"
-                                                    class="absolute -top-4 -right-4 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold shadow-lg">
-                                                    ✕
-                                                </button>
-                                                <img id="modalImage" src="" alt="Preview"
-                                                    class="max-w-full max-h-[80vh] rounded-lg object-contain">
-                                            </div>
-                                        </div>
-                                    @else
-                                        <span class="text-gray-500">-</span>
-                                    @endif
-                                </td>
-                            </tr>
-                            <tr class="bg-amber-50/40">
-                                <td class="px-6 py-4 font-semibold text-amber-900">Catatan / Alasan Admin</td>
-                                <td class="px-6 py-4">
-                                    @if ($project->status == 'approved')
-                                        <p class="text-green-700 italic font-medium">
-                                            "{{ $project->approval_note ?? 'Project telah disetujui.' }}"
-                                        </p>
-                                    @elseif($project->status == 'rejected')
-                                        <p class="text-red-700 italic font-medium">
-                                            "{{ $project->rejection_reason }}"
-                                        </p>
-                                    @else
-                                        <p class="text-yellow-700">
-                                            Project masih menunggu review admin.
-                                        </p>
-                                    @endif
+                                {{-- Judul Karya --}}
+                                <tr class="bg-white">
+                                    <td class="px-6 py-4 font-black text-slate-900 w-1/3 bg-[#F1F5F9] border-r-[3px] border-slate-900">Judul Karya</td>
+                                    <td class="px-6 py-4 text-slate-900 font-extrabold">{{ $project->title }}</td>
+                                </tr>
 
-                                    @if ($project->reviewer)
-                                        <span class="inline-block mt-2 text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-semibold">
-                                            Dikirim oleh: {{ $project->reviewer->name }}
+                                {{-- Jurusan --}}
+                                <tr class="bg-white">
+                                    <td class="px-6 py-4 font-black text-slate-900 w-1/3 bg-[#F1F5F9] border-r-[3px] border-slate-900">Jurusan</td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-[#818CF8] text-white rounded-full text-xs font-black neo-border">
+                                            {{ $project->jurusan ?? '-' }}
                                         </span>
-                                    @endif
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </td>
+                                </tr>
+
+                                {{-- Deskripsi --}}
+                                <tr class="bg-white">
+                                    <td class="px-6 py-4 font-black text-slate-900 w-1/3 bg-[#F1F5F9] border-r-[3px] border-slate-900">Deskripsi</td>
+                                    <td class="px-6 py-4 leading-relaxed text-slate-800">{{ $project->description }}</td>
+                                </tr>
+
+                                {{-- URL Project --}}
+                                <tr class="bg-white">
+                                    <td class="px-6 py-4 font-black text-slate-900 w-1/3 bg-[#F1F5F9] border-r-[3px] border-slate-900">URL Project</td>
+                                    <td class="px-6 py-4">
+                                        @if ($project->live_link)
+                                            <a href="{{ $project->live_link }}" target="_blank" rel="noopener"
+                                                class="text-indigo-600 hover:text-indigo-800 font-extrabold underline inline-flex items-center gap-1 break-all">
+                                                {{ $project->live_link }} ↗
+                                            </a>
+                                        @else
+                                            <span class="text-slate-500 font-bold">Tidak ada link</span>
+                                        @endif
+                                    </td>
+                                </tr>
+
+                                {{-- URL GitHub (khusus PPLG) --}}
+                                @if ($isPplg)
+                                    <tr class="bg-white">
+                                        <td class="px-6 py-4 font-black text-slate-900 w-1/3 bg-[#F1F5F9] border-r-[3px] border-slate-900">URL GitHub</td>
+                                        <td class="px-6 py-4">
+                                            @if ($project->github_link)
+                                                <a href="{{ $project->github_link }}" target="_blank" rel="noopener"
+                                                    class="text-indigo-600 hover:text-indigo-800 font-extrabold underline inline-flex items-center gap-1 break-all">
+                                                    {{ $project->github_link }} ↗
+                                                </a>
+                                            @else
+                                                <span class="text-slate-500 font-bold">Belum diisi</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endif
+
+                                {{-- Dokumentasi Project --}}
+                                <tr class="bg-white">
+                                    <td class="px-6 py-4 font-black text-slate-900 w-1/3 bg-[#F1F5F9] border-r-[3px] border-slate-900">Dokumentasi Project</td>
+                                    <td class="px-6 py-4">
+                                        @if ($project->file_path)
+                                            <div class="relative inline-block">
+                                                <img src="{{ asset('storage/' . $project->file_path) }}" alt="Dokumentasi"
+                                                    class="w-36 h-24 rounded-xl object-cover neo-border neo-shadow-sm cursor-pointer hover:opacity-90 transition-all neo-btn"
+                                                    onclick="openModal(this.src)">
+                                            </div>
+                                        @else
+                                            <span class="text-slate-500 font-bold">-</span>
+                                        @endif
+                                    </td>
+                                </tr>
+
+                                {{-- Catatan / Alasan Admin --}}
+                                <tr class="{{ $note['row'] }}">
+                                    <td class="px-6 py-4 font-black w-1/3 border-r-[3px] border-slate-900 {{ $note['label'] }}">Catatan / Alasan Admin</td>
+                                    <td class="px-6 py-4">
+                                        @if ($project->status == 'approved')
+                                            <p class="{{ $note['text'] }} font-bold leading-relaxed">
+                                                "{{ $project->approval_note ?? 'Project telah disetujui.' }}"
+                                            </p>
+                                        @elseif ($project->status == 'rejected')
+                                            <p class="{{ $note['text'] }} font-bold leading-relaxed">
+                                                "{{ $project->rejection_reason }}"
+                                            </p>
+                                        @else
+                                            <p class="{{ $note['text'] }} font-bold leading-relaxed">
+                                                Project masih menunggu review admin.
+                                            </p>
+                                        @endif
+
+                                        @if ($project->reviewer)
+                                            <span class="inline-block mt-3 text-xs px-3 py-1 rounded-full font-black neo-border {{ $note['badge'] }}">
+                                                Dikirim oleh: {{ $project->reviewer->name }}
+                                            </span>
+                                        @endif
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
-
         </div>
-
     </div>
 
-</div>
+    {{-- ================= MODAL PREVIEW GAMBAR ================= --}}
+    @if ($project->file_path)
+        <div id="imageModal"
+            class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4"
+            onclick="closeModal()">
+            <div class="relative max-w-3xl max-h-[90vh] bg-white rounded-2xl p-3 neo-border neo-shadow-lg"
+                onclick="event.stopPropagation()">
+                <button type="button" onclick="closeModal()" aria-label="Tutup preview"
+                    class="absolute -top-4 -right-4 bg-[#FDA4AF] hover:bg-[#F43F5E] text-slate-900 rounded-full w-9 h-9 flex items-center justify-center font-black neo-border neo-shadow-sm cursor-pointer">
+                    ✕
+                </button>
+                <img id="modalImage" src="" alt="Preview"
+                    class="max-w-full max-h-[80vh] rounded-xl object-contain neo-border">
+            </div>
+        </div>
+    @endif
 @endsection
 
 @push('scripts')
-<script>
-    function openModal(imageSrc) {
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImage');
+    <script>
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            if (!modal) return;
+            document.getElementById('modalImage').src = imageSrc;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
 
-        modalImg.src = imageSrc;
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
 
-    function closeModal() {
-        const modal = document.getElementById('imageModal');
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeModal();
+        });
 
-        modal.classList.add('hidden');
-        document.body.style.overflow = 'auto';
-    }
-
-    window.addEventListener("load", function() {
-        const loadingContent = document.getElementById("loading-content");
-
-        setTimeout(() => {
-            loadingContent.classList.add("opacity-0");
-
+        window.addEventListener('load', function () {
+            const loadingContent = document.getElementById('loading-content');
             setTimeout(() => {
-                loadingContent.classList.add("hidden");
-            }, 300);
-        }, 1000);
-    });
-</script>
+                loadingContent.classList.add('opacity-0');
+                setTimeout(() => loadingContent.classList.add('hidden'), 300);
+            }, 800);
+        });
+    </script>
 @endpush

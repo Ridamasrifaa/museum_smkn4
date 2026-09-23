@@ -1,172 +1,213 @@
-// ==========================================
-// 1. TEMA TERANG / GELAP (DARK MODE)
-// ==========================================
-function toggleTheme() {
-    const isDark = document.documentElement.classList.toggle('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+// ===== Dark / Light Mode =====
+function applyTheme(theme) {
+  document.documentElement.classList.toggle("dark", theme === "dark");
 }
 
-// Set tema awal berdasarkan localStorage saat halaman dimuat
-(function() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
+function toggleTheme() {
+  const isDark = document.documentElement.classList.contains("dark");
+  const next = isDark ? "light" : "dark";
+  localStorage.setItem("theme", next);
+  applyTheme(next);
+}
+
+(function initTheme() {
+  const saved = localStorage.getItem("theme");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  applyTheme(saved || (prefersDark ? "dark" : "light"));
 })();
 
-
-// ==========================================
-// 2. ANIMASI COUNTER STATISTIK
-// ==========================================
-document.addEventListener("DOMContentLoaded", () => {
-    const counters = document.querySelectorAll('.counter');
-    
-    counters.forEach(counter => {
-        const target = +counter.getAttribute('data-target');
-        let count = 0;
-        const speed = target / 50; // Atur kecepatan animasi
-
-        const updateCount = () => {
-            count += speed;
-            if (count < target) {
-                counter.innerText = Math.ceil(count);
-                setTimeout(updateCount, 30);
-            } else {
-                counter.innerText = target;
-            }
-        };
-        
-        // Jalankan animasi counter
-        if (target > 0) {
-            updateCount();
-        } else {
-            counter.innerText = 0;
-        }
-    });
-});
-
-
-// ==========================================
-// 3. MODAL DETAIL KARYA
-// ==========================================
+// ===== Modal Detail Karya =====
 function openModal(card) {
-    const modal = document.getElementById('detailModal');
-    if (!modal) return;
+  if (!card) return;
 
-    // Ambil data dari atribut data-* kartu karya
-    const title = card.getAttribute('data-title');
-    const description = card.getAttribute('data-desc');
-    const category = card.getAttribute('data-category');
-    const eventName = card.getAttribute('data-event');
-    const siswa = card.getAttribute('data-siswa');
-    const guru = card.getAttribute('data-guru');
-    const avatar = card.getAttribute('data-avatar');
-    const avatarLetter = card.getAttribute('data-avatar-letter');
-    const kelas = card.getAttribute('data-kelas');
-    const jurusanSiswa = card.getAttribute('data-jurusan-siswa');
-    const tahun = card.getAttribute('data-tahun');
-    const tech = card.getAttribute('data-tech');
-    const liveLink = card.getAttribute('data-live');
-    const githubLink = card.getAttribute('data-github');
-    const filePath = card.getAttribute('data-file-path');
-    const fileType = card.getAttribute('data-file-type');
+  const d = card.dataset;
 
-    // Set Judul & Deskripsi
-    document.getElementById('modalTitle').innerText = title || 'Detail Karya';
-    document.getElementById('modalDescription').innerText = description || 'Tidak ada deskripsi.';
-    document.getElementById('modalCategory').innerText = category || '-';
-    document.getElementById('modalEvent').innerText = eventName || 'Museum Karya';
-    document.getElementById('modalKategoriDetail').innerText = category || '-';
-    document.getElementById('modalTahun').innerText = tahun || '-';
-    document.getElementById('modalTech').innerText = tech || '-';
-    document.getElementById('modalSiswa').innerText = siswa || 'Siswa';
-    document.getElementById('modalBiodata').innerText = `${kelas || '-'} • ${jurusanSiswa || '-'}`;
-    
+  // Elements
+  const modalTitle = document.getElementById("modalTitle");
+  const modalCategory = document.getElementById("modalCategory");
+  const modalEvent = document.getElementById("modalEvent");
+  const modalDescription = document.getElementById("modalDescription");
+  const modalSiswa = document.getElementById("modalSiswa");
+  const modalBiodata = document.getElementById("modalBiodata");
+  const modalGuru = document.getElementById("modalGuru");
+  const modalKategoriDetail = document.getElementById("modalKategoriDetail");
+  const modalTahun = document.getElementById("modalTahun");
+  const modalTech = document.getElementById("modalTech");
+  const modalAvatar = document.getElementById("modalAvatar");
+  const liveBtn = document.getElementById("liveBtn");
+  const liveBtnText = document.getElementById("liveBtnText");
+  const extraBtn = document.getElementById("extraBtn");
+  const extraBtnText = document.getElementById("extraBtnText");
+  const extraBtnIcon = document.getElementById("extraBtnIcon");
+  const previewImage = document.getElementById("modalImagePreview");
+  const previewIframe = document.getElementById("modalIframePreview");
+  const previewEmpty = document.getElementById("modalPreviewEmpty");
 
-    // Set Avatar Siswa
-    const avatarContainer = document.getElementById('modalAvatar');
-    if (avatar && avatar !== '') {
-        avatarContainer.innerHTML = `<img src="${avatar}" alt="${siswa}" class="w-full h-full object-cover">`;
+  // Title, category, event, description
+  if (modalTitle) modalTitle.textContent = d.title || "Detail Karya";
+  if (modalCategory) modalCategory.textContent = d.category || "-";
+  if (modalEvent) modalEvent.textContent = d.event || "-";
+  if (modalDescription) modalDescription.textContent = d.desc || "Tidak ada deskripsi.";
+  if (modalKategoriDetail) modalKategoriDetail.textContent = d.category || "-";
+  if (modalTahun) modalTahun.textContent = d.tahun || "-";
+  if (modalTech) modalTech.textContent = d.tech || "-";
+
+  // ===== Avatar (foto atau inisial) =====
+  if (modalAvatar) {
+    modalAvatar.innerHTML = "";
+
+    if (d.avatar) {
+      const img = document.createElement("img");
+      img.src = d.avatar;
+      img.alt = d.siswa || "Avatar";
+      img.className = "w-full h-full object-cover";
+
+      // Kalau foto gagal load → fallback ke huruf
+      img.onerror = function () {
+        modalAvatar.innerHTML = "";
+        modalAvatar.textContent = d.avatarLetter || (d.siswa ? d.siswa.charAt(0).toUpperCase() : "U");
+        modalAvatar.classList.add("bg-blue-600", "text-white");
+      };
+
+      modalAvatar.appendChild(img);
+      modalAvatar.classList.remove("bg-blue-600", "text-white");
     } else {
-        avatarContainer.innerHTML = avatarLetter || 'S';
+      // Tidak ada foto → tampilkan inisial
+      modalAvatar.textContent = d.avatarLetter || (d.siswa ? d.siswa.charAt(0).toUpperCase() : "U");
+      modalAvatar.classList.add("bg-blue-600", "text-white");
     }
+  }
 
-    // Set Preview (Gambar / Iframe / Kosong)
-    const imgPreview = document.getElementById('modalImagePreview');
-    const iframePreview = document.getElementById('modalIframePreview');
-    const emptyPreview = document.getElementById('modalPreviewEmpty');
+  // ===== Nama siswa =====
+  if (modalSiswa) modalSiswa.textContent = d.siswa || "-";
 
-    imgPreview.classList.add('hidden');
-    iframePreview.classList.add('hidden');
-    emptyPreview.classList.add('hidden');
+  // ===== Biodata (kelas • jurusan • angkatan) =====
+  if (modalBiodata) {
+    const parts = [];
+    if (d.kelas && d.kelas !== "-") parts.push(d.kelas);
+    if (d.jurusanSiswa && d.jurusanSiswa !== "-") parts.push(d.jurusanSiswa);
+    if (d.angkatan && d.angkatan !== "-") parts.push("Angkatan " + d.angkatan);
+    modalBiodata.textContent = parts.length ? parts.join(" • ") : "-";
+  }
 
-    const isImage = fileType && fileType.startsWith('image/');
+  // ===== Guru =====
+  if (modalGuru) {
+    modalGuru.textContent = d.guru && d.guru !== "-" ? "Guru Pengampu: " + d.guru : "";
+  }
 
-    if (isImage && filePath) {
-        imgPreview.src = filePath;
-        imgPreview.classList.remove('hidden');
-    } else if (liveLink) {
-        iframePreview.src = liveLink;
-        iframePreview.classList.remove('hidden');
-    } else if (filePath) {
-        // Jika file berupa dokumen/lainnya
-        emptyPreview.innerHTML = `<a href="${filePath}" target="_blank" class="text-blue-600 underline font-semibold">Unduh/Lihat Berkas Lampiran</a>`;
-        emptyPreview.classList.remove('hidden');
+  // ===== Preview (gambar / iframe / kosong) =====
+  if (previewImage && previewIframe && previewEmpty) {
+    const filePath = d.filePath || "";
+    const fileType = d.fileType || "";
+    const isImage = filePath && fileType.startsWith("image/");
+
+    // Reset dulu
+    previewImage.classList.add("hidden");
+    previewIframe.classList.add("hidden");
+    previewEmpty.classList.add("hidden");
+    previewIframe.src = "";
+    previewImage.src = "";
+
+    if (isImage) {
+      previewImage.src = filePath;
+      previewImage.classList.remove("hidden");
+    } else if (d.live) {
+      previewIframe.src = d.live;
+      previewIframe.classList.remove("hidden");
     } else {
-        emptyPreview.innerText = 'Tidak ada preview tersedia';
-        emptyPreview.classList.remove('hidden');
+      previewEmpty.classList.remove("hidden");
     }
+  }
 
-    // Tombol Live Link & Github/Action
-    const liveBtn = document.getElementById('liveBtn');
-    const extraBtn = document.getElementById('extraBtn');
-    const githubIcon = document.getElementById('githubIcon');
-    const extraBtnText = document.getElementById('extraBtnText');
-
-    if (liveLink) {
-        liveBtn.href = liveLink;
-        liveBtn.parentElement.style.display = 'block';
+  // ===== Live button (kiri: link project / live) =====
+  if (liveBtn) {
+    if (d.live) {
+      liveBtn.href = d.live;
+      liveBtn.classList.remove("hidden");
+      if (liveBtnText) liveBtnText.textContent = "Buka Live";
     } else {
-        liveBtn.parentElement.style.display = 'none';
+      liveBtn.href = "#";
+      liveBtn.classList.add("hidden");
     }
+  }
 
-    if (githubLink && githubLink !== '') {
-        extraBtn.href = githubLink;
-        extraBtnText.innerText = 'GitHub';
-        githubIcon.classList.remove('hidden');
-        extraBtn.parentElement.style.display = 'block';
-    } else if (filePath) {
-        extraBtn.href = filePath;
-        extraBtnText.innerText = 'Unduh Berkas';
-        githubIcon.classList.add('hidden');
-        extraBtn.parentElement.style.display = 'block';
+  // ===== Extra button (kanan: GitHub untuk PPLG, "Link Lainnya" untuk jurusan lain) =====
+  if (extraBtn) {
+    if (d.github) {
+      const isPplg = (d.category || "").trim().toUpperCase() === "PPLG";
+
+      extraBtn.href = d.github;
+      extraBtn.classList.remove("hidden");
+      if (extraBtnText) extraBtnText.textContent = isPplg ? "Github" : "Link Lainnya";
+      if (extraBtnIcon) extraBtnIcon.classList.toggle("hidden", !isPplg);
     } else {
-        extraBtn.parentElement.style.display = 'none';
+      extraBtn.href = "#";
+      extraBtn.classList.add("hidden");
+      if (extraBtnIcon) extraBtnIcon.classList.add("hidden");
     }
+  }
 
-    // Tampilkan Modal
-    modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden'; // Mencegah background scroll
+  document.getElementById("detailModal")?.classList.remove("hidden");
 }
 
 function closeModal() {
-    const modal = document.getElementById('detailModal');
-    if (modal) {
-        modal.classList.add('hidden');
-        document.body.style.overflow = 'auto'; // Kembalikan scroll
-        
-        // Hentikan pemutaran iframe saat modal ditutup
-        const iframePreview = document.getElementById('modalIframePreview');
-        if (iframePreview) iframePreview.src = '';
-    }
+  const modal = document.getElementById("detailModal");
+  if (modal) modal.classList.add("hidden");
+
+  // Bersihkan iframe supaya video/audio berhenti
+  const previewIframe = document.getElementById("modalIframePreview");
+  if (previewIframe) previewIframe.src = "";
 }
 
-// Tutup modal ketika mengklik di luar area konten modal
-window.addEventListener('click', (event) => {
-    const modal = document.getElementById('detailModal');
-    if (event.target === modal) {
-        closeModal();
-    }
+document.getElementById("detailModal")?.addEventListener("click", (e) => {
+  if (e.target.id === "detailModal") closeModal();
+});
+
+// ===== Counter Angka Statistik & Animasi Card =====
+document.addEventListener("DOMContentLoaded", () => {
+  const counters = document.querySelectorAll(".counter");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const counter = entry.target;
+        const target = parseInt(counter.dataset.target) || 0;
+        let current = 0;
+        const duration = 1800;
+        const increment = target / (duration / 16);
+
+        function update() {
+          current += increment;
+          if (current >= target) {
+            counter.innerText = target.toLocaleString();
+          } else {
+            counter.innerText = Math.floor(current).toLocaleString();
+            requestAnimationFrame(update);
+          }
+        }
+
+        update();
+        observer.unobserve(counter);
+      });
+    },
+    { threshold: 0.5 },
+  );
+
+  counters.forEach((counter) => observer.observe(counter));
+
+  // ===== Animasi Card Counter (fade/slide in) =====
+  const cards = document.querySelectorAll(".counter-card");
+  const cardObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    },
+    { threshold: 0.2 },
+  );
+  cards.forEach((card) => cardObserver.observe(card));
 });

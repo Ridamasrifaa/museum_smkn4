@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Controller Auth & Public
@@ -47,18 +48,32 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 Route::get('/auth/kode-undangan', [AuthController::class, 'showKodeUndangan'])->name('auth.kode-undangan');
 Route::post('/auth/kode-undangan', [AuthController::class, 'submitKodeUndangan'])->name('auth.kode-undangan.submit');
 
-// Public Karya, Artikel & Detail Project Publik (Untuk Komentar / Interaksi Museum)
+// Jembatan untuk tamu: simpan halaman asal, lalu arahkan ke login.
+// Setelah login, AuthController/GoogleController harus memakai redirect()->intended(...)
+Route::get('/login-dulu', function (Request $request) {
+    $next = $request->query('next');
+
+    // Hanya terima path internal (cegah open redirect)
+    if (is_string($next) && preg_match('#^/(?![/\\\\])#', $next)) {
+        session()->put('url.intended', url($next));
+    }
+
+    return redirect()->route('login');
+})->name('login.required');
+
+// Public Karya, Artikel & Detail Project Publik (dibaca & di-like siapa saja)
 Route::get('/karya', [KaryaController::class, 'index']);
-Route::get('/project/{project}', [KaryaController::class, 'show'])->name('project.detail'); 
-Route::post('/karya/{project}/like', [KaryaController::class, 'like']);
+Route::get('/project/{project}', [KaryaController::class, 'show'])->name('project.detail');
+Route::post('/project/{project}/like', [InteractionController::class, 'toggleLike']);
 Route::get('/artikel', [ArticlePageController::class, 'index'])->name('artikel.index');
 Route::get('/artikel/{slug}', [ArticlePageController::class, 'show'])->name('artikel.show');
 
-// tentang / about developer
+// Tentang / About Developer
 Route::get('/tentang', function() {
     return view('tentang');
 });
 
+Route::get('/u/{id}', [PublicProfileController::class, 'show'])->name('profile.show');
 
 /*
 |--------------------------------------------------------------------------
@@ -79,7 +94,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/siswa/profil', [ProfilController::class, 'update'])->name('siswa.profil.update');
 
     // ==================== ROUTE ADMIN JURUSAN ====================
-    // Dashboard Admin
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index']);
     
     // Kode Undangan
@@ -111,29 +125,19 @@ Route::middleware('auth')->group(function () {
     // Profil Admin (Pengaturan Akun Mandiri)
     Route::get('/admin/profile', [AdminProfileController::class, 'edit'])->name('admin.profile.edit');
     Route::put('/admin/profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
+
+    // ==================== KOMENTAR (WAJIB LOGIN) ====================
+    Route::post('/project/{project}/comment', [KaryaController::class, 'comment']);
+    Route::post('/artikel/{article}/comment', [ArticlePageController::class, 'storeComment'])->name('artikel.comment');
 });
 
-// Khusus Superadmin
+// ==================== SUPER ADMIN ONLY ====================
 Route::middleware(['auth', 'superadmin'])->prefix('superadmin')->group(function () {
     Route::get('/dashboard', [SuperAdminDashboardController::class, 'index']);
 
-    // Manajemen Akun Admin (Hanya Super Admin yang bisa akses)
+    // Manajemen Akun Admin
     Route::get('/manajemen-admin', [SuperAdminManagementController::class, 'index']);
     Route::post('/manajemen-admin', [SuperAdminManagementController::class, 'store']);
     Route::put('/manajemen-admin/{user}', [SuperAdminManagementController::class, 'update']);
     Route::delete('/manajemen-admin/{user}', [SuperAdminManagementController::class, 'destroy']);
-});
-
-Route::get('/u/{id}', [PublicProfileController::class, 'show'])->name('profile.show');
-
-// ==================== INTERAKSI & KOMENTAR (AUTH REQUIRED) ====================
-Route::middleware(['auth'])->group(function () {
-    // Rute Like Project (DISESUAIKAN MENJADI /project/{project}/like agar cocok dengan fetch JS)
-    Route::post('/project/{project}/like', [InteractionController::class, 'toggleLike']);
-    
-    // Rute Kirim Komentar Project
-    Route::post('/project/{project}/comment', [InteractionController::class, 'storeComment']);
-    
-    // Rute Kirim Komentar Artikel
-    Route::post('/artikel/{article}/comment', [ArticlePageController::class, 'storeComment'])->name('artikel.comment');
 });

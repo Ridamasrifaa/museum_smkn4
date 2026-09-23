@@ -195,13 +195,14 @@ class Project extends Model
             $this->increment('likes_count');
         }
     }
-    public function comments()
-{
-    return $this->hasMany(Comment::class);
-}
 
-public function likes()
-{
-    return $this->hasMany(ProjectLike::class);
-}
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(ProjectLike::class);
+    }
 }

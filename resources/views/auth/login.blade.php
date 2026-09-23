@@ -1,52 +1,10 @@
-<!doctype html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
-    <title>Login - Karya PPLG</title>
-    <style type="text/tailwindcss">
-        @custom-variant dark (&:where(.dark, .dark *));
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
-</head>
-<body >
+@extends('layouts.auth')
 
-<header class="navbar shadow-sm sticky top-0 z-50 bg-white dark:bg-gray-900 transition-colors duration-300">
-        <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
-            <div class="flex lg:flex-1 items-center gap-2">
-                <div
-                    class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                    🏛️</div>
-                <span class="text-2xl font-bold text-blue-600">Museum Karya</span>
-            </div>
-            <div class="flex flex-wrap items-center justify-center gap-3 lg:gap-x-8 lg:justify-end lg:items-center">
-                <a href="{{ url('/') }}"
-                    class="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Beranda</a>
-                <a href="{{ url('/karya') }}"
-                    class="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Karya</a>
-                <a href="{{ url('/artikel')}}" class="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Artikel</a>
-                <a href="{{ url('/tentang')}}" class="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">Tentang</a>
-                <a href="{{ route('login') }}"
-                    class="text-sm font-semibold text-blue-600 border-b-2 border-blue-600 pb-1">Login</a>
-                <button id="themeToggle" onclick="toggleTheme()" aria-label="Ganti mode terang/gelap"
-                    class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-yellow-300">
-                    <svg class="icon-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                    <svg class="icon-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                </button>
-            </div>
-        </nav>
-    </header>
+@section('title', 'Login - Karya PPLG')
 
-<div class="main-wrapper">
+@section('content')
     <div class="login-container">
+        <!-- Kiri: Form Login -->
         <div class="login-left">
             <div class="login-logo">
                 <div class="login-logo-circle">K</div>
@@ -54,35 +12,61 @@
             </div>
             <h1 class="login-title">Selamat Datang</h1>
             <p class="login-subtitle">Masuk untuk melanjutkan ke dashboard Anda</p>
+
             @if ($errors->any())
-                <div class="login-alert">{{ $errors->first() }}</div>
+                <div class="login-alert" style="background-color: #fee2e2; color: #b91c1c; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 14px;">
+                    {{ $errors->first() }}
+                </div>
             @endif
+
+            @if (session('status'))
+                <div class="login-alert" style="background-color: #d1fae5; color: #065f46; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 14px;">
+                    {{ session('status') }}
+                </div>
+            @endif
+
             <form class="login-form" action="{{ route('login') }}" method="POST">
                 @csrf
+
                 <div class="login-form-group">
                     <label class="login-label" for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Masukan Email Anda" value="{{ old('email') }}" class="login-input @error('email') error @enderror" required autofocus />
-                    @error('email') <p class="login-error-message">{{ $message }}</p> @enderror
+                    <input type="email" id="email" name="email" placeholder="Masukan Email Anda" value="{{ old('email') }}" class="login-input @error('email') error @enderror" required autofocus autocomplete="email" />
+                    @error('email')
+                        <p class="login-error-message" style="color: red; font-size: 12px; margin-top: 4px;">{{ $message }}</p>
+                    @enderror
                 </div>
+
                 <div class="login-form-group">
                     <label class="login-label" for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Masukkan password Anda" class="login-input @error('password') error @enderror" required />
-                    @error('password') <p class="login-error-message">{{ $message }}</p> @enderror
+                    <input type="password" id="password" name="password" placeholder="Masukkan password Anda" class="login-input @error('password') error @enderror" required autocomplete="current-password" />
+                    @error('password')
+                        <p class="login-error-message" style="color: red; font-size: 12px; margin-top: 4px;">{{ $message }}</p>
+                    @enderror
                 </div>
+
                 <div class="login-checkbox">
                     <input type="checkbox" id="show-password" />
                     <label for="show-password">Tampilkan Password</label>
                 </div>
+
                 <button type="submit" class="login-button">Login Sekarang</button>
             </form>
+
             <div class="login-divider"><span>Atau</span></div>
             <div class="login-social">
                 <a href="{{ route('google.login') }}" class="login-social-btn">
-                    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571.001-.001.002-.001.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
+                    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z" />
+                        <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z" />
+                        <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z" />
+                        <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571.001-.001.002-.001.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z" />
+                    </svg>
                     <span>Google</span>
                 </a>
                 <button type="button" class="login-social-btn" onclick="showComingSoonModal()">
-                    <svg viewBox="0 0 24 24" fill="#111827" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="#111827" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                    </svg>
                     <span>GitHub</span>
                 </button>
             </div>
@@ -92,7 +76,8 @@
             </p>
         </div>
 
-        <div id="comingSoonModal" class="modal-overlay" onclick="if(event.target === this) closeComingSoonModal()">
+        <!-- Modal GitHub Belum Tersedia -->
+        <div id="comingSoonModal" class="modal-overlay" onclick="if (event.target === this) closeComingSoonModal();">
             <div class="modal-box">
                 <div class="modal-icon-circle">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg>
@@ -103,6 +88,7 @@
             </div>
         </div>
 
+        <!-- Kanan: Info & Fitur -->
         <div class="login-right">
             <div>
                 <h2 class="right-title">Museum Karya SMK Negeri 4 Tasikmalaya</h2>
@@ -110,53 +96,49 @@
                 <div class="right-features">
                     <div class="right-feature-item">
                         <div>
-                          <div class="right-feature-title">Portofolio Siswa</div>
-                          <p>Tunjukkan karya terbaik Anda kepada dunia</p>
-                      </div>
+                            <div class="right-feature-title">Portofolio Siswa</div>
+                            <p>Tunjukkan karya terbaik Anda kepada dunia</p>
+                        </div>
                     </div>
                     <div class="right-feature-item">
                         <div>
-                          <div class="right-feature-title">Apresiasi Karya</div>
-                          <p>Dapatkan feedback dan apresiasi dari komunitas</p>
-                      </div>
+                            <div class="right-feature-title">Apresiasi Karya</div>
+                            <p>Dapatkan feedback dan apresiasi dari komunitas</p>
+                        </div>
                     </div>
                     <div class="right-feature-item">
                         <div>
-                          <div class="right-feature-title">Pengembangan Karir</div>
-                          <p>Terhubung dengan peluang kerja yang relevan</p>
-                      </div>
+                            <div class="right-feature-title">Pengembangan Karir</div>
+                            <p>Terhubung dengan peluang kerja yang relevan</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    
+@endsection
 
-<script>
-    // Logika Toggle Tema
-    function toggleTheme() {
-        document.documentElement.classList.toggle('dark');
-        localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-    }
-    // Inisialisasi tema
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
 
-    function showComingSoonModal() { document.getElementById("comingSoonModal").classList.add("show"); }
-    function closeComingSoonModal() { document.getElementById("comingSoonModal").classList.remove("show"); }
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeComingSoonModal(); });
-    document.getElementById("show-password").addEventListener("change", function () { document.getElementById("password").type = this.checked ? "text" : "password"; });
-    document.querySelector(".login-form").addEventListener("submit", function () {
-    const b = this.querySelector(".login-button");
-    b.classList.add("loading");
-    b.disabled = true;
-    b.textContent = "Tunggu bentar....";
-    });
-    document.getElementById("email").addEventListener("blur", function () { this.classList.toggle("error", !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value) && this.value); });
-    document.getElementById("password").addEventListener("blur", function () { this.classList.toggle("error", this.value.length < 6 && this.value); });
-</script>
-</body>
-</html>
+@push('scripts')
+    <script>
+        function showComingSoonModal() {
+            document.getElementById("comingSoonModal").classList.add("show");
+        }
+        function closeComingSoonModal() {
+            document.getElementById("comingSoonModal").classList.remove("show");
+        }
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") closeComingSoonModal();
+        });
+        document.getElementById("show-password").addEventListener("change", function () {
+            document.getElementById("password").type = this.checked ? "text" : "password";
+        });
+        document.querySelector(".login-form").addEventListener("submit", function () {
+            const b = this.querySelector(".login-button");
+            b.classList.add("loading");
+            b.disabled = true;
+            b.textContent = "Tunggu bentar....";
+        });
+    </script>
+@endpush

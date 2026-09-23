@@ -23,6 +23,12 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
 
+    // Relasi ke Project yang dikomentari
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
     // Relasi untuk Komentar Utama ke Balasan-balasannya
     public function replies()
     {

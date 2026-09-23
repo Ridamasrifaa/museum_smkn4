@@ -22,6 +22,7 @@ class User extends Authenticatable
         'role',
         'jurusan',
         'bio',
+        'phone_number',
         'status',
         'invitation_code_id',
     ];
@@ -98,5 +99,24 @@ class User extends Authenticatable
         }
 
         return 'Siswa';
+    }
+
+    /**
+     * Link wa.me dari nomor WhatsApp siswa, siap diklik.
+     * Nomor dirapikan: hanya angka, awalan 0 diganti kode negara Indonesia (62).
+     */
+    public function getWhatsappUrlAttribute(): ?string
+    {
+        if (empty($this->phone_number)) {
+            return null;
+        }
+
+        $digits = preg_replace('/\D/', '', $this->phone_number);
+
+        if (str_starts_with($digits, '0')) {
+            $digits = '62' . substr($digits, 1);
+        }
+
+        return $digits !== '' ? 'https://wa.me/' . $digits : null;
     }
 }

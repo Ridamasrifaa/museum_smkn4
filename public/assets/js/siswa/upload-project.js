@@ -1,111 +1,165 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const pageData = document.getElementById("pageData");
-    const isSuccess = pageData?.dataset.success === "true" || pageData?.getAttribute("data-success") === "true";
-    const activeJurusan = pageData?.dataset.activeJurusan || pageData?.getAttribute("data-active-jurusan");
+/**
+ * Halaman Kirim Project (siswa)
+ *
+ * Kontrak dengan resources/views/siswa/upload.blade.php:
+ *  - tombol jurusan  : .btn-jurusan, onclick="pilihJurusan('X', event)"
+ *                      (data-jurusan="X" disarankan; kalau tidak ada, teks tombol dipakai sebagai nama jurusan)
+ *  - form per jurusan: #form_X
+ *                      data-submit-class = warna tombol kirim (kelas Tailwind dari controller)
+ *  - checkbox setuju : #agree_X  -> onchange="toggleSubmitButton('X')"
+ *  - tombol kirim    : #submit_X
+ *  - reset           : onclick="resetForm('X')"
+ *  - #pageData       : data-success ("true"/"false"), data-active-jurusan
+ *  - #successModal   : modal berhasil kirim
+ *
+ * Jurusan baru (mis. TKJ, TSM) tidak perlu diubah di sini: cukup ditambah di controller.
+ */
+(function () {
+    'use strict';
 
-    // 1. Tampilkan modal berhasil jika session success bernilai true
-    if (isSuccess) {
-        const successModal = document.getElementById("successModal");
-        if (successModal) {
-            successModal.classList.remove("hidden");
-            successModal.classList.add("flex");
-        }
+    const GRAY_CLASSES = ['bg-gray-400', 'cursor-not-allowed'];
+    const DEFAULT_SUBMIT_CLASS = 'bg-blue-600 hover:bg-blue-700';
+
+    const byId = (id) => document.getElementById(id);
+    const allForms = () => document.querySelectorAll('form[id^="form_"]');
+
+    // ===== Pilih jurusan: tampilkan form yang sesuai =====
+    // Parameter kedua (event) opsional: kalau ada, tombol yang diklik langsung ditandai aktif.
+    function pilihJurusan(nama, event = null) {
+        const form = byId('form_' + nama);
+        if (!form) return;
+
+        byId('belumPilihJurusan')?.classList.add('hidden');
+        byId('pilihJurusanText')?.classList.add('hidden');
+
+        // Pastikan nilai hidden input jurusan sesuai pilihan
+        const jurusanInput = form.querySelector('input[name="jurusan"]');
+        if (jurusanInput) jurusanInput.value = nama;
+
+        // Tampilkan form terpilih, sembunyikan yang lain
+        allForms().forEach((f) => f.classList.toggle('hidden', f !== form));
+
+        // Tandai tombol jurusan yang aktif
+        const clicked = event?.currentTarget ?? null;
+        document.querySelectorAll('.btn-jurusan').forEach((btn) => {
+            const label = btn.dataset.jurusan ?? btn.textContent.trim();
+            btn.classList.toggle('active', clicked ? btn === clicked : label === nama);
+        });
     }
 
-    // 2. Jika ada jurusan aktif dari session (setelah submit / error validasi), otomatis buka formnya
-    if (activeJurusan) {
-        pilihJurusan(activeJurusan);
-    }
+    // ===== Validasi sebelum submit (form memakai novalidate) =====
+    function validateBeforeSubmit(e) {
+        const form = e.currentTarget;
 
-    // 3. Pasang event listener untuk validasi HTML5 sebelum submit pada tiap form
-    daftarJurusan.forEach((nama) => {
-        const form = document.getElementById("form_" + nama);
-        if (form) {
-            form.addEventListener("submit", validateBeforeSubmit);
-        }
-    });
-});
+        if (!form.checkValidity()) {
+            e.preventDefault();
+            form.classList.add('was-validated');
 
-const daftarJurusan = ["PPLG", "DKV", "TOI"];
-
-function pilihJurusan(nama, event = null) {
-    const belumPilihJurusan = document.getElementById("belumPilihJurusan");
-    const pilihJurusanText = document.getElementById("pilihJurusanText");
-
-    if (belumPilihJurusan) belumPilihJurusan.classList.add("hidden");
-    if (pilihJurusanText) pilihJurusanText.classList.add("hidden");
-
-    // Update nilai hidden input jurusan
-    document.querySelectorAll('input[name="jurusan"]').forEach((input) => {
-        input.value = nama;
-    });
-
-    // Tampilkan form yang dipilih dan sembunyikan form lainnya
-    daftarJurusan.forEach((j) => {
-        const form = document.getElementById("form_" + j);
-        if (form) {
-            if (j === nama) {
-                form.classList.remove("hidden");
-            } else {
-                form.classList.add("hidden");
+            const firstInvalid = form.querySelector(':invalid');
+            if (firstInvalid) {
+                firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstInvalid.focus();
             }
+            return;
         }
-    });
 
-    // Reset dan atur status tombol jurusan aktif
-    document.querySelectorAll(".btn-jurusan").forEach((btn) => {
-        btn.classList.remove("active");
-    });
-
-    if (event && event.currentTarget) {
-        event.currentTarget.classList.add("active");
-    } else {
-        const activeBtn = Array.from(document.querySelectorAll(".btn-jurusan")).find(
-            (btn) => btn.textContent.trim() === nama
-        );
-        if (activeBtn) activeBtn.classList.add("active");
-    }
-}
-
-function validateBeforeSubmit(e) {
-    const form = e.target;
-    if (!form.checkValidity()) {
-        e.preventDefault();
-        form.classList.add("was-validated");
-
-        const firstInvalid = form.querySelector(":invalid");
-        if (firstInvalid) {
-            firstInvalid.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-            });
-            firstInvalid.focus();
+        // Valid: cegah kirim ganda (kompresi gambar di server bisa memakan waktu)
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Mengirim...';
         }
     }
-}
 
-function toggleSubmitButton(nama) {
-    const checkbox = document.getElementById("agree_" + nama);
-    const submitBtn = document.getElementById("submit_" + nama);
+    // ===== Tombol kirim aktif hanya jika syarat & ketentuan dicentang =====
+    function toggleSubmitButton(nama) {
+        const form = byId('form_' + nama);
+        const checkbox = byId('agree_' + nama);
+        const submitBtn = byId('submit_' + nama);
+        if (!form || !checkbox || !submitBtn) return;
 
-    if (!checkbox || !submitBtn) return;
+        const colorClasses = (form.dataset.submitClass || DEFAULT_SUBMIT_CLASS)
+            .split(/\s+/)
+            .filter(Boolean);
 
-    if (checkbox.checked) {
-        submitBtn.disabled = false;
-        submitBtn.classList.remove("bg-gray-400", "cursor-not-allowed");
-        submitBtn.classList.add("bg-blue-600", "hover:bg-blue-700", "cursor-pointer");
-    } else {
-        submitBtn.disabled = true;
-        submitBtn.classList.remove("bg-blue-600", "hover:bg-blue-700", "cursor-pointer");
-        submitBtn.classList.add("bg-gray-400", "cursor-not-allowed");
+        if (checkbox.checked) {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove(...GRAY_CLASSES);
+            submitBtn.classList.add(...colorClasses, 'cursor-pointer');
+        } else {
+            submitBtn.disabled = true;
+            submitBtn.classList.remove(...colorClasses, 'cursor-pointer');
+            submitBtn.classList.add(...GRAY_CLASSES);
+        }
     }
-}
 
-function resetForm(nama) {
-    const form = document.getElementById("form_" + nama);
-    if (form) {
-        form.reset();
-        form.classList.remove("was-validated");
+    // ===== Reset form (juga membersihkan nilai lama dari old()) =====
+    // form.reset() tidak dipakai karena hanya mengembalikan ke nilai awal (yaitu old()).
+    function resetForm(nama) {
+        const form = byId('form_' + nama);
+        if (!form) return;
+
+        form.querySelectorAll('input, textarea').forEach((el) => {
+            if (el.type === 'hidden') return;
+
+            if (el.type === 'checkbox' || el.type === 'radio') {
+                el.checked = false;
+            } else {
+                el.value = '';
+            }
+        });
+
+        form.classList.remove('was-validated');
         toggleSubmitButton(nama);
     }
-}
+
+    // ===== Modal berhasil kirim =====
+    function openSuccessModal() {
+        const modal = byId('successModal');
+        if (!modal) return;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeSuccessModal() {
+        const modal = byId('successModal');
+        if (!modal) return;
+
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    // Dipanggil dari atribut onclick / onchange di Blade
+    window.pilihJurusan = pilihJurusan;
+    window.toggleSubmitButton = toggleSubmitButton;
+    window.resetForm = resetForm;
+    window.closeSuccessModal = closeSuccessModal;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const pageData = byId('pageData');
+
+        // 1. Modal berhasil jika session success bernilai true
+        if (pageData?.dataset.success === 'true') {
+            openSuccessModal();
+        }
+
+        // 2. Buka form jurusan yang aktif (setelah submit / error validasi)
+        const activeJurusan = pageData?.dataset.activeJurusan;
+        if (activeJurusan) {
+            pilihJurusan(activeJurusan);
+        }
+
+        // 3. Validasi sebelum submit pada tiap form
+        allForms().forEach((form) => form.addEventListener('submit', validateBeforeSubmit));
+
+        // 4. Tutup modal berhasil: klik di luar kartu atau tekan Escape
+        byId('successModal')?.addEventListener('click', function (e) {
+            if (e.target === this) closeSuccessModal();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeSuccessModal();
+        });
+    });
+})();

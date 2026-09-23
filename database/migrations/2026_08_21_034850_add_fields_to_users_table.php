@@ -12,7 +12,7 @@ return new class extends Migration
             $table->string('google_id')->nullable()->unique()->after('id');
             $table->string('kelas')->nullable()->after('avatar');
             $table->string('jurusan')->nullable()->after('kelas');
-            $table->year('angkatan')->nullable()->after('jurusan');
+            $table->text('bio')->nullable()->after('jurusan'); // Mengganti angkatan jadi bio
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending')->after('role');
             $table->foreignId('invitation_code_id')->nullable()->after('status')
                   ->constrained('invitation_codes')->nullOnDelete();
@@ -30,7 +30,7 @@ return new class extends Migration
                 'google_id',
                 'kelas',
                 'jurusan',
-                'angkatan',
+                'bio',
                 'status',
                 'invitation_code_id',
             ]);
