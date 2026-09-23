@@ -37,6 +37,7 @@ return new class extends Migration
             // Additional info
             $table->string('guru_pengampu', 255)->nullable();
             $table->string('live_link', 255)->nullable();
+            $table->string('github_link', 255)->nullable();
             $table->string('technology_stack', 255)->nullable();
             
             // Status & Review

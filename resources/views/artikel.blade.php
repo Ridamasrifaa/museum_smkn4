@@ -145,7 +145,7 @@
                 <p class="text-gray-300 font-bold text-sm">&copy; {{ date('Y') }} Museum Karya SMKN 4 Tasikmalaya</p>
                 <p class="text-gray-400 text-xs mt-1">
                     Design &amp; Development By 
-                    <a href="{{ route('dev') }}" class="text-blue-500 dark:text-blue-400 font-bold underline decoration-2 underline-offset-4 hover:text-blue-600 transition-colors">
+                    <a href="{{ route('developer') }}" class="text-blue-500 dark:text-blue-400 font-bold underline decoration-2 underline-offset-4 hover:text-blue-600 transition-colors">
                         Team Developer PPLG
                     </a>
                 </p>

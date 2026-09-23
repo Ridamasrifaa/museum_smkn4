@@ -70,7 +70,7 @@
                             <p class="text-sm font-black text-black dark:text-white">Penasaran siapa saja yang membangun platform ini?</p>
                             <p class="text-xs text-gray-700 dark:text-gray-300 font-semibold mt-0.5">Kenali profil, peran, serta portofolio dari masing-masing pengembang.</p>
                         </div>
-                        <a href="{{ route('dev') }}" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-pink-400 dark:bg-pink-600 text-black dark:text-white font-black text-sm transition-all neop-btn-box shrink-0">
+                        <a href="{{ route('developer') }}" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-pink-400 dark:bg-pink-600 text-black dark:text-white font-black text-sm transition-all neop-btn-box shrink-0">
                             Sapa Tim Pengembang
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -110,7 +110,7 @@
                 <p class="text-gray-300 font-bold text-sm">&copy; {{ date('Y') }} Museum Karya SMKN 4 Tasikmalaya</p>
                 <p class="text-gray-400 text-xs mt-1">
                     Design &amp; Development By 
-                    <a href="{{ route('dev') }}" class="text-blue-500 dark:text-blue-400 font-bold underline decoration-2 underline-offset-4 hover:text-blue-600 transition-colors">
+                    <a href="{{ route('developer') }}" class="text-blue-500 dark:text-blue-400 font-bold underline decoration-2 underline-offset-4 hover:text-blue-600 transition-colors">
                         Team Developer PPLG
                     </a>
                 </p>

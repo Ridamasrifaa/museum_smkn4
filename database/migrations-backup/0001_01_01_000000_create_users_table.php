@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -18,14 +17,18 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            
+
             // Database Migration
             // ROLE: 0 = Superadmin, 1 = Admin, 2 = Siswa
-            $table->tinyInteger('role')->default(2); 
-            
+            $table->tinyInteger('role')->default(2);
+
+            // Nomor WhatsApp siswa (diisi sendiri lewat halaman profil).
+            // Nullable karena admin/superadmin tidak memakainya.
+            $table->string('phone_number', 20)->nullable();
+
             $table->rememberToken();
             $table->timestamps();
-            
+
             // Index untuk performa
             $table->index('email');
             $table->index('role');

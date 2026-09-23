@@ -73,9 +73,9 @@ Route::get('/tentang', function() {
     return view('tentang');
 });
 // About Developer
-Route::get('/dev', function() {
+Route::get('/developer', function() {
     return view('dev');
-})->name('dev');
+})->name('developer');
 
 Route::get('/u/{id}', [PublicProfileController::class, 'show'])->name('profile.show');
 
