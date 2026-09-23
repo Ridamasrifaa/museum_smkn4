@@ -68,10 +68,14 @@ Route::post('/project/{project}/like', [InteractionController::class, 'toggleLik
 Route::get('/artikel', [ArticlePageController::class, 'index'])->name('artikel.index');
 Route::get('/artikel/{slug}', [ArticlePageController::class, 'show'])->name('artikel.show');
 
-// Tentang / About Developer
+// Tentang 
 Route::get('/tentang', function() {
     return view('tentang');
 });
+// About Developer
+Route::get('/dev', function() {
+    return view('dev');
+})->name('dev');
 
 Route::get('/u/{id}', [PublicProfileController::class, 'show'])->name('profile.show');
 

@@ -17,26 +17,35 @@ class DashboardController extends Controller
         $totalKodeUnik = InvitationCode::count();
 
         // ================= KARYA TERBARU DARI SISWA =================
-        // 'user' = siswa yang upload, 'reviewer' = admin yang sudah review (kalau sudah)
         $karyaTerbaru = Project::with(['user', 'reviewer'])
             ->latest()
             ->take(5)
             ->get();
 
         // ================= DAFTAR ADMIN & AKTIVITASNYA =================
-        // Admin (role = 1) diukur dari jumlah karya yang sudah mereka review.
         $daftarAdmin = User::where('role', 1)
             ->withCount('reviewedProjects')
             ->latest()
             ->take(10)
             ->get();
 
+        // ================= KARYA PER JURUSAN (buat donut chart) =================
+        $karyaPerJurusan = Project::selectRaw('jurusan, count(*) as total')
+            ->groupBy('jurusan')
+            ->orderByDesc('total')
+            ->get();
+
+        // jurusan yang paling banyak ngirim karya
+        $jurusanTerbanyak = $karyaPerJurusan->first();
+
         return view('superadmin.dashboard', compact(
             'totalKarya',
             'totalSiswa',
             'totalKodeUnik',
             'karyaTerbaru',
-            'daftarAdmin'
+            'daftarAdmin',
+            'karyaPerJurusan',
+            'jurusanTerbanyak'
         ));
     }
 }

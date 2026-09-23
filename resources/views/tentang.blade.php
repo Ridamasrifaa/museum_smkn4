@@ -19,36 +19,6 @@
             background-size: 24px 24px;
         }
 
-        /* Styling kartu tim yang dirender dari dev.js */
-        #team-grid > * {
-            background: #ffffff;
-            color: #000000;
-            border: 3px solid #000000;
-            border-radius: 1rem;
-            box-shadow: 5px 5px 0px 0px #000000;
-            transition: all 0.1s ease;
-        }
-        #team-grid > *:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 7px 7px 0px 0px #000000;
-        }
-        #team-grid img {
-            border: 3px solid #000000;
-            cursor: pointer;
-        }
-        .dark #team-grid > * {
-            background: #18181b;
-            color: #f4f4f5;
-            border-color: #ffffff;
-            box-shadow: 5px 5px 0px 0px #ffffff;
-        }
-        .dark #team-grid > *:hover {
-            box-shadow: 7px 7px 0px 0px #ffffff;
-        }
-        .dark #team-grid img {
-            border-color: #ffffff;
-        }
-
         .neop-btn-box {
             border: 2px solid #000;
             box-shadow: 2px 2px 0px 0px #000;
@@ -77,7 +47,7 @@
                 <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
                     <span class="inline-block px-4 py-1.5 mb-4 text-xs font-black uppercase tracking-wider text-black bg-yellow-300 rounded-full border-2 border-black shadow-[2px_2px_0px_#000]"> Informasi Proyek </span>
                     <h1 class="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white mb-4 tracking-tight uppercase">Tentang Museum Karya</h1>
-                    <p class="text-slate-700 dark:text-gray-300 text-sm sm:text-base font-medium max-w-2xl mx-auto leading-relaxed">Mengenal latar belakang pengerjaan proyek, tujuan pengembangannya, dan tim di balik platform ini.</p>
+                    <p class="text-slate-700 dark:text-gray-300 text-sm sm:text-base font-medium max-w-2xl mx-auto leading-relaxed">Mengenal latar belakang pengerjaan proyek dan tujuan pengembangannya untuk siswa-siswi SMKN 4 Tasikmalaya.</p>
                 </div>
             </section>
 
@@ -94,16 +64,16 @@
                         </p>
                     </div>
 
-                    <!-- Callout Bridge -->
+                    <!-- Callout Bridge ke Halaman Dev -->
                     <div class="mt-8 p-5 sm:p-6 rounded-xl bg-amber-100 dark:bg-gray-800 border-2 border-black dark:border-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,1)] flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div class="text-center sm:text-left">
                             <p class="text-sm font-black text-black dark:text-white">Penasaran siapa saja yang membangun platform ini?</p>
-                            <p class="text-xs text-gray-700 dark:text-gray-300 font-semibold mt-0.5">Lihat profil dan peran dari masing-masing tim pengembang kami.</p>
+                            <p class="text-xs text-gray-700 dark:text-gray-300 font-semibold mt-0.5">Kenali profil, peran, serta portofolio dari masing-masing pengembang.</p>
                         </div>
-                        <a href="#tim-kami" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-pink-400 dark:bg-pink-600 text-black dark:text-white font-black text-sm transition-all neop-btn-box shrink-0">
+                        <a href="{{ route('dev') }}" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-pink-400 dark:bg-pink-600 text-black dark:text-white font-black text-sm transition-all neop-btn-box shrink-0">
                             Sapa Tim Pengembang
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
                         </a>
                     </div>
@@ -119,29 +89,15 @@
                             <p class="text-sm sm:text-base font-black text-black dark:text-white mt-1">Kolaborasi Tim</p>
                         </div>
                         <div class="col-span-2 sm:col-span-1 p-3 bg-gray-50 dark:bg-gray-800 border-2 border-black dark:border-white rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
-                            <p class="text-[10px] sm:text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400 font-black">Versi Sistem</p>
-                            <div class="flex items-center justify-between sm:justify-start gap-2 mt-1">
-                                <span id="app-version" class="text-sm sm:text-base font-black text-blue-600 dark:text-blue-400">v1.0.0</span>
-                                <button onclick="openChangelogModal()" class="text-[10px] px-2 py-0.5 rounded bg-yellow-300 text-black border border-black font-black hover:bg-yellow-400 cursor-pointer">
-                                    Update
+                            <p class="text-[10px] sm:text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400 font-black text-center sm:text-left">Versi Sistem</p>
+                            <div class="flex items-center justify-center sm:justify-start gap-3 mt-1">
+                                <span id="app-version" class="text-sm sm:text-base font-black text-blue-600 dark:text-blue-400">v1.1</span>
+                                <button onclick="openChangelogModal()" class="text-[10px] px-2.5 py-1 rounded bg-yellow-300 text-black border border-black font-black hover:bg-yellow-400 cursor-pointer shadow-[2px_2px_0px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all">
+                                    Terbaru
                                 </button>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-
-            <!-- ===== TIM KAMI ===== -->
-            <section id="tim-kami" class="scroll-mt-24 pt-16 sm:pt-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="mb-10 text-center max-w-2xl mx-auto">
-                    <span class="inline-block px-4 py-1.5 mb-3 text-xs font-black uppercase tracking-wider text-black bg-cyan-300 rounded-full border-2 border-black shadow-[2px_2px_0px_#000]"> Developer Profile </span>
-                    <h2 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white mb-3 tracking-tight uppercase">Tim Pengembang</h2>
-                    <p class="text-slate-700 dark:text-gray-300 text-xs sm:text-base font-medium">Siswa di balik perancangan dan pembangunan platform Museum Karya. (Klik foto untuk memperbesar)</p>
-                </div>
-
-                <!-- Kontainer target render dari dev.js -->
-                <div id="team-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center max-w-3xl mx-auto">
-                    <!-- Data dimuat dinamis melalui dev.js -->
                 </div>
             </section>
         </main>
@@ -152,31 +108,19 @@
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="pt-4">
                 <p class="text-gray-300 font-bold text-sm">&copy; {{ date('Y') }} Museum Karya SMKN 4 Tasikmalaya</p>
-                <p class="text-gray-400 text-xs mt-1">Design &amp; Development By PPLG</p>
+                <p class="text-gray-400 text-xs mt-1">
+                    Design &amp; Development By 
+                    <a href="{{ route('dev') }}" class="text-blue-500 dark:text-blue-400 font-bold underline decoration-2 underline-offset-4 hover:text-blue-600 transition-colors">
+                        Team Developer PPLG
+                    </a>
+                </p>
             </div>
         </div>
     </footer>
 
-    <!-- ===== MODAL PREVIEW FOTO PROFIL (AVATAR) ===== -->
-    <div id="avatarModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs opacity-0 pointer-events-none transition-all duration-300">
-        <div id="modalContent" class="relative max-w-md w-full mx-4 bg-white dark:bg-zinc-900 rounded-3xl p-8 border-4 border-black dark:border-white shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] transform scale-95 transition-all duration-300 text-center">
-            <button onclick="closeAvatarModal()" aria-label="Tutup" class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-[#FF6B6B] text-black font-black border-3 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:bg-white cursor-pointer">
-                ✕
-            </button>
-            
-            <!-- Container foto normal tanpa fitur drag -->
-            <div class="w-64 h-64 sm:w-72 sm:h-72 mx-auto mb-6 mt-4 rounded-full overflow-hidden bg-[#FFD23F] border-4 border-black dark:border-white shadow-[6px_6px_0px_#000] relative select-none">
-                <img id="modalImage" src="" alt="" class="w-full h-full object-cover object-center" />
-            </div>
-
-            <h4 id="modalName" class="text-xl font-black uppercase text-black dark:text-white"></h4>
-            <span class="inline-block mt-2 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-black bg-[#74B9FF] border-2 border-black rounded-lg shadow-[2px_2px_0px_#000]">Foto Profil</span>
-        </div>
-    </div>
-
-    <!-- ===== MODAL CHANGELOG / RIWAYAT UPDATE ===== -->
+    <!-- ===== MODAL CHANGELOG ===== -->
     <div id="changelogModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs opacity-0 pointer-events-none transition-all duration-300">
-        <div id="changelogContent" class="relative max-w-lg w-full mx-4 bg-white dark:bg-zinc-900 rounded-3xl border-4 border-black dark:border-white shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] transform scale-95 transition-all duration-300 max-h-[80vh] flex flex-col overflow-hidden">
+        <div id="changelogContent" class="relative max-w-lg w-full mx-4 bg-section-box bg-white dark:bg-zinc-900 rounded-3xl border-4 border-black dark:border-white shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] transform scale-95 transition-all duration-300 max-h-[80vh] flex flex-col overflow-hidden">
             <div class="px-6 py-4 bg-[#FFD23F] border-b-4 border-black dark:border-white flex items-center justify-between gap-4">
                 <h3 class="text-lg font-black uppercase text-black">Riwayat Pembaruan</h3>
                 <button onclick="closeChangelogModal()" aria-label="Tutup" class="w-10 h-10 shrink-0 flex items-center justify-center bg-[#FF6B6B] text-black font-black border-3 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:bg-white cursor-pointer">
@@ -186,7 +130,7 @@
             <div class="p-6 sm:p-8 flex flex-col min-h-0">
                 <p class="text-xs font-bold text-zinc-700 dark:text-zinc-300 mb-4 pb-3 border-b-2 border-dashed border-black dark:border-white">Catatan versi dan log perubahan aplikasi Museum Karya.</p>
                 <div id="changelogList" class="overflow-y-auto space-y-6 pr-1 text-left">
-                    <!-- Dimuat dinamis melalui app.js -->
+                    <!-- Dimuat dinamis melalui JavaScript -->
                 </div>
             </div>
         </div>
@@ -194,53 +138,74 @@
 @endsection
 
 @push('scripts')
-    <!-- Pemanggilan File JS eksternal -->
-    <script src="{{ asset('assets/js/app.js') }}"></script>
-    <script src="{{ asset('assets/js/dev.js') }}"></script>
-
-    <!-- <script>
-        // Modal Avatar Handler
-        function openAvatarModal(imgSrc, devName) {
-            const modal = document.getElementById('avatarModal');
-            document.getElementById('modalImage').src = imgSrc;
-            document.getElementById('modalName').textContent = devName;
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            document.getElementById('modalContent').classList.remove('scale-95');
-            document.getElementById('modalContent').classList.add('scale-100');
-        }
-
-        function closeAvatarModal() {
-            const modal = document.getElementById('avatarModal');
-            document.getElementById('modalContent').classList.remove('scale-100');
-            document.getElementById('modalContent').classList.add('scale-95');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-        }
-
-        // Modal Changelog Handler
+    <script>
         function openChangelogModal() {
             const modal = document.getElementById('changelogModal');
             modal.classList.remove('opacity-0', 'pointer-events-none');
             document.getElementById('changelogContent').classList.remove('scale-95');
             document.getElementById('changelogContent').classList.add('scale-100');
         }
-
         function closeChangelogModal() {
             const modal = document.getElementById('changelogModal');
             document.getElementById('changelogContent').classList.remove('scale-100');
             document.getElementById('changelogContent').classList.add('scale-95');
             modal.classList.add('opacity-0', 'pointer-events-none');
         }
-
-        // Tutup modal dengan klik di luar area atau tombol Esc
         window.addEventListener('click', function(e) {
-            if (e.target.id === 'avatarModal') closeAvatarModal();
             if (e.target.id === 'changelogModal') closeChangelogModal();
         });
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeAvatarModal();
-                closeChangelogModal();
+            if (e.key === 'Escape') closeChangelogModal();
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Data Riwayat Update (Tanpa Catatan Bug Internal)
+            const changelogData = [
+                {
+                    version: "v1.1",
+                    date: "27 Juni 2026",
+                    features: [
+                        "Pembaruan struktur tata letak grid kartu tim pengembang",
+                        "Optimasi animasi interaktif pada mode terang dan gelap"
+                    ]
+                },
+                {
+                    version: "v1.0.0",
+                    date: "28 Desember 2026",
+                    features: [
+                        "Merilis platform awal Museum Karya SMKN 4 Tasikmalaya",
+                        "Menambahkan menu Beranda, Karya, Artikel, dan Tentang",
+                        "Integrasi mode tema Terang/Gelap (Dark/Light mode)"
+                    ]
+                }
+            ];
+
+            // Set teks versi terbaru pada elemen HTML utama
+            const versionEl = document.getElementById("app-version");
+            if (versionEl && changelogData.length > 0) {
+                versionEl.textContent = changelogData[0].version;
+            }
+
+            // Render HTML untuk Modal Changelog
+            const changelogList = document.getElementById("changelogList");
+            if (changelogList) {
+                changelogList.innerHTML = changelogData.map(item => `
+                    <div class="border-2 border-black dark:border-white rounded-xl p-4 bg-gray-50 dark:bg-zinc-800 shadow-[3px_3px_0px_#000] dark:shadow-[3px_3px_0px_#fff]">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-2.5 py-0.5 bg-yellow-300 text-black font-black text-xs border border-black rounded">${item.version}</span>
+                            <span class="text-xs font-bold text-gray-500 dark:text-gray-400">${item.date}</span>
+                        </div>
+                        
+                        <!-- Daftar Fitur -->
+                        <div class="mt-2">
+                            <p class="text-xs font-black uppercase text-black dark:text-white mb-1">✨ Fitur & Pembaruan:</p>
+                            <ul class="list-disc list-inside text-xs font-medium space-y-1 text-gray-700 dark:text-gray-300">
+                                ${item.features.map(f => `<li>${f}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `).join('');
             }
         });
-    </script> -->
+    </script>
 @endpush

@@ -23,6 +23,13 @@ function closeAvatarModal() {
     }
 }
 
+window.addEventListener('click', function(e) {
+    if (e.target.id === 'avatarModal') closeAvatarModal();
+});
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeAvatarModal();
+});
+
 // ===== RENDER DATA TIM PENGEMBANG =====
 document.addEventListener("DOMContentLoaded", function () {
     const teamGrid = document.getElementById("team-grid");
@@ -46,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 badgeBgs: ["bg-pink-300"],
                 img: "assets/img/salsa.jpg",
                 imgPosition: "object-[center_10%]",
-                github: "#",
+                github: "https://github.com/salsacantika",
                 portfolio: "#"
             },
             {
@@ -66,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 badgeBgs: ["bg-emerald-300", "bg-yellow-300"],
                 img: "assets/img/zahra.jpg",
                 imgPosition: "object-[center_25%]",
-                github: "#",
+                github: "https://github.com/zhraaaaa31",
                 portfolio: "#"
             },
             {
@@ -76,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 badgeBgs: ["bg-orange-300"],
                 img: "assets/img/all-Raffi.jpg",
                 imgPosition: "object-[center_25%]",
-                github: "#",
+                github: "https://github.com/alrafighani280-art",
                 portfolio: "#"
             }
         ];

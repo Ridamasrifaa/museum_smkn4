@@ -172,10 +172,17 @@
     </section>
 
     <!-- ===== FOOTER ===== -->
-    <footer class="bg-zinc-900 text-white text-center py-8 border-t-3 border-zinc-900">
+    <footer class="bg-gray-900 dark:bg-black text-white text-center py-12 mt-16 border-t-4 border-black dark:border-white">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
-            <p class="text-xs font-bold">&copy; {{ date('Y') }} Museum Karya SMKN 4 Tasikmalaya</p>
-            <p class="text-xs font-bold text-cyan-300 mt-1">Design &amp; Development By PPLG</p>
+            <div class="pt-4">
+                <p class="text-gray-300 font-bold text-sm">&copy; {{ date('Y') }} Museum Karya SMKN 4 Tasikmalaya</p>
+                <p class="text-gray-400 text-xs mt-1">
+                    Design &amp; Development By 
+                    <a href="{{ route('dev') }}" class="text-blue-500 dark:text-blue-400 font-bold underline decoration-2 underline-offset-4 hover:text-blue-600 transition-colors">
+                        Team Developer PPLG
+                    </a>
+                </p>
+            </div>
         </div>
     </footer>
 
