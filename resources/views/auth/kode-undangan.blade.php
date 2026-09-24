@@ -1,87 +1,119 @@
 @extends('layouts.auth')
 
-@section('title', 'Kode Undangan - Karya PPLG')
+@section('title', 'Kode Unik - Karya PPLG')
 
 @section('content')
-    <div class="login-container">
-        {{-- Kiri: Form Kode Undangan --}}
-        <div class="login-left">
-            <div class="login-logo">
-                <div class="login-logo-circle">K</div>
-                <div class="login-logo-text">Karya PPLG</div>
+    <div class="max-w-4xl w-full bg-white dark:bg-gray-900 rounded-3xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-800 grid grid-cols-1 md:grid-cols-2 transition-all my-8">
+      
+      <!-- Kiri: Form -->
+      <div class="p-8 lg:p-12 flex flex-col justify-between bg-white dark:bg-gray-900">
+        <div>
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-blue-600 text-white font-bold rounded-xl flex items-center justify-center text-lg shadow-md">
+              K
             </div>
+            <div class="font-bold text-lg text-gray-800 dark:text-white">Karya PPLG</div>
+          </div>
 
-            <h1 class="login-title">Kode Undangan</h1>
-            <p class="login-subtitle">Masukkan kode undangan untuk menyelesaikan pendaftaran dengan Google</p>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Kode Undangan</h1>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+            Masukkan kode undangan untuk menyelesaikan pendaftaran dengan Google
+          </p>
 
-            @if ($errors->any())
-                <div class="login-alert" style="background-color: #fee2e2; color: #b91c1c; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 14px;">
-                    {{ $errors->first() }}
-                </div>
-            @endif
-
-            <form class="login-form kode-form" action="{{ route('auth.kode-undangan.submit') }}" method="POST">
-                @csrf
-
-                <div class="login-form-group">
-                    <label class="login-label" for="kode_unik">Kode Unik / Kode Undangan</label>
-                    <input type="text" id="kode_unik" name="kode_unik"
-                           placeholder="Contoh: XII-PPLG-2-2026"
-                           value="{{ old('kode_unik') }}"
-                           class="login-input @error('kode_unik') error @enderror"
-                           required autofocus />
-                    @error('kode_unik')
-                        <p class="login-error-message" style="color: red; font-size: 12px; margin-top: 4px;">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <button type="submit" class="login-button kode-button">Lanjutkan Pendaftaran</button>
-            </form>
-
-            <p class="login-register-text">
-                Sudah punya akun?
-                <a href="{{ route('login') }}" class="login-register-link">Kembali ke Login</a>
-            </p>
-        </div>
-
-        {{-- Kanan: Info --}}
-        <div class="login-right">
+          <form action="{{ url('/admin/dashboard') }}" method="POST" class="login-form space-y-4">
+            @csrf
             <div>
-                <h2 class="right-title">Satu Langkah Lagi!</h2>
-                <p class="right-subtitle">Karena kamu login dengan Google, kami butuh kode undangan untuk menentukan kelas &amp; jurusan kamu.</p>
-                <div class="right-features">
-                    <div class="right-feature-item">
-                        <div>
-                            <div class="right-feature-title">Kode dari Guru / Admin</div>
-                            <p>Mintalah kode undangan kepada guru atau Ketua Murid (KM) kelas kamu</p>
-                        </div>
-                    </div>
-                    <div class="right-feature-item">
-                        <div>
-                            <div class="right-feature-title">Otomatis Masuk Kelas</div>
-                            <p>Setelah valid, akun Google kamu langsung terdaftar sebagai siswa</p>
-                        </div>
-                    </div>
-                    <div class="right-feature-item">
-                        <div>
-                            <div class="right-feature-title">Aman &amp; Cepat</div>
-                            <p>Tidak perlu isi data lagi, langsung masuk dashboard</p>
-                        </div>
-                    </div>
-                </div>
+              <label for="kode_unik" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                Kode Unik / Kode Undangan
+              </label>
+              <input 
+                type="text" 
+                id="kode_unik" 
+                name="kode_unik" 
+                placeholder="Masukan Kode Undangan" 
+                class="login-input w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-sm font-medium" 
+                required 
+                autofocus 
+              />
             </div>
+
+            <button 
+              type="submit" 
+              class="login-button w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-md transition-all duration-200 cursor-pointer text-sm">
+              Lanjutkan Pendaftaran
+            </button>
+          </form>
         </div>
+
+        <p class="text-xs text-center text-gray-500 dark:text-gray-400 mt-8">
+          Sudah punya akun?
+          <a href="{{ route('login') }}" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline">Kembali ke Login</a>
+        </p>
+      </div>
+
+      <!-- Kanan: Info -->
+      <div class="bg-gradient-to-br from-blue-600 to-indigo-800 p-8 lg:p-12 text-white flex flex-col justify-center">
+        <div>
+          <h2 class="text-2xl font-bold mb-3">Satu Langkah Lagi!</h2>
+          <p class="text-blue-100 text-sm mb-8 leading-relaxed">
+            Karena kamu login dengan Google, kami butuh kode undangan untuk menentukan kelas & jurusan kamu.
+          </p>
+
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <div class="p-2 bg-white/10 rounded-xl shrink-0">
+                <svg class="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 0121 9z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="font-semibold text-sm text-white">Kode dari Guru / Admin</div>
+                <p class="text-xs text-blue-100 mt-0.5">Mintalah kode undangan kepada guru atau Ketua Murid (km) kelas kamu</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="p-2 bg-white/10 rounded-xl shrink-0">
+                <svg class="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="font-semibold text-sm text-white">Otomatis Masuk Kelas</div>
+                <p class="text-xs text-blue-100 mt-0.5">Setelah valid, akun Google kamu langsung terdaftar sebagai siswa</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="p-2 bg-white/10 rounded-xl shrink-0">
+                <svg class="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="font-semibold text-sm text-white">Aman & Cepat</div>
+                <p class="text-xs text-blue-100 mt-0.5">Tidak perlu isi data lagi, langsung masuk dashboard</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
-    
 @endsection
 
 @push('scripts')
     <script>
-        document.querySelector(".kode-form").addEventListener("submit", function () {
-            const b = document.querySelector(".kode-button");
-            b.classList.add("opacity-75", "cursor-not-allowed", "loading");
+      const formEl = document.querySelector(".login-form");
+      if (formEl) {
+        formEl.addEventListener("submit", function () {
+          const b = this.querySelector(".login-button");
+          if(b) {
+            b.classList.add("loading");
             b.disabled = true;
-            b.textContent = "Tunggu bentar yaa.....";
+            b.textContent = "Tunggu Bentar yaa.....";
+          }
         });
+      }
     </script>
 @endpush

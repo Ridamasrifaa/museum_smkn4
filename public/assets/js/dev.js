@@ -4,8 +4,12 @@ function openAvatarModal(imgSrc, devName) {
     const modalImg = document.getElementById('modalImage');
     const modalName = document.getElementById('modalName');
 
-    // Selalu gunakan foto bulat dan object-cover yang konsisten untuk semua modal
+    // Ubah bagian classList atau pastikan style gambarnya menyesuaikan
     modalImg.src = imgSrc;
+    
+    // Tambahkan pengatur posisi agar di modal preview tidak terpotong (misal pakai object-contain atau object-top)
+    modalImg.className = "w-full h-full object-contain rounded-full"; // Ganti object-cover dengan object-contain
+    
     modalName.textContent = devName;
 
     // Tampilkan modal
@@ -82,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 roles: ["Backend Developer"],
                 badgeBgs: ["bg-orange-300"],
                 img: "assets/img/all-Raffi.jpg",
-                imgPosition: "object-[center_25%]",
+                imgPosition: "object-top",
                 github: "https://github.com/alrafighani280-art",
                 portfolio: "#"
             }

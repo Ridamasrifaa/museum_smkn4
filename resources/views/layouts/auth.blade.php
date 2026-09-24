@@ -1,165 +1,113 @@
 <!doctype html>
 <html lang="id">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}" />
     <title>@yield('title', 'Karya PPLG')</title>
 
-    @verbatim
     <style type="text/tailwindcss">
-        @custom-variant dark (&:where(.dark, .dark *));
+      @custom-variant dark (&:where(.dark, .dark *));
     </style>
-    @endverbatim
-
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}" />
-    <script src="{{ asset('assets/js/auth/theme.js') }}"></script>
-    @stack('head')
-</head>
-<body>
+    
+    <style>
+      .custom-nav-container {
+        border: 3px solid #111827;
+        box-shadow: 4px 4px 0px #111827;
+        border-radius: 9999px;
+      }
+      .dark .custom-nav-container {
+        border-color: #374151;
+        box-shadow: 4px 4px 0px #374151;
+      }
+      .custom-btn-capsule {
+        border: 2px solid #111827;
+        box-shadow: 2px 2px 0px #111827;
+      }
+      .dark .custom-btn-capsule {
+        border-color: #374151;
+        box-shadow: 2px 2px 0px #111827;
+      }
+    </style>
 
-@php
-    // URL dashboard sesuai role (hanya dihitung kalau sudah login)
-    $dashboardUrl = auth()->check()
-        ? match ((int) auth()->user()->role) {
-            0 => '/superadmin/dashboard',
-            1 => '/admin/dashboard',
-            2 => '/siswa/dashboard',
-            default => '/',
-        }
-        : null;
+    @stack('styles')
+  </head>
+  <body class="bg-gray-50 text-gray-800 dark:bg-gray-950 dark:text-gray-100 font-sans min-h-screen flex flex-col transition-colors duration-300">
 
-    // Daftar menu — link aktif ditentukan otomatis dari URL yang sedang dibuka
-    $menus = [
-        ['label' => 'BERANDA', 'url' => url('/'),        'active' => request()->is('/')],
-        ['label' => 'KARYA',   'url' => url('/karya'),   'active' => request()->is('karya', 'karya/*')],
-        ['label' => 'ARTIKEL', 'url' => url('/artikel'), 'active' => request()->is('artikel', 'artikel/*')],
-        ['label' => 'TENTANG', 'url' => url('/tentang'), 'active' => request()->is('tentang', 'tentang/*')],
-    ];
-@endphp
+    <!-- NAVBAR UTAMA -->
+    <header class="w-full py-4 px-4 lg:px-8 sticky top-0 z-50 bg-gray-50/80 dark:bg-gray-950/80 backdrop-blur-md">
+      <nav class="max-w-7xl mx-auto bg-white dark:bg-gray-900 px-6 py-3 custom-nav-container flex items-center justify-between transition-colors duration-300">
+        
+        <!-- Logo & Nama Brand -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full border-2 border-gray-900 dark:border-gray-700 overflow-hidden flex items-center justify-center bg-blue-600 text-white font-black">
+            <img src="{{ asset('images/smk4.png') }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="SMK4 Logo" class="w-full h-full object-cover" />
+            <span style="display:none;" class="text-sm">K</span>
+          </div>
+          <span class="text-lg lg:text-xl font-black tracking-wider text-gray-900 dark:text-white uppercase">
+            MUSEUM<span class="text-blue-600">.</span>KARYA
+          </span>
+        </div>
 
-    <!-- Elemen Dekoratif Grid Background & Floating Shapes -->
-    <div class="decorative-shapes" aria-hidden="true">
-        <div class="shape shape-1">✨</div>
-        <div class="shape shape-2">MUSEUM VIRTUAL</div>
-        <div class="shape shape-3"></div>
-        <div class="shape shape-4">CURATOR ACCESS</div>
-        <div class="shape shape-5"></div>
-        <div class="shape shape-6"></div>
-    </div>
+        <!-- Menu Navigasi Tengah -->
+        <div class="hidden md:flex items-center gap-8">
+          <a href="{{ url('/') }}" class="text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-blue-600 transition">BERANDA</a>
+          <a href="{{ url('/karya') }}" class="text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-blue-600 transition">KARYA</a>
+          <a href="{{ url('/artikel') }}" class="text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-blue-600 transition">ARTIKEL</a>
+          <a href="{{ url('/tentang') }}" class="text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-blue-600 transition">TENTANG</a>
+        </div>
 
-    <!-- ===== HEADER (Floating Capsule Navbar) ===== -->
-    <header class="sticky top-4 z-50 px-4">
-        <nav class="relative mx-auto max-w-7xl bg-white dark:bg-zinc-900 rounded-full border-4 border-black dark:border-white shadow-[6px_6px_0px_#000] dark:shadow-[6px_6px_0px_#fff] px-4 sm:px-6 py-3 transition-all duration-300">
-            <div class="flex items-center justify-between">
+        <!-- Bagian Kanan (Theme Toggle & Tombol Auth Dinamis) -->
+        <div class="flex items-center gap-3">
+          <button id="themeToggle" onclick="toggleTheme()" aria-label="Ganti mode terang/gelap" class="w-10 h-10 rounded-full bg-yellow-300 dark:bg-gray-800 text-gray-900 dark:text-yellow-300 custom-btn-capsule flex items-center justify-center hover:translate-x-[-1px] hover:translate-y-[-1px] transition cursor-pointer">
+            <svg class="icon-sun w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <svg class="icon-moon w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
 
-                <!-- 1. Logo & Title -->
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white dark:bg-zinc-800 border-3 border-black dark:border-white flex items-center justify-center font-black shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#fff] shrink-0">
-                        <img src="{{ asset('assets/img/smk4.png') }}" alt="Logo" class="w-6 h-6 sm:w-7 sm:h-7 object-cover rounded-md" />
-                    </div>
-                    <span class="text-sm sm:text-lg font-black tracking-wider text-black dark:text-white whitespace-nowrap">MUSEUM.KARYA</span>
-                </div>
+          @if(Route::is('login'))
+            <a href="{{ route('register') }}" class="px-5 py-2 rounded-full bg-blue-400 dark:bg-blue-600 text-gray-900 dark:text-white font-black text-sm custom-btn-capsule hover:translate-x-[-1px] hover:translate-y-[-1px] transition">
+              DAFTAR
+            </a>
+          @else
+            <a href="{{ route('login') }}" class="px-5 py-2 rounded-full bg-blue-400 dark:bg-blue-600 text-gray-900 dark:text-white font-black text-sm custom-btn-capsule hover:translate-x-[-1px] hover:translate-y-[-1px] transition">
+              LOGIN
+            </a>
+          @endif
+        </div>
 
-                <!-- 2. Menu Links (Desktop & Dropdown Melayang di Mobile) -->
-                <div id="navLinks"
-                    class="hidden md:flex flex-col md:flex-row gap-3 md:gap-8 md:items-center
-                        absolute md:static left-0 right-0 top-[calc(100%+16px)] md:top-auto
-                        bg-zinc-900/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none
-                        rounded-3xl md:rounded-none border-2 md:border-0 border-zinc-700 md:border-none
-                        shadow-xl md:shadow-none
-                        p-5 md:p-0 z-50 text-center md:text-left transition-all">
-
-                    @foreach ($menus as $menu)
-                        <a href="{{ $menu['url'] }}"
-                            @if ($menu['active']) aria-current="page" @endif
-                            class="text-sm md:text-xs font-black transition px-4 md:px-0 py-3 md:py-0
-                                   rounded-2xl md:rounded-none border-2 md:border-0
-                                   {{ $menu['active']
-                                        ? 'bg-[#FFD23F] text-black border-black shadow-[3px_3px_0px_#000]
-                                           md:bg-transparent md:shadow-none md:pb-1 md:border-b-4 md:border-black
-                                           md:dark:border-white md:dark:text-white'
-                                        : 'border-transparent text-zinc-300 hover:text-white
-                                           md:text-zinc-500 md:dark:text-zinc-400
-                                           md:hover:text-black md:dark:hover:text-white' }}">
-                            {{ $menu['label'] }}
-                        </a>
-                    @endforeach
-
-                    @auth
-                        <a href="{{ $dashboardUrl }}"
-                            class="md:hidden mt-2 text-xs font-black px-5 py-3 bg-[#74B9FF] text-black border-2 border-black rounded-2xl shadow-[2px_2px_0px_#000] active:translate-y-[1px] transition block text-center">
-                            DASHBOARD
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}"
-                            class="md:hidden mt-2 text-xs font-black px-5 py-3 bg-[#74B9FF] text-black border-2 border-black rounded-2xl shadow-[2px_2px_0px_#000] active:translate-y-[1px] transition block text-center">
-                            LOGIN
-                        </a>
-                    @endauth
-                </div>
-
-                <!-- 3. Right Actions (Theme Toggle, Login/Dashboard Desktop, & Hamburger) -->
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <button
-                        id="themeToggle"
-                        onclick="toggleTheme()"
-                        aria-label="Ganti mode"
-                        class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-[#FFD23F] border-3 border-black dark:border-white shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#fff] text-gray-900 cursor-pointer hover:translate-y-[-2px] transition">
-                        🌙
-                    </button>
-
-                    @auth
-                        <a href="{{ $dashboardUrl }}"
-                            class="hidden md:inline-block text-[10px] sm:text-xs font-black px-3 sm:px-5 py-2 sm:py-2.5 bg-[#74B9FF] text-black border-3 border-black dark:border-white rounded-full shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#fff] hover:bg-[#54a0ff] transition whitespace-nowrap">
-                            DASHBOARD
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}"
-                            class="hidden md:inline-block text-[10px] sm:text-xs font-black px-3 sm:px-5 py-2 sm:py-2.5 bg-[#74B9FF] text-black border-3 border-black dark:border-white rounded-full shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#fff] hover:bg-[#54a0ff] transition whitespace-nowrap">
-                            LOGIN
-                        </a>
-                    @endauth
-
-                    <!-- Hamburger Button (Mobile) -->
-                    <button
-                        id="menuToggle"
-                        aria-label="Open Menu"
-                        aria-expanded="false"
-                        class="md:hidden w-9 h-9 rounded-xl bg-white dark:bg-zinc-800 border-3 border-black dark:border-white flex items-center justify-center font-black shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#fff] text-black dark:text-white cursor-pointer active:translate-y-[1px]">
-                        <svg id="hamburgerIcon" class="w-5 h-5 block" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                        <svg id="closeIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-
-            </div>
-        </nav>
+      </nav>
     </header>
 
-    <div class="main-wrapper">
-        @yield('content')
-    </div>
+    <!-- KONTEN UTAMA -->
+    <main class="flex-1 flex items-center justify-center">
+      @yield('content')
+    </main>
 
-    <!-- Script Hamburger Toggle Mobile -->
+    <!-- SCRIPT INTERNAL DARK MODE -->
     <script>
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-        const hamburgerIcon = document.getElementById('hamburgerIcon');
-        const closeIcon = document.getElementById('closeIcon');
+      function toggleTheme() {
+        if (document.documentElement.classList.contains('dark')) {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+        } else {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        }
+      }
 
-        menuToggle.addEventListener('click', () => {
-            const isHidden = navLinks.classList.toggle('hidden');
-            hamburgerIcon.classList.toggle('hidden');
-            closeIcon.classList.toggle('hidden');
-            menuToggle.setAttribute('aria-expanded', String(!isHidden));
-        });
+      if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
     </script>
 
     @stack('scripts')
-</body>
+  </body>
 </html>
