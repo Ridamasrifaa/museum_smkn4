@@ -8,12 +8,19 @@ use Illuminate\Support\Facades\Auth;
 
 class InteractionController extends Controller
 {
-    // Like / Unlike project. Boleh tamu maupun user login.
+    // Like / Unlike project. Hanya bisa digunakan oleh user yang sudah login.
     public function toggleLike(Project $project)
     {
-        $liked = Auth::check()
-            ? $this->toggleForUser($project, Auth::id())
-            : $this->toggleForGuest($project);
+        // Jika belum login, kembalikan status 401 agar frontend bisa menangkap dan menampilkan modal login
+        if (!Auth::check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Silakan login terlebih dahulu untuk memberikan apresiasi/like.'
+            ], 401);
+        }
+
+        $userId = Auth::id();
+        $liked = $this->toggleForUser($project, $userId);
 
         return response()->json([
             'success'     => true,
@@ -40,22 +47,6 @@ class InteractionController extends Controller
             'project_id' => $project->id,
             'user_id'    => $userId,
         ]);
-        $project->increment('likes_count');
-        return true;
-    }
-
-    // Tamu: dicatat di session (daftar ID project yang sudah di-like)
-    private function toggleForGuest(Project $project): bool
-    {
-        $ids = session('guest_likes', []);
-
-        if (in_array($project->id, $ids)) {
-            session(['guest_likes' => array_values(array_diff($ids, [$project->id]))]);
-            $project->decrement('likes_count');
-            return false;
-        }
-
-        session(['guest_likes' => [...$ids, $project->id]]);
         $project->increment('likes_count');
         return true;
     }

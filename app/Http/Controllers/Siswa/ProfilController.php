@@ -52,7 +52,7 @@ class ProfilController extends Controller
             'name'         => 'required|string|max:255',
             'jurusan'      => 'nullable|string|max:255', // Diubah dari 'in:...' menjadi string bebas
             'bio'          => 'nullable|string|max:500',
-            'phone_number' => 'nullable|string|max:20',
+            'instagram' => 'nullable|string|max:50', // Diubah dari phone_number
             'avatar'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'password'     => ['nullable', 'confirmed', Password::min(6)],
         ]);
@@ -60,7 +60,7 @@ class ProfilController extends Controller
         $user->name         = $validated['name'];
         $user->jurusan       = $validated['jurusan'] ?? $user->jurusan;
         $user->bio           = $request->bio;
-        $user->phone_number  = $validated['phone_number'] ?? null;
+        $user->instagram = $validated['instagram'] ?? null;
 
         if ($request->hasFile('avatar')) {
             // Hapus avatar lama jika ada (pastikan path lokal yang dihapus, bukan yang berawalan /storage/)

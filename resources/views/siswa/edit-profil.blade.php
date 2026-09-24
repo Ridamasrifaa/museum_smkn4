@@ -106,15 +106,16 @@
                     </div>
 
                     <div class="md:col-span-2">
-                        <label for="phone_number" class="block text-sm font-black text-slate-900 mb-1.5">Nomor WhatsApp</label>
-                        <input type="tel" inputmode="tel" autocomplete="tel" name="phone_number" id="phone_number"
-                            value="{{ old('phone_number', $user->phone_number ?? '') }}"
-                            placeholder="Contoh: 081234567890"
-                            class="{{ $input }}">
-                        <p class="mt-1.5 text-xs font-bold text-slate-500">Wajib diisi kalau kamu jurusan TJKT atau TSM, supaya bisa dihubungi terkait karyamu.</p>
-                        @error('phone_number')
-                            <p class="mt-1 text-xs font-extrabold text-rose-600">{{ $message }}</p>
-                        @enderror
+                            <label for="instagram" class="block text-sm font-black text-slate-900 mb-1.5">Akun Instagram</label>
+                            <input type="text" name="instagram" id="instagram"
+                                value="{{ old('instagram', $user->instagram ?? '') }}"
+                                placeholder="Contoh: @namakun atau https://instagram.com/namakun"
+                                class="{{ $input }}">
+                            <p class="mt-1.5 text-xs font-bold text-slate-500">Masukkan username atau link profil Instagram kamu agar pengunjung bisa melihat sosial mediamu.</p>
+                            @error('instagram')
+                                <p class="mt-1 text-xs font-extrabold text-rose-600">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
 
                     <div class="md:col-span-2">

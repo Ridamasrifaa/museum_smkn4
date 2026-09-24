@@ -24,7 +24,7 @@ return new class extends Migration
 
             // Nomor WhatsApp siswa (diisi sendiri lewat halaman profil).
             // Nullable karena admin/superadmin tidak memakainya.
-            $table->string('phone_number', 20)->nullable();
+            $table->string('instagram', 50)->nullable();
 
             $table->rememberToken();
             $table->timestamps();
