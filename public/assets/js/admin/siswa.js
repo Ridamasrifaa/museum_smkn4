@@ -1,12 +1,12 @@
-// Loading Screen Timer
+// Loading Screen Timer - Langsung hilangkan setelah page selesai load
 window.addEventListener("load", function () {
     const loadingContent = document.getElementById("loading-content");
-    setTimeout(() => {
+    if (loadingContent) {
         loadingContent.classList.add("opacity-0");
         setTimeout(() => {
             loadingContent.classList.add("hidden");
-        }, 300);
-    }, 1000);
+        }, 200); // 200ms hanya untuk animasi fade-out yang mulus
+    }
 });
 
 // Modal Controller Logika Backend

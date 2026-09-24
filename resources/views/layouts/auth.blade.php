@@ -46,9 +46,7 @@
             <img src="{{ asset('images/smk4.png') }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" alt="SMK4 Logo" class="w-full h-full object-cover" />
             <span style="display:none;" class="text-sm">K</span>
           </div>
-          <span class="text-lg lg:text-xl font-black tracking-wider text-gray-900 dark:text-white uppercase">
-            MUSEUM<span class="text-blue-600">.</span>KARYA
-          </span>
+          <span class="text-sm sm:text-lg font-black tracking-wider text-black dark:text-white whitespace-nowrap">MUSEUM KARYA</span> 
         </div>
 
         <!-- Menu Navigasi Tengah -->
