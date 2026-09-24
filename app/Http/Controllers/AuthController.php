@@ -12,11 +12,9 @@ use App\Models\InvitationCode;
 
 class AuthController extends Controller
 {
-    public function showLogin()
-    {
+    public function showLogin() {
         return view('auth.login');
     }
-
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -25,26 +23,38 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+            // 1. Wajib regenerate session untuk keamanan & hapus sisa session lama
+            $request->session()->regenerate();
+
             $user = Auth::user();
 
-            switch ((int) $user->role) {
-                case 0:
-                    return redirect('/superadmin/dashboard');
-                case 1:
-                    return redirect('/admin/dashboard');
-                case 2:
-                    return redirect('/siswa/dashboard');
-                default:
-                    Auth::logout();
-                    return back()->withErrors(['email' => 'Role tidak dikenali.']);
+            // 2. Bersihkan intended session agar tidak meredirect balik ke POST request yang salah
+            session()->forget('url.intended');
+
+            // 3. Pengecekan role yang aman (mensupport integer maupun string)
+            $role = is_numeric($user->role) ? (int) $user->role : $user->role;
+
+            if ($role === 0 || $role === '0' || $role === 'superadmin') {
+                return redirect('/superadmin/dashboard');
+            } 
+            
+            if ($role === 1 || $role === '1' || $role === 'admin') {
+                return redirect('/admin/dashboard');
+            } 
+            
+            if ($role === 2 || $role === '2' || $role === 'siswa') {
+                return redirect('/siswa/dashboard');
             }
+
+            // Jika role tidak cocok sama sekali
+            Auth::logout();
+            return back()->withErrors(['email' => 'Role tidak dikenali.']);
         }
 
         return back()->withErrors([
             'email' => 'Email atau password salah.',
         ]);
     }
-
     public function showRegister()
     {
         return view('auth.register');

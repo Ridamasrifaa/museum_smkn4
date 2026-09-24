@@ -22,7 +22,7 @@
           <h1 class="login-title dark:text-white">Selamat Datang</h1>
           <p class="login-subtitle dark:text-gray-400">Masuk untuk melanjutkan ke dashboard Anda</p>
 
-          <form class="login-form" action="{{ url('/admin/dashboard') }}" method="POST">
+          <form class="login-form" action="{{ route('login') }}" method="POST">
             @csrf
             <div class="login-form-group">
               <label class="login-label dark:text-gray-300" for="email">Email</label>
