@@ -43,7 +43,6 @@
             background-size: 24px 24px;
         }
     </style>
-    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
 @endpush
 
 @section('content')
@@ -155,7 +154,3 @@
 
     
 @endsection
-
-@push('scripts')
-<script src="{{ asset('assets/js/artikel.js') }}"></script>
-@endpush
