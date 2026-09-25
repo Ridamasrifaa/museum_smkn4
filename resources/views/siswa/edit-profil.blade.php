@@ -95,12 +95,13 @@
                         @enderror
                     </div>
 
+                    {{-- FIX: field ini sebelumnya name="jurusan" (salah target kolom), sekarang benar ke kolom "kelas" --}}
                     <div class="md:col-span-2">
-                        <label for="jurusan" class="block text-sm font-black text-slate-900 mb-1.5">Kelas</label>
-                        <input type="text" name="jurusan" id="jurusan" value="{{ old('jurusan', $user->jurusan ?? '') }}"
+                        <label for="kelas" class="block text-sm font-black text-slate-900 mb-1.5">Kelas</label>
+                        <input type="text" name="kelas" id="kelas" value="{{ old('kelas', $user->kelas ?? '') }}"
                             placeholder="Contoh: XII PPLG 1"
                             class="{{ $input }}">
-                        @error('jurusan')
+                        @error('kelas')
                             <p class="mt-1 text-xs font-extrabold text-rose-600">{{ $message }}</p>
                         @enderror
                     </div>

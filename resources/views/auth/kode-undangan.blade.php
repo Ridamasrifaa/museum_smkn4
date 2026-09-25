@@ -20,7 +20,18 @@
             Masukkan kode undangan untuk menyelesaikan pendaftaran dengan Google
           </p>
 
-          <form action="{{ url('/admin/dashboard') }}" method="POST" class="login-form space-y-4">
+          {{-- ALERT ERROR VALIDASI (kode_unik salah/penuh/nonaktif) --}}
+          @if ($errors->any())
+            <div class="mb-4 p-3 rounded-xl bg-red-100 dark:bg-red-900/40 border border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 text-sm">
+              <ul class="list-disc list-inside">
+                @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+          @endif
+
+          <form action="{{ route('auth.kode-undangan.submit') }}" method="POST" class="login-form space-y-4">
             @csrf
             <div>
               <label for="kode_unik" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
@@ -30,6 +41,7 @@
                 type="text" 
                 id="kode_unik" 
                 name="kode_unik" 
+                value="{{ old('kode_unik') }}"
                 placeholder="Masukan Kode Undangan" 
                 class="login-input w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-sm font-medium" 
                 required 

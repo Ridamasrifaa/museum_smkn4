@@ -13,16 +13,27 @@
           <h1 class="login-title dark:text-white">Buat Akun Baru</h1>
           <p class="login-subtitle dark:text-gray-400">Daftar untuk mulai memamerkan karya Anda</p>
 
-          <form class="login-form" action="{{ route('login') }}" method="POST">
+          {{-- ALERT ERROR VALIDASI --}}
+          @if ($errors->any())
+            <div class="mb-4 p-3 rounded-xl bg-red-100 border border-red-300 text-red-700 text-sm">
+              <ul class="list-disc list-inside">
+                @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+          @endif
+
+          <form class="login-form" action="{{ route('register') }}" method="POST">
             @csrf
             <div class="login-form-group">
               <label class="login-label dark:text-gray-300" for="name">Nama</label>
-              <input type="text" id="name" name="name" placeholder="Masukkan nama lengkap Anda" class="login-input dark:bg-gray-800 dark:text-white dark:border-gray-700" required autofocus />
+              <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Masukkan nama lengkap Anda" class="login-input dark:bg-gray-800 dark:text-white dark:border-gray-700" required autofocus />
             </div>
 
             <div class="login-form-group">
               <label class="login-label dark:text-gray-300" for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="Masukan Email Anda" class="login-input dark:bg-gray-800 dark:text-white dark:border-gray-700" required />
+              <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Masukan Email Anda" class="login-input dark:bg-gray-800 dark:text-white dark:border-gray-700" required />
             </div>
 
             <div class="login-form-group">
@@ -32,7 +43,7 @@
 
             <div class="login-form-group">
               <label class="login-label dark:text-gray-300" for="kode_unik">Kode Unik</label>
-              <input type="text" id="kode_unik" name="kode_unik" placeholder="Masukan Kode unik" class="login-input dark:bg-gray-800 dark:text-white dark:border-gray-700" required />
+              <input type="text" id="kode_unik" name="kode_unik" value="{{ old('kode_unik') }}" placeholder="Masukan Kode unik" class="login-input dark:bg-gray-800 dark:text-white dark:border-gray-700" required />
             </div>
 
             <div class="login-checkbox dark:text-gray-300">
