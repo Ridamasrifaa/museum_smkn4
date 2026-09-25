@@ -18,12 +18,10 @@
     ];
 @endphp
 
-<!-- ===== HEADER (Floating Capsule Navbar Responsif Fix Melayang) ===== -->
 <header class="sticky top-4 z-50 px-4">
     <nav class="relative mx-auto max-w-7xl bg-white dark:bg-zinc-900 rounded-full border-4 border-black dark:border-white shadow-[6px_6px_0px_#000] dark:shadow-[6px_6px_0px_#fff] px-4 sm:px-6 py-3 transition-all duration-300">
         <div class="flex items-center justify-between">
 
-            <!-- 1. Logo & Title -->
             <div class="flex items-center gap-2 sm:gap-3">
                 <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white dark:bg-zinc-800 border-3 border-black dark:border-white flex items-center justify-center font-black shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#fff] shrink-0">
                     <img src="{{ asset('images/smk4.png') }}" alt="Logo" class="w-6 h-6 sm:w-7 sm:h-7 object-cover rounded-md" />
@@ -31,7 +29,6 @@
                 <span class="text-sm sm:text-lg font-black tracking-wider text-black dark:text-white whitespace-nowrap">MUSEUM KARYA</span>
             </div>
 
-            <!-- 2. Menu Links (Tampilan Desktop & Dropdown Melayang di Mobile) -->
             <div id="navLinks"
                 class="hidden md:flex flex-col md:flex-row gap-3 md:gap-8 md:items-center
                     absolute md:static left-0 right-0 top-[calc(100%+16px)] md:top-auto
@@ -61,7 +58,6 @@
                 @endauth
             </div>
 
-            <!-- 3. Right Actions (Theme Toggle, Login/Dashboard Desktop, & Hamburger) -->
             <div class="flex items-center gap-2 sm:gap-3">
                 <button
                     id="themeToggle"
@@ -83,7 +79,6 @@
                     </a>
                 @endauth
 
-                <!-- Hamburger Button (Mobile) -->
                 <button
                     id="menuToggle"
                     aria-label="Open Menu"

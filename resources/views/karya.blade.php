@@ -25,8 +25,6 @@
         .dark .card-hover:hover {
             box-shadow: 8px 8px 0px 0px #f4f4f5;
         }
-
-        /* Badge Jurusan yang lebih rapi & kapital */
         .badge-custom {
             display: inline-block;
             padding: 0.25rem 0.75rem;
@@ -58,7 +56,6 @@
 @endpush
 
 @section('content')
-    <!-- ===== HERO BANNER ===== -->
     <section class="w-full pt-8 pb-6 px-4 lg:px-8">
         <div class="mx-auto max-w-7xl border-2 border-zinc-900 dark:border-zinc-100 rounded-3xl bg-sky-400 dark:bg-sky-900 relative overflow-hidden shadow-[4px_4px_0px_0px_#18181b] dark:shadow-[4px_4px_0px_0px_#f4f4f5]">
             <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1600&q=80" 
@@ -83,7 +80,6 @@
         </div>
     </section>
 
-    <!-- ===== KARYA SECTION ===== -->
     <section id="karya" class="py-12 flex-grow bg-grid-pattern">
         <div class="mx-auto max-w-7xl px-4 lg:px-8">
 
@@ -92,7 +88,6 @@
                 <p class="text-xs sm:text-sm font-bold text-zinc-600 dark:text-zinc-400">Jelajahi karya inovatif para kreator — pilih, lihat detail, dan berikan apresiasi.</p>
             </div>
 
-            <!-- Filter & Search -->
             <div class="bg-white dark:bg-zinc-900 border-2 border-zinc-900 dark:border-zinc-100 rounded-2xl p-4 mb-6 shadow-[4px_4px_0px_0px_#18181b] dark:shadow-[4px_4px_0px_0px_#f4f4f5]">
                 <div class="flex flex-col lg:flex-row items-center gap-4">
                     
@@ -118,8 +113,6 @@
 
             <p id="resultCounter" class="text-xs font-bold text-zinc-600 dark:text-zinc-400 mb-6"></p>
 
-            <!-- Grid Cards -->
-            <!-- Grid Cards -->
             <div id="allKaryaGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @forelse($karyas as $karya)
                     <div class="karya-card bg-white dark:bg-zinc-900 rounded-3xl overflow-hidden border-2 border-zinc-900 dark:border-zinc-100 shadow-[6px_6px_0px_0px_#18181b] dark:shadow-[6px_6px_0px_0px_#f4f4f5] card-hover transition-all flex flex-col"
@@ -175,7 +168,6 @@
         </div>
     </section>
 
-    <!-- ===== MODAL DETAIL ===== -->
     <div id="detailModal" class="hidden fixed inset-0 bg-zinc-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white dark:bg-zinc-900 rounded-3xl shadow-[8px_8px_0px_0px_#18181b] dark:shadow-[8px_8px_0px_0px_#f4f4f5] max-w-xl w-full p-6 border-2 border-zinc-900 dark:border-zinc-100 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center pb-4 border-b-2 border-zinc-200 dark:border-zinc-700">
@@ -228,7 +220,6 @@
     document.addEventListener("DOMContentLoaded", function () {
         const GITHUB_ICON_SVG = '<svg class="w-4 h-4 inline-block -mt-0.5 mr-1" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .5C5.73.5.5 5.73.5 12.03c0 5.09 3.29 9.4 7.86 10.93.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.7-1.28-1.7-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.44-2.28 1.18-3.08-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a10.9 10.9 0 015.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.24 2.75.12 3.04.74.8 1.18 1.83 1.18 3.08 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14 0 1.55-.01 2.79-.01 3.17 0 .31.21.68.8.56A10.53 10.53 0 0023.5 12.03C23.5 5.73 18.27.5 12 .5z"/></svg>';
 
-        // Attach ke objek 'window' agar dapat dipanggil dari inline HTML onclick
         window.openModal = function (card) {
             if (!card) return;
             const d = card.dataset;
@@ -265,7 +256,6 @@
                 actionContainer.classList.toggle("hidden", !hasButton);
             }
 
-            // Preview Media
             const mediaPreview = document.getElementById("modalMediaPreview");
             if (mediaPreview) {
                 if (d.filePath) {
@@ -277,7 +267,6 @@
                 }
             }
 
-            // Avatar
             const modalAvatar = document.getElementById("modalAvatar");
             if (modalAvatar) {
                 if (d.avatar && d.avatar.trim() !== "") {
@@ -287,7 +276,6 @@
                 }
             }
 
-            // Student Link
             const siswaContainer = document.getElementById("modalSiswaContainer");
             if (siswaContainer) {
                 if (d.id && d.id.trim() !== "") {
@@ -297,7 +285,6 @@
                 }
             }
 
-            // Biodata & Guru
             const modalBiodata = document.getElementById("modalBiodata");
             if (modalBiodata) {
                 const parts = [];
@@ -325,7 +312,6 @@
             }
         };
 
-        // Close Modal on Backdrop Click
         const modal = document.getElementById("detailModal");
         if (modal) {
             modal.addEventListener("click", function (e) {
@@ -333,7 +319,6 @@
             });
         }
 
-        // ===== Filtering & Search Logic =====
         const searchInput = document.getElementById("searchInput");
         const filterPills = document.querySelectorAll(".filter-pill");
         const allCards = Array.from(document.querySelectorAll(".karya-card"));
@@ -397,7 +382,6 @@
             const wrapper = document.createElement("div");
             wrapper.className = "flex items-center justify-center gap-1.5 flex-wrap w-full py-2";
 
-            // Tombol Prev
             if (currentPage > 1) {
                 const prevBtn = document.createElement("button");
                 prevBtn.textContent = "‹";
@@ -406,7 +390,6 @@
                 wrapper.appendChild(prevBtn);
             }
 
-            // Tentukan range angka yang tampil
             let startPage = Math.max(1, currentPage - 2);
             let endPage = Math.min(totalPages, startPage + 4);
             if (endPage - startPage < 4) {
@@ -426,7 +409,6 @@
                 wrapper.appendChild(pageBtn);
             }
 
-            // Tombol Next
             if (currentPage < totalPages) {
                 const nextBtn = document.createElement("button");
                 nextBtn.textContent = "›";
@@ -445,7 +427,6 @@
             }
         }
 
-        // ===== Event Listeners untuk Filter & Search =====
         if (searchInput) {
             searchInput.addEventListener("input", runFilter);
         }
@@ -464,8 +445,6 @@
                 runFilter();
             });
         });
-
-        // Jalankan filter pertama kali saat dokumen dimuat
         runFilter();
     });
 </script>

@@ -5,7 +5,6 @@
 
 @push('styles')
     <style>
-        /* Background kotak-kotak ala Neo-Brutalism */
         .bg-grid-pattern {
             background-image:
                 linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
@@ -40,9 +39,7 @@
 
 @section('content')
     <div class="flex-grow bg-grid-pattern">
-        <!-- ===== MAIN CONTENT CONTAINER ===== -->
         <main class="py-12 sm:py-16">
-            <!-- ===== HERO ===== -->
             <section class="pb-10 text-center">
                 <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
                     <span class="inline-block px-4 py-1.5 mb-4 text-xs font-black uppercase tracking-wider text-black bg-yellow-300 rounded-full border-2 border-black shadow-[2px_2px_0px_#000]"> Informasi Proyek </span>
@@ -51,10 +48,8 @@
                 </div>
             </section>
 
-            <!-- ===== TENTANG PROYEK ===== -->
             <section id="tentang-proyek" class="mx-auto max-w-4xl px-4 sm:px-6">
                 <div class="bg-white dark:bg-gray-900 p-6 sm:p-10 rounded-2xl border-3 border-black dark:border-white shadow-[5px_5px_0px_0px_#000] dark:shadow-[5px_5px_0px_0px_#fff] transition-colors duration-300">
-                    <!-- Narasi Utama -->
                     <div class="space-y-4 sm:space-y-6 text-slate-800 dark:text-gray-200 leading-relaxed text-sm sm:text-base md:text-lg font-medium">
                         <p>
                             <strong class="text-black dark:text-white font-black">Museum Karya</strong> hadir sebagai wadah digital terintegrasi yang dirancang khusus untuk menampung, mendokumentasikan, dan mempublikasikan berbagai hasil karya siswa-siswi SMKN 4 Tasikmalaya. Potensi kreativitas dan inovasi yang dihasilkan oleh para siswa sangat kaya, sehingga sangat disayangkan apabila karya-karya luar biasa tersebut hanya tersimpan tanpa sempat diapresiasi secara luas.
@@ -64,7 +59,6 @@
                         </p>
                     </div>
 
-                    <!-- Callout Bridge ke Halaman Dev -->
                     <div class="mt-8 p-5 sm:p-6 rounded-xl bg-amber-100 dark:bg-gray-800 border-2 border-black dark:border-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,1)] flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div class="text-center sm:text-left">
                             <p class="text-sm font-black text-black dark:text-white">Penasaran siapa saja yang membangun platform ini?</p>
@@ -78,7 +72,6 @@
                         </a>
                     </div>
 
-                    <!-- Ringkasan Statistik -->
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 mt-8 sm:mt-10 pt-6 sm:pt-8 border-t-2 border-black dark:border-white text-center sm:text-left">
                         <div class="p-3 bg-gray-50 dark:bg-gray-800 border-2 border-black dark:border-white rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
                             <p class="text-[10px] sm:text-xs uppercase tracking-wider text-gray-600 dark:text-gray-400 font-black">Mulai Pengerjaan</p>
@@ -103,7 +96,6 @@
         </main>
     </div>
 
-    <!-- ===== FOOTER ===== -->
     <footer class="bg-gray-900 dark:bg-black text-white text-center py-12 mt-16 border-t-4 border-black dark:border-white">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="pt-4">
@@ -118,7 +110,6 @@
         </div>
     </footer>
 
-    <!-- ===== MODAL CHANGELOG ===== -->
     <div id="changelogModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs opacity-0 pointer-events-none transition-all duration-300">
         <div id="changelogContent" class="relative max-w-lg w-full mx-4 bg-section-box bg-white dark:bg-zinc-900 rounded-3xl border-4 border-black dark:border-white shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] transform scale-95 transition-all duration-300 max-h-[80vh] flex flex-col overflow-hidden">
             <div class="px-6 py-4 bg-[#FFD23F] border-b-4 border-black dark:border-white flex items-center justify-between gap-4">
@@ -130,7 +121,6 @@
             <div class="p-6 sm:p-8 flex flex-col min-h-0">
                 <p class="text-xs font-bold text-zinc-700 dark:text-zinc-300 mb-4 pb-3 border-b-2 border-dashed border-black dark:border-white">Catatan versi dan log perubahan aplikasi Museum Karya.</p>
                 <div id="changelogList" class="overflow-y-auto space-y-6 pr-1 text-left">
-                    <!-- Dimuat dinamis melalui JavaScript -->
                 </div>
             </div>
         </div>

@@ -5,7 +5,6 @@
 
 @push('styles')
     <style>
-        /* Pola Sinar Memancar (Sunburst Background) BIRU MUDA & PUTIH untuk Hero Section */
         .bg-sunburst {
             background-color: #ffffff;
             background-image: repeating-conic-gradient(
@@ -27,7 +26,6 @@
             );
         }
 
-        /* Pola Kotak-kotak (Grid Pattern untuk Background Section Artikel di Bawah) */
         .bg-grid-pattern {
             background-color: #ffffff;
             background-image:
@@ -46,27 +44,22 @@
 @endpush
 
 @section('content')
-    <!-- ===== HERO SECTION (Background Biru Muda & Putih Sunburst) ===== -->
     <div class="bg-sunburst border-b-3 border-zinc-900 dark:border-zinc-100 pb-20 lg:pb-28 pt-8 transition-colors duration-300">
         <section class="relative pt-12 lg:pt-16 pb-8 text-center overflow-hidden">
             <div class="relative z-10 mx-auto max-w-3xl px-6 lg:px-8 flex flex-col items-center">
 
-                <!-- Badge Kecil di Atas -->
                 <div class="inline-flex items-center gap-2 px-4 py-1.5 mb-6 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white font-black text-xs uppercase tracking-widest rounded-full border-2 border-zinc-900 dark:border-zinc-100 shadow-[3px_3px_0px_0px_#18181b]">
                     <span>Berita &amp; Kegiatan</span>
                 </div>
 
-                <!-- Judul Utama Atas -->
                 <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-zinc-900 dark:text-white mb-4">
                     Artikel Museum Karya
                 </h1>
 
-                <!-- Kotak Judul Kuning Khas Neo-Brutalisme -->
                 <div class="bg-yellow-300 text-zinc-900 border-3 border-zinc-900 px-8 py-4 rounded-3xl shadow-[6px_6px_0px_0px_#18181b] mb-6 transform -rotate-1">
                     <span class="text-xl sm:text-2xl lg:text-3xl font-black uppercase tracking-tight">SMKN 4 TASIKMALAYA</span>
                 </div>
 
-                <!-- Deskripsi -->
                 <p class="max-w-xl text-sm sm:text-base font-bold text-zinc-600 dark:text-zinc-300 leading-relaxed">
                     Temukan liputan kegiatan, informasi terbaru, dan cerita inspiratif dari Museum Karya. Cari artikel yang paling menarik untukmu.
                 </p>
@@ -75,7 +68,6 @@
         </section>
     </div>
 
-    <!-- ===== DAFTAR ARTIKEL (Background Kotak-kotak / Grid Pattern) ===== -->
     <main class="bg-grid-pattern py-16 flex-grow w-full">
         <div class="max-w-7xl mx-auto px-6">
 
@@ -137,7 +129,6 @@
         </div>
     </main>
 
-    <!-- ===== FOOTER ===== -->
     <footer class="bg-gray-900 dark:bg-black text-white text-center py-12 mt-16 border-t-4 border-black dark:border-white">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="pt-4">

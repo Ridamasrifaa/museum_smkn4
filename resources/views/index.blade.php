@@ -5,7 +5,6 @@
 
 @push('styles')
     <style>
-        /* CSS untuk Background Kotak-kotak (Grid Pattern) */
         .bg-grid-pattern {
             background-image: 
                 linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
@@ -19,7 +18,6 @@
             background-size: 24px 24px;
         }
 
-        /* CSS untuk Background Gambar Testimoni/Kata Pengunjung */
         .bg-testimonial-pattern {
             background-color: #D48EE3;
             background-image: url('{{ asset("assets/img/testimonial-bg.png") }}');
@@ -129,7 +127,6 @@
 @endpush
 
 @section('content')
-    <!-- ===== HERO (Video Section) ===== -->
     <section id="beranda"
         class="relative text-white flex items-center justify-center overflow-hidden h-[60vh] min-h-[400px] border-b-4 border-black dark:border-white bg-black mt-4">
         <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-50">
@@ -143,7 +140,6 @@
         </div>
     </section>
 
-    <!-- ===== LOGO JURUSAN BERJALAN ===== -->
     <div class="w-full bg-white dark:bg-zinc-900 border-b-4 border-black dark:border-white py-6 shadow-[0px_6px_0px_#000] dark:shadow-[0px_6px_0px_#fff] overflow-hidden relative transition-colors duration-300">
         <div class="flex animate-marquee items-center gap-20 whitespace-nowrap">
             <div class="flex items-center gap-20">
@@ -189,7 +185,6 @@
         </div>
     </div>
 
-    <!-- ===== STATISTIK ===== -->
     <section class="py-16 bg-[#FFFDF5] dark:bg-zinc-950 border-b-4 border-black dark:border-white transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex flex-wrap justify-center gap-8">
@@ -207,7 +202,6 @@
         </div>
     </section>
 
-    <!-- ===== SEMUA KARYA ===== -->
     <section id="karya" class="py-16 bg-[#FFFDF5] dark:bg-zinc-950 bg-grid-pattern border-b-4 border-black dark:border-white overflow-hidden transition-colors duration-300">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="flex items-center justify-between mb-12">
@@ -296,7 +290,6 @@
         </div>
     </section>
 
-    <!-- ===== FOOTER ===== -->
     <footer class="bg-gray-900 dark:bg-black text-white text-center py-12 mt-16 border-t-4 border-black dark:border-white">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="pt-4">
@@ -311,7 +304,6 @@
         </div>
     </footer>
 
-    <!-- ===== MODAL DETAIL ===== -->
     <div id="detailModal"
         class="hidden fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
         <div class="bg-white dark:bg-zinc-900 rounded-3xl border-4 border-black dark:border-white shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] max-w-2xl w-full max-h-[90vh] overflow-y-auto">
@@ -323,7 +315,6 @@
             </div>
 
             <div class="p-6 space-y-6">
-                <!-- Preview -->
                 <div id="modalPreview" class="space-y-4">
                     <img id="modalImagePreview" class="hidden w-full rounded-2xl object-contain max-h-[360px] border-3 border-black dark:border-white shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#fff]" />
                     <iframe id="modalIframePreview" class="hidden w-full h-80 rounded-2xl border-3 border-black dark:border-white shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#fff]"
@@ -334,7 +325,6 @@
                     </div>
                 </div>
 
-                <!-- Badge -->
                 <div class="flex gap-2 flex-wrap">
                     <span class="inline-block bg-[#88D498] text-black px-3 py-1.5 rounded-xl border-2 border-black text-xs font-black shadow-[2px_2px_0px_#000]">
                         Disetujui
@@ -345,7 +335,6 @@
                         class="inline-block bg-[#B8A9FA] text-black px-3 py-1.5 rounded-xl border-2 border-black text-xs font-black shadow-[2px_2px_0px_#000]"></span>
                 </div>
 
-                <!-- Deskripsi -->
                 <div>
                     <h4 class="font-black text-black dark:text-white mb-2 text-lg">Deskripsi</h4>
                     <p id="modalDescription" class="text-slate-800 dark:text-zinc-200 font-bold leading-relaxed text-sm sm:text-base bg-[#FFFDF5] dark:bg-zinc-800 p-4 rounded-2xl border-2 border-black dark:border-white"></p>
@@ -365,7 +354,6 @@
                     </div>
                 </div>
 
-                <!-- Info tambahan -->
                 <div class="grid grid-cols-2 gap-4">
                     <div class="bg-[#FFA552]/30 dark:bg-orange-900/30 border-3 border-black dark:border-white p-4 rounded-2xl shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#fff]">
                         <p class="text-xs text-black dark:text-zinc-300 font-black mb-1 uppercase tracking-wider">Kategori</p>
@@ -377,13 +365,12 @@
                     </div>
                 </div>
 
-                <!-- Teknologi -->
+
                 <div class="bg-[#B8A9FA]/30 dark:bg-violet-900/30 border-3 border-black dark:border-white p-4 rounded-2xl shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#fff]">
                     <p class="text-xs text-black dark:text-zinc-300 font-black mb-1 uppercase tracking-wider">Teknologi</p>
                     <p id="modalTech" class="font-black text-black dark:text-white text-base"></p>
                 </div>
 
-                <!-- Tombol Aksi: kiri = link project (live), kanan = link github (ikon GitHub khusus PPLG) -->
                 <div class="pt-4 border-t-3 border-black dark:border-white">
                     <div id="modalActionContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <a id="liveBtn" href="#" target="_blank"
