@@ -35,15 +35,15 @@
             <div id="navLinks"
                 class="hidden md:flex flex-col md:flex-row gap-3 md:gap-8 md:items-center
                     absolute md:static left-0 right-0 top-[calc(100%+16px)] md:top-auto
-                    bg-zinc-900/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none
-                    rounded-3xl md:rounded-none border-2 md:border-0 border-zinc-700 md:border-none
-                    shadow-xl md:shadow-none
+                    bg-white dark:bg-zinc-900 md:bg-transparent md:dark:bg-transparent
+                    rounded-3xl md:rounded-none border-3 md:border-0 border-black dark:border-white
+                    shadow-[6px_6px_0px_#000] dark:shadow-[6px_6px_0px_#fff] md:shadow-none
                     p-5 md:p-0 z-50 text-center md:text-left transition-all">
 
-                @foreach ($menus as $menu)
+               @foreach ($menus as $menu)
                     <a href="{{ $menu['url'] }}"
                         @if ($menu['active']) aria-current="page" @endif
-                        class="text-sm md:text-xs font-black transition px-4 md:px-0 py-3 md:py-0 rounded-2xl md:rounded-none {{ $menu['active'] ? 'text-zinc-800 dark:text-zinc-200 pb-1 border-b-4 border-black dark:border-white' : 'text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white' }}">
+                        class="text-sm md:text-xs font-black transition px-4 md:px-0 py-3 md:py-0 rounded-2xl md:rounded-none {{ $menu['active'] ? 'text-black dark:text-white pb-1 border-b-4 border-black dark:border-white' : 'text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white' }}">
                         {{ $menu['label'] }}
                     </a>
                 @endforeach

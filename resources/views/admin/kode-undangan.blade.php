@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 
-@section('title', 'Kode Unik')
-@section('page_title', 'Kode Undangan')
+@section('title', 'Kode Undangan')
+@section('page_title', 'Kelola Kode Unik')
 
 @section('header_action')
-    <button onclick="openModal('modalTambah')" class="px-3 py-2 sm:px-4 sm:py-2 bg-[#ffcc00] text-black rounded-xl btn-neubrutal flex items-center gap-1.5 text-xs sm:text-sm cursor-pointer">
+    <button type="button" onclick="openModal('create')" class="px-3 py-2 sm:px-4 sm:py-2 bg-[#ffcc00] text-black rounded-xl btn-neubrutal flex items-center gap-1.5 text-xs sm:text-sm cursor-pointer">
         <span class="font-black text-base leading-none">+</span>
         <span class="hidden sm:inline">Tambah Kode</span>
         <span class="sm:hidden">Tambah</span>
@@ -12,6 +12,24 @@
 @endsection
 
 @section('content')
+
+    {{-- ALERT SUCCESS --}}
+    @if(session('success'))
+        <div class="mb-6 p-4 bg-green-100 border-2 border-black rounded-xl shadow-[2px_2px_0px_#000] text-green-800 font-bold text-sm">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    {{-- ALERT ERROR VALIDASI --}}
+    @if($errors->any())
+        <div class="mb-6 p-4 bg-red-100 border-2 border-black rounded-xl shadow-[2px_2px_0px_#000]">
+            <ul class="list-disc list-inside text-red-700 text-sm font-bold">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     {{-- RESPONSIVE LIST / TABLE CONTAINER --}}
     <div class="neubrutal-card overflow-hidden">
@@ -33,40 +51,56 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y-2 divide-gray-200">
-                    @forelse($kodeUndangans as $index => $kode)
+                    @forelse($codes as $index => $code)
                         <tr class="hover:bg-yellow-50/50">
                             <td class="px-4 py-4 text-sm font-bold text-gray-900">{{ $index + 1 }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="font-mono font-black text-black {{ $kode->is_active ? 'bg-yellow-200' : 'bg-gray-200' }} px-2.5 py-1 rounded-lg text-sm border-2 border-black shadow-[2px_2px_0px_#000]">
-                                    {{ $kode->code }}
+                                <span class="font-mono font-black text-black {{ $code->is_active ? 'bg-yellow-200' : 'bg-gray-200' }} px-2.5 py-1 rounded-lg text-sm border-2 border-black shadow-[2px_2px_0px_#000]">
+                                    {{ $code->code }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-900 font-extrabold whitespace-nowrap">{{ $kode->kelas }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-700 font-bold whitespace-nowrap">{{ $kode->jurusan }}</td>
-                            <td class="px-6 py-4 text-sm text-gray-700 font-medium max-w-xs truncate">{{ $kode->description }}</td>
-                            <td class="px-6 py-4 text-sm font-black {{ $kode->used_count >= $kode->max_uses ? 'text-red-600' : 'text-gray-900' }} whitespace-nowrap">
-                                {{ $kode->used_count }} / {{ $kode->max_uses }}
+                            <td class="px-6 py-4 text-sm text-gray-900 font-extrabold whitespace-nowrap">{{ $code->kelas }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-700 font-bold whitespace-nowrap">{{ $code->jurusan }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-700 font-medium max-w-xs truncate">{{ $code->description ?? '-' }}</td>
+                            <td class="px-6 py-4 text-sm font-black {{ $code->used_count >= $code->max_uses ? 'text-red-600' : 'text-gray-900' }} whitespace-nowrap">
+                                {{ $code->used_count }} / {{ $code->max_uses }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if($kode->is_active)
+                                @if($code->is_active)
                                     <span class="inline-block px-3 py-1 rounded-lg text-xs font-black bg-green-200 text-green-900 border-2 border-black shadow-[2px_2px_0px_#000]">Aktif</span>
                                 @else
                                     <span class="inline-block px-3 py-1 rounded-lg text-xs font-black bg-red-200 text-red-900 border-2 border-black shadow-[2px_2px_0px_#000]">Nonaktif</span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-700 font-semibold whitespace-nowrap">{{ optional($kode->expires_at)->format('d M Y') ?? '-' }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-700 font-semibold whitespace-nowrap">
+                                {{ $code->expires_at ? \Carbon\Carbon::parse($code->expires_at)->format('d M Y') : '-' }}
+                            </td>
                             <td class="px-6 py-4 text-sm text-center whitespace-nowrap">
-                                <button onclick="openEditModal('{{ $kode->id }}', '{{ $kode->code }}', '{{ $kode->kelas }}', '{{ $kode->jurusan }}', '{{ $kode->description }}', {{ $kode->max_uses }}, {{ $kode->used_count }}, '{{ optional($kode->expires_at)->format('Y-m-d') }}', {{ $kode->is_active ? 'true' : 'false' }})" class="px-3 py-1.5 bg-sky-400 text-black border-2 border-black rounded-lg font-black text-xs shadow-[2px_2px_0px_#000] inline-block mr-2 hover:translate-y-[-1px] cursor-pointer">Edit</button>
-                                <form action="{{ route('admin.kode-undangan.destroy', $kode->id) }}" method="POST" class="inline">
+                                <button type="button"
+                                    onclick="openModal('edit', this)"
+                                    data-id="{{ $code->id }}"
+                                    data-code="{{ $code->code }}"
+                                    data-kelas="{{ $code->kelas }}"
+                                    data-jurusan="{{ $code->jurusan }}"
+                                    data-description="{{ $code->description }}"
+                                    data-max-uses="{{ $code->max_uses }}"
+                                    data-used-count="{{ $code->used_count }}"
+                                    data-expires-at="{{ $code->expires_at ? \Carbon\Carbon::parse($code->expires_at)->format('Y-m-d') : '' }}"
+                                    data-is-active="{{ $code->is_active ? '1' : '0' }}"
+                                    data-update-url="{{ route('admin.kode-undangan.update', $code) }}"
+                                    class="px-3 py-1.5 bg-sky-400 text-black border-2 border-black rounded-lg font-black text-xs shadow-[2px_2px_0px_#000] inline-block mr-2 hover:translate-y-[-1px] cursor-pointer">
+                                    Edit
+                                </button>
+                                <form action="{{ route('admin.kode-undangan.destroy', $code) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus kode ini?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" onclick="return confirm('Yakin ingin menghapus kode ini?')" class="px-3 py-1.5 bg-red-400 text-black border-2 border-black rounded-lg font-black text-xs shadow-[2px_2px_0px_#000] cursor-pointer hover:translate-y-[-1px]">Hapus</button>
+                                    <button type="submit" class="px-3 py-1.5 bg-red-400 text-black border-2 border-black rounded-lg font-black text-xs shadow-[2px_2px_0px_#000] cursor-pointer hover:translate-y-[-1px]">Hapus</button>
                                 </form>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="text-center py-12 text-gray-500 font-bold text-sm">Belum ada kode unik.</td>
+                            <td colspan="9" class="text-center py-12 text-gray-500 font-bold text-sm">Belum ada kode undangan. Silakan tambah terlebih dahulu.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -75,13 +109,13 @@
 
         {{-- 2. TAMPILAN MOBILE (CARD LIST) --}}
         <div class="block md:hidden divide-y-2 divide-gray-200">
-            @forelse($kodeUndangans as $kode)
+            @forelse($codes as $code)
                 <div class="p-4 space-y-3 hover:bg-yellow-50/40 transition">
                     <div class="flex items-start justify-between gap-2">
-                        <span class="font-mono font-black text-black {{ $kode->is_active ? 'bg-yellow-200' : 'bg-gray-200' }} px-2.5 py-1 rounded-lg text-xs border-2 border-black shadow-[2px_2px_0px_#000]">
-                            {{ $kode->code }}
+                        <span class="font-mono font-black text-black {{ $code->is_active ? 'bg-yellow-200' : 'bg-gray-200' }} px-2.5 py-1 rounded-lg text-xs border-2 border-black shadow-[2px_2px_0px_#000]">
+                            {{ $code->code }}
                         </span>
-                        @if($kode->is_active)
+                        @if($code->is_active)
                             <span class="px-2.5 py-0.5 rounded-lg text-[10px] font-black bg-green-200 text-green-900 border-2 border-black shadow-[2px_2px_0px_#000]">Aktif</span>
                         @else
                             <span class="px-2.5 py-0.5 rounded-lg text-[10px] font-black bg-red-200 text-red-900 border-2 border-black shadow-[2px_2px_0px_#000]">Nonaktif</span>
@@ -89,149 +123,102 @@
                     </div>
 
                     <div class="space-y-1">
-                        <p class="text-sm font-extrabold text-gray-900">{{ $kode->kelas }} <span class="font-normal text-xs text-gray-600">({{ $kode->jurusan }})</span></p>
-                        <p class="text-xs text-gray-600 font-medium">{{ $kode->description }}</p>
+                        <p class="text-sm font-extrabold text-gray-900">{{ $code->kelas }} <span class="font-normal text-xs text-gray-600">({{ $code->jurusan }})</span></p>
+                        <p class="text-xs text-gray-600 font-medium">{{ $code->description ?? '-' }}</p>
                     </div>
 
                     <div class="flex flex-wrap items-center justify-between text-xs font-bold text-gray-700 pt-1">
-                        <span>Pemakaian: <strong class="{{ $kode->used_count >= $kode->max_uses ? 'text-red-600' : 'text-black' }}">{{ $kode->used_count }} / {{ $kode->max_uses }}</strong></span>
-                        <span>Kadaluarsa: {{ optional($kode->expires_at)->format('d M Y') ?? '-' }}</span>
+                        <span>Pemakaian: <strong class="{{ $code->used_count >= $code->max_uses ? 'text-red-600' : 'text-black' }}">{{ $code->used_count }} / {{ $code->max_uses }}</strong></span>
+                        <span>Kadaluarsa: {{ $code->expires_at ? \Carbon\Carbon::parse($code->expires_at)->format('d M Y') : '-' }}</span>
                     </div>
 
                     <div class="flex items-center justify-end gap-2 pt-2 border-t border-gray-100">
-                        <button onclick="openEditModal('{{ $kode->id }}', '{{ $kode->code }}', '{{ $kode->kelas }}', '{{ $kode->jurusan }}', '{{ $kode->description }}', {{ $kode->max_uses }}, {{ $kode->used_count }}, '{{ optional($kode->expires_at)->format('Y-m-d') }}', {{ $kode->is_active ? 'true' : 'false' }})" class="px-3 py-1 bg-sky-400 text-black border-2 border-black rounded-lg font-black text-xs shadow-[2px_2px_0px_#000] cursor-pointer">Edit</button>
-                        <form action="{{ route('admin.kode-undangan.destroy', $kode->id) }}" method="POST" class="inline">
+                        <button type="button"
+                            onclick="openModal('edit', this)"
+                            data-id="{{ $code->id }}"
+                            data-code="{{ $code->code }}"
+                            data-kelas="{{ $code->kelas }}"
+                            data-jurusan="{{ $code->jurusan }}"
+                            data-description="{{ $code->description }}"
+                            data-max-uses="{{ $code->max_uses }}"
+                            data-used-count="{{ $code->used_count }}"
+                            data-expires-at="{{ $code->expires_at ? \Carbon\Carbon::parse($code->expires_at)->format('Y-m-d') : '' }}"
+                            data-is-active="{{ $code->is_active ? '1' : '0' }}"
+                            data-update-url="{{ route('admin.kode-undangan.update', $code) }}"
+                            class="px-3 py-1 bg-sky-400 text-black border-2 border-black rounded-lg font-black text-xs shadow-[2px_2px_0px_#000] cursor-pointer">
+                            Edit
+                        </button>
+                        <form action="{{ route('admin.kode-undangan.destroy', $code) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus kode ini?')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" onclick="return confirm('Yakin ingin menghapus kode ini?')" class="px-3 py-1 bg-red-400 text-black border-2 border-black rounded-lg font-black text-xs shadow-[2px_2px_0px_#000] cursor-pointer">Hapus</button>
+                            <button type="submit" class="px-3 py-1 bg-red-400 text-black border-2 border-black rounded-lg font-black text-xs shadow-[2px_2px_0px_#000] cursor-pointer">Hapus</button>
                         </form>
                     </div>
                 </div>
             @empty
-                <div class="text-center py-10 text-gray-500 font-bold text-sm">Belum ada kode unik.</div>
+                <div class="text-center py-10 text-gray-500 font-bold text-sm">Belum ada kode undangan. Silakan tambah terlebih dahulu.</div>
             @endforelse
         </div>
     </div>
 
-    {{-- MODAL TAMBAH KODE --}}
-    <div id="modalTambah" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl border-3 border-black shadow-[6px_6px_0px_#000] max-w-md w-full overflow-hidden">
-            <div class="bg-[#ffcc00] border-b-3 border-black p-4 text-black flex justify-between items-center">
-                <h3 class="text-lg font-black">Tambah Kode Unik</h3>
-                <button type="button" onclick="closeModal('modalTambah')" class="text-black hover:opacity-75 text-2xl font-black cursor-pointer">&times;</button>
+    {{-- MODAL POPUP (Tambah / Edit dalam satu modal) --}}
+    <div id="codeModal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl border-3 border-black shadow-[6px_6px_0px_#000] max-w-md w-full overflow-hidden max-h-[90vh] overflow-y-auto">
+            <div id="modalHeader" class="bg-[#ffcc00] border-b-3 border-black p-4 text-black flex justify-between items-center sticky top-0">
+                <h3 id="modalTitle" class="text-lg font-black">Tambah Kode Unik</h3>
+                <button type="button" onclick="closeModal()" class="text-black hover:opacity-75 text-2xl font-black cursor-pointer leading-none">&times;</button>
             </div>
 
-            <form action="{{ route('admin.kode-undangan.store') }}" method="POST" class="p-5 sm:p-6 space-y-4">
+            <form id="codeForm" method="POST" action="{{ route('admin.kode-undangan.store') }}" class="p-5 sm:p-6 space-y-4">
                 @csrf
+                <div id="methodContainer"></div>
+
                 <div>
-                    <label class="block text-sm font-black text-gray-900 mb-1">Kode Unik *</label>
-                    <input type="text" name="code" required placeholder="Contoh: XII-PPLG-2-2026" class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
+                    <label class="block text-sm font-black text-gray-900 mb-1">Kode Unik <span class="text-red-500">*</span></label>
+                    <input type="text" name="code" id="input_code" required placeholder="Contoh: XII-PPLG-2-2026" class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-sm font-black text-gray-900 mb-1">Kelas *</label>
-                        <input type="text" name="kelas" required placeholder="XII PPLG 2" class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
+                        <label class="block text-sm font-black text-gray-900 mb-1">Kelas <span class="text-red-500">*</span></label>
+                        <input type="text" name="kelas" id="input_kelas" required placeholder="XII PPLG 2" class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
                     </div>
                     <div>
-                        <label class="block text-sm font-black text-gray-900 mb-1">Jurusan *</label>
-                        <input type="text" name="jurusan" required placeholder="PPLG" class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
+                        <label class="block text-sm font-black text-gray-900 mb-1">Jurusan <span class="text-red-500">*</span></label>
+                        <input type="text" name="jurusan" id="input_jurusan" required placeholder="PPLG" class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-sm font-black text-gray-900 mb-1">Deskripsi</label>
-                    <input type="text" name="description" placeholder="Deskripsi opsional..." class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
+                    <input type="text" name="description" id="input_description" placeholder="Opsional" class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-sm font-black text-gray-900 mb-1">Maks. Pemakaian *</label>
-                        <input type="number" name="max_uses" value="36" min="1" required class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
+                        <label class="block text-sm font-black text-gray-900 mb-1">Maks. Pemakaian <span class="text-red-500">*</span></label>
+                        <input type="number" name="max_uses" id="input_max_uses" value="36" min="1" required class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
+                        <p id="usedCountText" class="text-[11px] font-bold text-gray-600 mt-1 hidden"></p>
                     </div>
                     <div>
                         <label class="block text-sm font-black text-gray-900 mb-1">Tanggal Kadaluarsa</label>
-                        <input type="date" name="expires_at" class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
+                        <input type="date" name="expires_at" id="input_expires_at" class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
                     </div>
                 </div>
 
                 <div class="pt-1">
                     <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" name="is_active" value="1" checked class="w-4 h-4 rounded border-2 border-black text-yellow-500 focus:ring-0">
-                        <span class="text-sm font-black text-gray-900">Status Aktif</span>
+                        <input type="checkbox" name="is_active" id="input_is_active" value="1" checked class="w-4 h-4 rounded border-2 border-black focus:ring-0 cursor-pointer">
+                        <span class="text-sm font-black text-gray-900">Aktifkan kode ini</span>
                     </label>
                 </div>
 
                 <div class="pt-3 flex gap-3 justify-end border-t-3 border-black">
-                    <button type="button" onclick="closeModal('modalTambah')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-xl btn-neubrutal text-xs sm:text-sm cursor-pointer">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-xl btn-neubrutal text-xs sm:text-sm cursor-pointer">
                         Batal
                     </button>
-                    <button type="submit" class="px-4 py-2 bg-[#ffcc00] text-black rounded-xl btn-neubrutal text-xs sm:text-sm cursor-pointer">
+                    <button type="submit" id="submitBtn" class="px-4 py-2 bg-[#ffcc00] text-black rounded-xl btn-neubrutal text-xs sm:text-sm cursor-pointer">
                         Simpan Kode
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    {{-- MODAL EDIT KODE --}}
-    <div id="modalEdit" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl border-3 border-black shadow-[6px_6px_0px_#000] max-w-md w-full overflow-hidden">
-            <div class="bg-sky-400 border-b-3 border-black p-4 text-black flex justify-between items-center">
-                <h3 class="text-lg font-black">Edit Kode Unik</h3>
-                <button type="button" onclick="closeModal('modalEdit')" class="text-black hover:opacity-75 text-2xl font-black cursor-pointer">&times;</button>
-            </div>
-
-            <form id="editForm" action="" method="POST" class="p-5 sm:p-6 space-y-4">
-                @csrf
-                @method('PUT')
-
-                <div>
-                    <label class="block text-sm font-black text-gray-900 mb-1">Kode Unik *</label>
-                    <input type="text" name="code" id="editCode" required class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-sm font-black text-gray-900 mb-1">Kelas *</label>
-                        <input type="text" name="kelas" id="editKelas" required class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-black text-gray-900 mb-1">Jurusan *</label>
-                        <input type="text" name="jurusan" id="editJurusan" required class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-black text-gray-900 mb-1">Deskripsi</label>
-                    <input type="text" name="description" id="editDescription" class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-sm font-black text-gray-900 mb-1">Maks. Pemakaian *</label>
-                        <input type="number" name="max_uses" id="editMaxUses" min="1" required class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
-                        <p class="text-[11px] font-bold text-gray-600 mt-1">Sudah dipakai: <span id="editUsedCount" class="font-black text-black">0</span></p>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-black text-gray-900 mb-1">Tanggal Kadaluarsa</label>
-                        <input type="date" name="expires_at" id="editExpiresAt" class="w-full px-4 py-2 rounded-xl input-neubrutal text-sm text-gray-900">
-                    </div>
-                </div>
-
-                <div class="pt-1">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" name="is_active" id="editIsActive" value="1" class="w-4 h-4 rounded border-2 border-black text-sky-500 focus:ring-0">
-                        <span class="text-sm font-black text-gray-900">Status Aktif</span>
-                    </label>
-                </div>
-
-                <div class="pt-3 flex gap-3 justify-end border-t-3 border-black">
-                    <button type="button" onclick="closeModal('modalEdit')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-xl btn-neubrutal text-xs sm:text-sm cursor-pointer">
-                        Batal
-                    </button>
-                    <button type="submit" class="px-4 py-2 bg-sky-400 text-black rounded-xl btn-neubrutal text-xs sm:text-sm cursor-pointer">
-                        Update Kode
                     </button>
                 </div>
             </form>
@@ -241,30 +228,59 @@
 
 @push('scripts')
     <script>
-        // Modal Form Handler
-        function openModal(id) {
-            document.getElementById(id).classList.remove('hidden');
+        const modal = document.getElementById('codeModal');
+        const modalHeader = document.getElementById('modalHeader');
+        const form = document.getElementById('codeForm');
+        const modalTitle = document.getElementById('modalTitle');
+        const submitBtn = document.getElementById('submitBtn');
+        const methodContainer = document.getElementById('methodContainer');
+        const usedCountText = document.getElementById('usedCountText');
+        const storeUrl = "{{ route('admin.kode-undangan.store') }}";
+
+        function openModal(mode, el = null) {
+            modal.classList.remove('hidden');
+
+            if (mode === 'create') {
+                modalTitle.innerText = 'Tambah Kode Unik';
+                submitBtn.innerText = 'Simpan Kode';
+                modalHeader.classList.remove('bg-sky-400');
+                modalHeader.classList.add('bg-[#ffcc00]');
+                form.action = storeUrl;
+                methodContainer.innerHTML = '';
+                form.reset();
+                document.getElementById('input_max_uses').value = 36;
+                document.getElementById('input_is_active').checked = true;
+                usedCountText.classList.add('hidden');
+            } else if (mode === 'edit' && el) {
+                const d = el.dataset;
+
+                modalTitle.innerText = 'Edit Kode Unik';
+                submitBtn.innerText = 'Update Kode';
+                modalHeader.classList.remove('bg-[#ffcc00]');
+                modalHeader.classList.add('bg-sky-400');
+
+                form.action = d.updateUrl;
+                methodContainer.innerHTML = '<input type="hidden" name="_method" value="PUT">';
+
+                document.getElementById('input_code').value = d.code || '';
+                document.getElementById('input_kelas').value = d.kelas || '';
+                document.getElementById('input_jurusan').value = d.jurusan || '';
+                document.getElementById('input_description').value = d.description || '';
+                document.getElementById('input_max_uses').value = d.maxUses || 1;
+                document.getElementById('input_expires_at').value = d.expiresAt || '';
+                document.getElementById('input_is_active').checked = d.isActive === '1';
+
+                usedCountText.innerText = 'Sudah dipakai: ' + (d.usedCount || 0);
+                usedCountText.classList.remove('hidden');
+            }
         }
-        function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
+
+        function closeModal() {
+            modal.classList.add('hidden');
         }
 
-        const editForm = document.getElementById('editForm');
-        const baseKodeAction = "{{ url('/admin/kode-undangan') }}";
-
-        function openEditModal(id, code, kelas, jurusan, description, maxUses, usedCount, expiresAt, isActive) {
-            editForm.action = baseKodeAction + '/' + id;
-
-            document.getElementById('editCode').value = code;
-            document.getElementById('editKelas').value = kelas;
-            document.getElementById('editJurusan').value = jurusan;
-            document.getElementById('editDescription').value = description;
-            document.getElementById('editMaxUses').value = maxUses;
-            document.getElementById('editUsedCount').innerText = usedCount;
-            document.getElementById('editExpiresAt').value = expiresAt;
-            document.getElementById('editIsActive').checked = isActive;
-
-            openModal('modalEdit');
-        }
+        window.addEventListener('click', function (event) {
+            if (event.target === modal) closeModal();
+        });
     </script>
 @endpush

@@ -48,12 +48,10 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 Route::get('/auth/kode-undangan', [AuthController::class, 'showKodeUndangan'])->name('auth.kode-undangan');
 Route::post('/auth/kode-undangan', [AuthController::class, 'submitKodeUndangan'])->name('auth.kode-undangan.submit');
 
-// Jembatan untuk tamu: simpan halaman asal, lalu arahkan ke login.
-// Setelah login, AuthController/GoogleController harus memakai redirect()->intended(...)
+// Jembatan untuk tamu
 Route::get('/login-dulu', function (Request $request) {
     $next = $request->query('next');
 
-    // Hanya terima path internal (cegah open redirect)
     if (is_string($next) && preg_match('#^/(?![/\\\\])#', $next)) {
         session()->put('url.intended', url($next));
     }
@@ -61,18 +59,17 @@ Route::get('/login-dulu', function (Request $request) {
     return redirect()->route('login');
 })->name('login.required');
 
-// Public Karya, Artikel & Detail Project Publik (dibaca & di-like siapa saja)
+// Public Karya, Artikel & Detail Project
 Route::get('/karya', [KaryaController::class, 'index']);
 Route::get('/project/{project}', [KaryaController::class, 'show'])->name('project.detail');
 Route::post('/project/{project}/like', [InteractionController::class, 'toggleLike']);
 Route::get('/artikel', [ArticlePageController::class, 'index'])->name('artikel.index');
 Route::get('/artikel/{slug}', [ArticlePageController::class, 'show'])->name('artikel.show');
 
-// Tentang 
+// Tentang & Developer
 Route::get('/tentang', function() {
     return view('tentang');
 });
-// About Developer
 Route::get('/developer', function() {
     return view('dev');
 })->name('developer');
@@ -100,8 +97,8 @@ Route::middleware('auth')->group(function () {
     // ==================== ROUTE ADMIN JURUSAN ====================
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index']);
     
-    // Kode Undangan
-    Route::resource('/admin/kode-undangan', AdminInvitationCodeController::class)
+    // Kode Undangan (Resource Route)
+    Route::resource('admin/kode-undangan', AdminInvitationCodeController::class)
         ->parameters(['kode-undangan' => 'kodeUndangan'])
         ->names('admin.kode-undangan');
 
@@ -117,20 +114,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/siswa/{user}', [AdminSiswaController::class, 'destroy']);
 
     // Manajemen Kategori
-    Route::get('/admin/kategori', [AdminCategoryController::class, 'index']);
-    Route::post('/admin/kategori/store', [AdminCategoryController::class, 'store']);
-    Route::put('/admin/kategori/{category}/update', [AdminCategoryController::class, 'update']);
-    Route::delete('/admin/kategori/{category}', [AdminCategoryController::class, 'destroy']);
+    Route::resource('admin/kategori', AdminCategoryController::class);
 
     // Manajemen Artikel
     Route::get('/admin/artikel', [ArticleController::class, 'index']);
     Route::resource('admin/articles', ArticleController::class);
 
-    // Profil Admin (Pengaturan Akun Mandiri)
+    // Profil Admin
     Route::get('/admin/profile', [AdminProfileController::class, 'edit'])->name('admin.profile.edit');
     Route::put('/admin/profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
 
-    // ==================== KOMENTAR (WAJIB LOGIN) ====================
+    // ==================== KOMENTAR ====================
     Route::post('/project/{project}/comment', [KaryaController::class, 'comment']);
     Route::post('/artikel/{article}/comment', [ArticlePageController::class, 'storeComment'])->name('artikel.comment');
 });

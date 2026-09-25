@@ -206,10 +206,7 @@
                 <h3 class="text-xl font-black text-slate-900 mb-3">Logout?</h3>
 
                 <p class="text-slate-700 text-xs font-bold leading-relaxed mb-6">
-                    Kamu mau logout?<br>
-                    Udah kirim karya belom??<br><br>
-                    Kalau belom kirim dulu,<br>
-                    kalau sudah mantapp siip kawann...
+                    udah kirim karya?
                 </p>
 
                 <div class="flex gap-3">

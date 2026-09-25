@@ -25,26 +25,29 @@ class AdminCategoryController extends Controller
             'name' => $request->name,
         ]);
 
-        return back()->with('success','Kategori berhasil ditambahkan.');
+        return back()->with('success', 'Kategori berhasil ditambahkan.');
     }
 
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
+        $category = Category::findOrFail($id);
+
         $request->validate([
-            'name' => 'required|unique:categories,name,'.$category->id,
+            'name' => 'required|unique:categories,name,' . $category->id,
         ]);
 
         $category->update([
             'name' => $request->name,
         ]);
 
-        return back()->with('success','Kategori berhasil diubah.');
+        return back()->with('success', 'Kategori berhasil diubah.');
     }
 
-    public function destroy(Category $category)
+    public function destroy($id)
     {
+        $category = Category::findOrFail($id);
         $category->delete();
 
-        return back()->with('success','Kategori berhasil dihapus.');
+        return back()->with('success', 'Kategori berhasil dihapus.');
     }
 }
