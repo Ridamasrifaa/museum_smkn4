@@ -45,8 +45,24 @@ class UserSeeder extends Seeder
             'role'     => 1,
             'jurusan'  => 'TOI',
         ]);
+        // 5. Admin TKJ
+        User::create([
+            'name'     => 'Admin TKJ',
+            'email'    => 'admin.tkj@gmail.com',
+            'password' => Hash::make('admin123'),
+            'role'     => 1,
+            'jurusan'  => 'TKJ',
+        ]);
+        // 6. Admin TSM
+        User::create([
+            'name'     => 'Admin TSM',
+            'email'    => 'admin.tsm@gmail.com',
+            'password' => Hash::make('admin123'),
+            'role'     => 1,
+            'jurusan'  => 'TSM',
+        ]);
 
-        // 5. Siswa Test
+        // 7. Siswa Test
         User::create([
             'name'     => 'Siswa Test PPLG',
             'email'    => 'siswa1@gmail.com',
@@ -63,7 +79,8 @@ class UserSeeder extends Seeder
         $this->command->info('Admin PPLG:  admin.pplg@gmail.com / admin123');
         $this->command->info('Admin DKV:  admin.dkv@gmail.com / admin123');
         $this->command->info('Admin TOI:  admin.toi@gmail.com / admin123');
+        $this->command->info('Admin TKJ:  admin.tkj@gmail.com / admin123');
+        $this->command->info('Admin TSM:  admin.tsm@gmail.com / admin123');
         $this->command->info('Siswa 1: siswa1@gmail.com / siswa123');
-        $this->command->info('Siswa 2: siswa2@gmail.com / siswa123');
     }
 }
