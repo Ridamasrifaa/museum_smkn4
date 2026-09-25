@@ -30,13 +30,6 @@
         };
     @endphp
 
-    {{-- Header Topbar --}}
-    <header class="bg-white neo-border border-x-0 border-t-0 z-10 px-8 py-5">
-        <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-black text-slate-900 tracking-tight">Detail Karya</h1>
-        </div>
-    </header>
-
     {{-- Isi Halaman --}}
     <div class="flex-1 p-6 md:p-10 overflow-y-auto">
         <div class="max-w-3xl mx-auto">
