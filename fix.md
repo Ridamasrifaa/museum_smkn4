@@ -94,5 +94,8 @@ Perbaikan dilakukan agar aplikasi Museum Karya SMKN 4 lolos pengujian fungsional
 ## Ganti Warna Button (Filter Jurusan)
 - Tombol filter jurusan di halaman karya sudah menggunakan warna form jurusan masing-masing (kecuali tombol "Semua"), termasuk state aktif.
 
+## Ganti Warna Button (Filter Jurusan) - Lanjutan
+- Tombol filter jurusan di halaman karya kini menggunakan warna border sesuai jurusan pada state aktif.
+
 ## Catatan
 - Tidak ada `git add`/commit/push dilakukan sesuai larangan.

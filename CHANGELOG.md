@@ -42,3 +42,6 @@
 
 ### Ganti Warna Button
 - Tombol filter jurusan di halaman karya disesuaikan warnanya dengan form jurusan masing-masing dan state aktif.
+
+### Ganti Warna Button (Lanjutan)
+- Tombol filter jurusan: warna border pada state aktif disesuaikan dengan jurusan.
