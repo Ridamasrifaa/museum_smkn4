@@ -48,3 +48,6 @@
 
 ### Bug 2
 - Tombol filter jurusan: warna tidak muncul karena kelas Tailwind dinamis; diperbaiki dengan inline style berdasarkan jurusan.
+
+### Bug 3
+- Foto avatar di halaman karya tidak muncul karena path ganda; diperbaiki dengan normalisasi path avatar.

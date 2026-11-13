@@ -101,5 +101,9 @@ Perbaikan dilakukan agar aplikasi Museum Karya SMKN 4 lolos pengujian fungsional
 - Temuan: warna tombol filter jurusan tidak muncul karena kelas Tailwind dinamis tidak ter-generate (browser CDN).
 - Perbaikan: menerapkan warna melalui inline style (background, text, border) berdasarkan jurusan, sehingga warna pasti muncul.
 
+## Bug 3 (Foto Avatar Halaman Karya)
+- Temuan: path avatar digabung ganda (`storage/` + `/storage/...`) sehingga foto tidak muncul.
+- Perbaikan: normalisasi path avatar (handle URL, path `/storage`, dan path relatif).
+
 ## Catatan
 - Tidak ada `git add`/commit/push dilakukan sesuai larangan.

@@ -122,7 +122,7 @@
                         data-siswa="{{ $karya->user->name ?? '-' }}"
                         data-id="{{ $karya->user->id ?? '' }}"
                         data-guru="{{ $karya->guru_pengampu ?? '-' }}"
-                        data-avatar="{{ isset($karya->user->avatar) && $karya->user->avatar ? asset('storage/' . $karya->user->avatar) : '' }}"
+                        data-avatar="{{ isset($karya->user->avatar) && $karya->user->avatar ? (str_starts_with($karya->user->avatar, 'http') ? $karya->user->avatar : (str_starts_with($karya->user->avatar, '/storage') ? asset($karya->user->avatar) : asset('storage/' . $karya->user->avatar))) : '' }}"
                         data-avatar-letter="{{ strtoupper(substr($karya->user->name ?? '-', 0, 1)) }}"
                         data-kelas="{{ $karya->user->kelas ?? '-' }}"
                         data-jurusan-siswa="{{ $karya->user->jurusan ?? '-' }}"
