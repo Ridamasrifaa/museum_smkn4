@@ -91,5 +91,8 @@ Perbaikan dilakukan agar aplikasi Museum Karya SMKN 4 lolos pengujian fungsional
 - Tombol filter jurusan di halaman karya disesuaikan warnanya dengan form jurusan masing-masing (PPLG hijau, TKJ biru, DKV oranye, TOI abu, TSM merah), selain tombol "Semua".
 - State aktif tombol menggunakan warna jurusan masing-masing.
 
+## Ganti Warna Button (Filter Jurusan)
+- Tombol filter jurusan di halaman karya sudah menggunakan warna form jurusan masing-masing (kecuali tombol "Semua"), termasuk state aktif.
+
 ## Catatan
 - Tidak ada `git add`/commit/push dilakukan sesuai larangan.

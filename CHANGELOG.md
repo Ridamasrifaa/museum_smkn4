@@ -39,3 +39,6 @@
 
 ### Update Tombol
 - Tombol filter jurusan di halaman karya disesuaikan warnanya dengan form jurusan masing-masing dan state aktif.
+
+### Ganti Warna Button
+- Tombol filter jurusan di halaman karya disesuaikan warnanya dengan form jurusan masing-masing dan state aktif.
