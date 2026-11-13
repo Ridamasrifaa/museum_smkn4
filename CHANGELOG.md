@@ -40,5 +40,12 @@ Catatan:
 - Modal feedback global ditambahkan di layout admin.
 - Spinner "Tunggu bentar....." ditambahkan pada tombol login dan register.
 
+### Update Komentar
+- GIF pada komentar dihapus.
+- Komentar dapat diedit/dihapus dalam 5 menit pertama.
+- Like pada komentar memperbarui jumlah secara realtime.
+- Kolom "Guru pengampu" di detail karya dihapus; tersisa Tahun (tanggal lengkap) dan Teknologi.
+- Tombol GitHub pada detail karya menggunakan ikon GitHub.
+
 ### Bug 4
 - Card project di profil siswa tidak menampilkan iframe dari link project; diperbaiki dengan normalisasi URL dan fallback iframe.

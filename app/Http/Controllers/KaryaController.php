@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\MuseumCache;
@@ -79,5 +80,45 @@ class KaryaController extends Controller
                                 ])->render(),
             'total_comments' => $project->comments()->count(),
         ]);
+    }
+
+    public function updateComment(Request $request, Project $project, Comment $comment)
+    {
+        if ($comment->project_id !== $project->id) {
+            abort(404);
+        }
+        if ($comment->user_id !== Auth::id()) {
+            abort(403);
+        }
+        if ($comment->created_at->diffInMinutes(now()) > 5) {
+            return response()->json(['success' => false, 'message' => 'Komentar tidak dapat diedit setelah 5 menit.'], 403);
+        }
+
+        $data = $request->validate([
+            'comment' => 'required|string|max:500',
+        ]);
+
+        $comment->update(['body' => $data['comment']]);
+        MuseumCache::flush('komentar.' . $project->id);
+
+        return response()->json(['success' => true, 'body' => $comment->body]);
+    }
+
+    public function deleteComment(Request $request, Project $project, Comment $comment)
+    {
+        if ($comment->project_id !== $project->id) {
+            abort(404);
+        }
+        if ($comment->user_id !== Auth::id()) {
+            abort(403);
+        }
+        if ($comment->created_at->diffInMinutes(now()) > 5) {
+            return response()->json(['success' => false, 'message' => 'Komentar tidak dapat dihapus setelah 5 menit.'], 403);
+        }
+
+        $comment->delete();
+        MuseumCache::flush('komentar.' . $project->id);
+
+        return response()->json(['success' => true]);
     }
 }

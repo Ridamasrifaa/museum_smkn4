@@ -42,6 +42,19 @@
                     class="mt-1.5 ml-1 text-[11px] font-black text-zinc-500 hover:text-sky-600 cursor-pointer">
                 Balas
             </button>
+
+            @auth
+                @if (Auth::id() === $c->user_id && $c->created_at->diffInMinutes(now()) <= 5)
+                    <button type="button" onclick="editComment({{ $c->id }}, this)"
+                            class="mt-1.5 ml-1 text-[11px] font-black text-amber-600 hover:text-amber-700 cursor-pointer">
+                        Edit
+                    </button>
+                    <button type="button" onclick="deleteComment({{ $c->id }}, this)"
+                            class="mt-1.5 ml-1 text-[11px] font-black text-red-600 hover:text-red-700 cursor-pointer">
+                        Hapus
+                    </button>
+                @endif
+            @endauth
         </div>
     </div>
 

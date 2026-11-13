@@ -122,5 +122,12 @@ Perbaikan dilakukan agar aplikasi Museum Karya SMKN 4 lolos pengujian fungsional
 - Temuan: card karya tidak menampilkan iframe dari link project (karena path/URL tidak dinormalisasi dan fallback tidak menampilkan iframe).
 - Perbaikan: normalisasi URL live_link dan menampilkan iframe pada card jika tidak ada gambar/video.
 
+## Update Komentar
+- GIF pada komentar dihapus dari UI.
+- Komentar dapat diedit/dihapus dalam 5 menit pertama (tombol Edit/Hapus untuk pemilik).
+- Like pada komentar sudah memperbarui jumlah secara realtime via AJAX.
+- Kolom "Guru pengampu" di detail karya dihapus; tersisa Tahun (tanggal lengkap) dan Teknologi.
+- Tombol GitHub pada detail karya menggunakan ikon GitHub.
+
 ## Catatan
 - Tidak ada `git add`/commit/push dilakukan sesuai larangan.

@@ -91,18 +91,14 @@
                 </div>
 
                 {{-- Info singkat --}}
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div class="bg-zinc-100 dark:bg-zinc-800 p-3 rounded-xl border-2 border-zinc-900 dark:border-zinc-100">
                         <p class="text-[10px] text-zinc-500 font-black">Tahun</p>
-                        <p class="font-black text-xs">{{ $project->created_at?->format('Y') ?? '-' }}</p>
+                        <p class="font-black text-xs">{{ $project->created_at?->format('d F Y') ?? '-' }}</p>
                     </div>
                     <div class="bg-zinc-100 dark:bg-zinc-800 p-3 rounded-xl border-2 border-zinc-900 dark:border-zinc-100">
                         <p class="text-[10px] text-zinc-500 font-black">Teknologi</p>
                         <p class="font-black text-xs break-words">{{ $project->technology_stack ?: '-' }}</p>
-                    </div>
-                    <div class="bg-zinc-100 dark:bg-zinc-800 p-3 rounded-xl border-2 border-zinc-900 dark:border-zinc-100">
-                        <p class="text-[10px] text-zinc-500 font-black">Guru pengampu</p>
-                        <p class="font-black text-xs break-words">{{ $project->guru_pengampu ?: '-' }}</p>
                     </div>
                 </div>
 
@@ -115,7 +111,9 @@
                     <div class="flex flex-wrap gap-2">
                         @if($project->github_link)
                             <a href="{{ $project->github_link }}" target="_blank" rel="noopener"
-                               class="nb-btn flex-1 min-w-[120px] py-2.5 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 font-black text-xs rounded-xl border-2 border-zinc-900 dark:border-zinc-100 shadow-[3px_3px_0px_#000] text-center">GitHub</a>
+                               class="nb-btn flex-1 min-w-[120px] py-2.5 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 font-black text-xs rounded-xl border-2 border-zinc-900 dark:border-zinc-100 shadow-[3px_3px_0px_#000] text-center inline-flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                                GitHub</a>
                         @endif
                         @if($project->live_link)
                             <a href="{{ $project->live_link }}" target="_blank" rel="noopener"
@@ -175,17 +173,6 @@
             @endforelse
         </div>
 
-        {{-- Panel GIF --}}
-        <div id="gif-panel" class="hidden flex-col h-56 shrink-0 p-3 bg-zinc-100 dark:bg-zinc-800 border-t-[3px] border-zinc-900 dark:border-zinc-100">
-            <div class="flex items-center justify-between mb-2">
-                <span class="text-xs font-black">Pilih GIF</span>
-                <button type="button" onclick="toggleGifPicker(false)" class="text-xs font-black text-sky-600 cursor-pointer">Tutup</button>
-            </div>
-            <input type="text" id="gif-search" placeholder="Cari GIF (keren, kucing, tepuk tangan)..." oninput="filterGifs(this.value)"
-                   class="w-full px-3 py-2 mb-2 text-xs font-bold rounded-xl border-2 border-zinc-900 dark:border-zinc-100 bg-white dark:bg-zinc-900 focus:outline-none">
-            <div id="gif-results" class="flex-1 overflow-y-auto scrollbar-thin grid grid-cols-3 gap-2"></div>
-        </div>
-
         {{-- Kolom ketik --}}
         <div class="shrink-0 border-t-[3px] border-zinc-900 dark:border-zinc-100 bg-white dark:bg-zinc-900">
             @auth
@@ -195,8 +182,6 @@
                 </div>
 
                 <form id="comment-form" onsubmit="postComment(event)" class="p-3 flex items-center gap-2">
-                    <button type="button" onclick="toggleGifPicker()" title="Kirim GIF"
-                            class="nb-btn px-3 py-2.5 bg-sky-300 text-zinc-900 text-xs font-black rounded-xl border-2 border-zinc-900 shadow-[2px_2px_0px_#000] shrink-0 cursor-pointer">GIF</button>
                     <input type="text" id="comment-input" required maxlength="500" autocomplete="off" placeholder="Tulis komentar atau apresiasi..."
                            class="flex-1 min-w-0 px-4 py-2.5 text-xs font-bold rounded-xl border-2 border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-800 focus:outline-none focus:bg-yellow-50 dark:focus:bg-zinc-700">
                     <button type="submit" id="submit-btn"
@@ -300,27 +285,6 @@
         label.textContent = open ? 'Sembunyikan balasan' : `Lihat ${list.children.length} balasan`;
     }
 
-    // ===== GIF =====
-    function toggleGifPicker(force) {
-        const panel = document.getElementById('gif-panel');
-        const show = force ?? panel.classList.contains('hidden');
-        panel.classList.toggle('hidden', !show);
-        panel.classList.toggle('flex', show);
-        if (show) renderGifs(gifs);
-    }
-    function filterGifs(q) {
-        renderGifs(gifs.filter(g => g.name.toLowerCase().includes(q.toLowerCase())));
-    }
-    function renderGifs(list) {
-        const box = document.getElementById('gif-results');
-        box.innerHTML = list.length ? '' : '<p class="col-span-3 text-center text-xs font-bold text-zinc-500 py-4">GIF tidak ditemukan.</p>';
-        list.forEach(g => {
-            const img = document.createElement('img');
-            img.src = g.url; img.title = g.name; img.loading = 'lazy';
-            img.className = 'w-full h-20 object-cover rounded-lg border-2 border-zinc-900 cursor-pointer hover:opacity-80';
-            img.onclick = () => { toggleGifPicker(false); send({ comment: 'GIF', type: 'gif', attachment: g.url }); };
-            box.appendChild(img);
-        });
     }
 
     // ===== Kirim komentar =====
@@ -404,6 +368,57 @@
             label.textContent = 'Tersalin!';
             setTimeout(() => label.textContent = 'Bagikan', 1500);
         });
+    }
+
+    // ===== Edit / Hapus komentar =====
+    async function editComment(id, btn) {
+        const bodyEl = btn.closest('.flex-1').querySelector('p.text-xs.font-bold');
+        const oldText = bodyEl ? bodyEl.textContent.trim() : '';
+        const newText = prompt('Edit komentar:', oldText);
+        if (newText === null || newText.trim() === '' || newText === oldText) return;
+        try {
+            const res = await fetch(`/project/${PROJECT_ID}/comment/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'X-CSRF-TOKEN': CSRF,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ comment: newText })
+            });
+            const data = await res.json();
+            if (data.success) {
+                if (bodyEl) bodyEl.textContent = data.body;
+            } else {
+                alert(data.message || 'Gagal mengedit komentar.');
+            }
+        } catch (e) {
+            alert('Gagal mengedit komentar.');
+        }
+    }
+
+    async function deleteComment(id, btn) {
+        if (!confirm('Hapus komentar ini?')) return;
+        try {
+            const res = await fetch(`/project/${PROJECT_ID}/comment/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': CSRF,
+                    'Accept': 'application/json'
+                }
+            });
+            const data = await res.json();
+            if (data.success) {
+                const item = btn.closest('[data-id]');
+                if (item) item.remove();
+                const countEl = document.getElementById('comment-count');
+                if (countEl) countEl.textContent = Math.max(0, parseInt(countEl.textContent || '0') - 1);
+            } else {
+                alert(data.message || 'Gagal menghapus komentar.');
+            }
+        } catch (e) {
+            alert('Gagal menghapus komentar.');
+        }
     }
 </script>
 @endpush

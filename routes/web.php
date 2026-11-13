@@ -126,6 +126,8 @@ Route::middleware('auth')->group(function () {
 
     // ==================== KOMENTAR ====================
     Route::post('/project/{project}/comment', [KaryaController::class, 'comment']);
+Route::put('/project/{project}/comment/{comment}', [KaryaController::class, 'updateComment']);
+Route::delete('/project/{project}/comment/{comment}', [KaryaController::class, 'deleteComment']);
     Route::post('/artikel/{article}/comment', [ArticlePageController::class, 'storeComment'])->name('artikel.comment');
 });
 
