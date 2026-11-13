@@ -105,5 +105,8 @@ Perbaikan dilakukan agar aplikasi Museum Karya SMKN 4 lolos pengujian fungsional
 - Temuan: path avatar digabung ganda (`storage/` + `/storage/...`) sehingga foto tidak muncul.
 - Perbaikan: normalisasi path avatar (handle URL, path `/storage`, dan path relatif).
 
+## Isi Readme
+- README.md diganti dengan dokumentasi project Museum Karya SMKN 4 Tasikmalaya (tujuan, teknologi, peran, alur, fitur, instalasi, pengujian).
+
 ## Catatan
 - Tidak ada `git add`/commit/push dilakukan sesuai larangan.

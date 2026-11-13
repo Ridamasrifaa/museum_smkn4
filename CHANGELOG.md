@@ -51,3 +51,6 @@
 
 ### Bug 3
 - Foto avatar di halaman karya tidak muncul karena path ganda; diperbaiki dengan normalisasi path avatar.
+
+### Isi Readme
+- README.md diperbarui dengan dokumentasi project Museum Karya SMKN 4 Tasikmalaya.
