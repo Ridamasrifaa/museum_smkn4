@@ -47,5 +47,8 @@ Catatan:
 - Kolom "Guru pengampu" di detail karya dihapus; tersisa Tahun (tanggal lengkap) dan Teknologi.
 - Tombol GitHub pada detail karya menggunakan ikon GitHub.
 
+### Bug 5
+- Komentar di mobile/desktop tidak membuka modal dan unlike tidak berfungsi; diperbaiki dengan menghapus referensi GIF yang sudah dihapus.
+
 ### Bug 4
 - Card project di profil siswa tidak menampilkan iframe dari link project; diperbaiki dengan normalisasi URL dan fallback iframe.

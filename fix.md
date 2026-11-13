@@ -129,5 +129,9 @@ Perbaikan dilakukan agar aplikasi Museum Karya SMKN 4 lolos pengujian fungsional
 - Kolom "Guru pengampu" di detail karya dihapus; tersisa Tahun (tanggal lengkap) dan Teknologi.
 - Tombol GitHub pada detail karya menggunakan ikon GitHub.
 
+## Bug 5 (Komentar Mobile/Desktop)
+- Temuan: pemanggilan `toggleGifPicker(false)` yang sudah dihapus menyebabkan error JS saat menutup modal, memengaruhi interaksi.
+- Perbaikan: menghapus pemanggilan tersebut dan membersihkan referensi GIF. Like tetap memperbarui jumlah secara realtime.
+
 ## Catatan
 - Tidak ada `git add`/commit/push dilakukan sesuai larangan.

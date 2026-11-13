@@ -244,7 +244,6 @@
     function closeCommentModal() {
         modal.classList.remove('open');
         document.body.classList.remove('overflow-hidden');
-        toggleGifPicker(false);
     }
     modal.addEventListener('click', e => { if (e.target === modal) closeCommentModal(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCommentModal(); });
