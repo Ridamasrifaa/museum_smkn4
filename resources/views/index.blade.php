@@ -356,7 +356,7 @@
 
                 <div class="grid grid-cols-2 gap-4">
                     <div class="bg-[#FFA552]/30 dark:bg-orange-900/30 border-3 border-black dark:border-white p-4 rounded-2xl shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#fff]">
-                        <p class="text-xs text-black dark:text-zinc-300 font-black mb-1 uppercase tracking-wider">Kategori</p>
+                        <p class="text-xs text-black dark:text-zinc-300 font-black mb-1 uppercase tracking-wider">Jurusan</p>
                         <p id="modalKategoriDetail" class="font-black text-black dark:text-white text-base"></p>
                     </div>
                     <div class="bg-[#88D498]/30 dark:bg-emerald-900/30 border-3 border-black dark:border-white p-4 rounded-2xl shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#fff]">

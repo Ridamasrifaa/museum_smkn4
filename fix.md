@@ -82,5 +82,14 @@ Perbaikan dilakukan agar aplikasi Museum Karya SMKN 4 lolos pengujian fungsional
 ## Update Navbar
 - Mengembalikan garis putih pada mode dark di navbar seperti semula (sesuai permintaan).
 
+## Perbaikan 8 (Card Karya Public & Index)
+- Modal card di halaman index: label "Kategori" diubah menjadi "Jurusan".
+- Halaman karya: modal card menampilkan foto/avatar user (sudah tersedia via data-avatar).
+- Tombol filter jurusan di halaman karya disesuaikan warnanya dengan form jurusan dan state aktif mengikuti warna masing-masing jurusan.
+
+## Update Tombol (Karya Public)
+- Tombol filter jurusan di halaman karya disesuaikan warnanya dengan form jurusan masing-masing (PPLG hijau, TKJ biru, DKV oranye, TOI abu, TSM merah), selain tombol "Semua".
+- State aktif tombol menggunakan warna jurusan masing-masing.
+
 ## Catatan
 - Tidak ada `git add`/commit/push dilakukan sesuai larangan.

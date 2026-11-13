@@ -92,12 +92,12 @@
                 <div class="flex flex-col lg:flex-row items-center gap-4">
                     
                     <div class="flex flex-wrap gap-2 w-full lg:w-auto">
-                        <button data-filter="all" class="filter-pill active px-4 py-2 bg-yellow-300 text-zinc-900 font-black text-xs rounded-xl border-2 border-zinc-900 shadow-[2px_2px_0px_#000] cursor-pointer transition">Semua</button>
-                        <button data-filter="pplg" class="filter-pill px-4 py-2 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white font-black text-xs rounded-xl border-2 border-zinc-900 dark:border-zinc-100 cursor-pointer transition">PPLG</button>
-                        <button data-filter="dkv" class="filter-pill px-4 py-2 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white font-black text-xs rounded-xl border-2 border-zinc-900 dark:border-zinc-100 cursor-pointer transition">DKV</button>
-                        <button data-filter="toi" class="filter-pill px-4 py-2 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white font-black text-xs rounded-xl border-2 border-zinc-900 dark:border-zinc-100 cursor-pointer transition">TOI</button>
-                        <button data-filter="tkj" class="filter-pill px-4 py-2 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white font-black text-xs rounded-xl border-2 border-zinc-900 dark:border-zinc-100 cursor-pointer transition">TKJ</button>
-                        <button data-filter="tsm" class="filter-pill px-4 py-2 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white font-black text-xs rounded-xl border-2 border-zinc-900 dark:border-zinc-100 cursor-pointer transition">TSM</button>
+                        <button data-filter="all" data-color="bg-yellow-300 text-zinc-900" class="filter-pill active px-4 py-2 bg-yellow-300 text-zinc-900 font-black text-xs rounded-xl border-2 border-zinc-900 shadow-[2px_2px_0px_#000] cursor-pointer transition">Semua</button>
+                        <button data-filter="pplg" data-color="bg-green-600 text-white" class="filter-pill px-4 py-2 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white font-black text-xs rounded-xl border-2 border-zinc-900 dark:border-zinc-100 cursor-pointer transition">PPLG</button>
+                        <button data-filter="dkv" data-color="bg-orange-500 text-white" class="filter-pill px-4 py-2 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white font-black text-xs rounded-xl border-2 border-zinc-900 dark:border-zinc-100 cursor-pointer transition">DKV</button>
+                        <button data-filter="toi" data-color="bg-gray-500 text-white" class="filter-pill px-4 py-2 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white font-black text-xs rounded-xl border-2 border-zinc-900 dark:border-zinc-100 cursor-pointer transition">TOI</button>
+                        <button data-filter="tkj" data-color="bg-blue-600 text-white" class="filter-pill px-4 py-2 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white font-black text-xs rounded-xl border-2 border-zinc-900 dark:border-zinc-100 cursor-pointer transition">TKJ</button>
+                        <button data-filter="tsm" data-color="bg-red-600 text-white" class="filter-pill px-4 py-2 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white font-black text-xs rounded-xl border-2 border-zinc-900 dark:border-zinc-100 cursor-pointer transition">TSM</button>
                     </div>
 
                     <div class="relative flex-grow w-full">
@@ -445,15 +445,18 @@
             searchInput.addEventListener("input", runFilter);
         }
 
+        const allColorClasses = ["bg-yellow-300","bg-green-600","bg-orange-500","bg-gray-500","bg-blue-600","bg-red-600","text-white","text-zinc-900","shadow-[2px_2px_0px_#000]"];
+
         filterPills.forEach((pill) => {
             pill.addEventListener("click", function () {
                 filterPills.forEach((p) => {
-                    p.classList.remove("bg-yellow-300", "text-zinc-900", "shadow-[2px_2px_0px_#000]");
+                    p.classList.remove(...allColorClasses);
                     p.classList.add("bg-white", "dark:bg-zinc-800", "text-zinc-900", "dark:text-white");
                 });
 
+                const colorClasses = (this.dataset.color || "bg-yellow-300 text-zinc-900").split(/\s+/);
                 this.classList.remove("bg-white", "dark:bg-zinc-800", "text-zinc-900", "dark:text-white");
-                this.classList.add("bg-yellow-300", "text-zinc-900", "shadow-[2px_2px_0px_#000]");
+                this.classList.add(...colorClasses, "shadow-[2px_2px_0px_#000]");
 
                 activeCategory = this.dataset.filter || "all";
                 runFilter();

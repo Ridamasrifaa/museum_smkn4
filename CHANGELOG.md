@@ -33,3 +33,9 @@
 ### Catatan
 - File `Agent.md` dan `TASKS.md` tidak disertakan dalam commit sesuai aturan.
 - Pengujian: `php artisan test` lulus.
+
+### Perbaikan 8
+- Card karya public/index: modal label kategori diubah menjadi jurusan; tombol filter jurusan disesuaikan warna form dan state aktif.
+
+### Update Tombol
+- Tombol filter jurusan di halaman karya disesuaikan warnanya dengan form jurusan masing-masing dan state aktif.
