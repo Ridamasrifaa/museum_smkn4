@@ -52,3 +52,4 @@
 
 - Catatan untuk menambahkan itu feat, kalau bug di benerin fix, kalau mengubah tampilan atau fitur itu update
 - Gunakan dengan bahasa indonesia
+- Jangan Push dan add dan commit juga

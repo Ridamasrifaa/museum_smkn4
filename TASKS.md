@@ -55,6 +55,10 @@
 ## Git push
 
 - Tolong di git push ke branch main dan tambahkan apa saja yang sudah di tambahkan dan juga perbaiki
+- Untuk commit gunakan seperti ini:
+    - feat: menambahkan sesuatu
+    - update: mengupdate sesuatu
+    - fix: untuk memperbaiki bug
 - update commit harus menggunakan Bahasa Indonesia dan update di CHANGELOG.md semuanya dengan jelas
 - jik terjadi konflik , Perbaiki konflik tersebut.
 
@@ -69,3 +73,27 @@
 - itu disana di navbar ketika mode dark ada garis putih panjang nah itu di hapus saja
 - test sampai lulus
 - jika sudah lulus test update CHANGELOG.md dan di fix.md
+
+## Perbaikan 6: navbar public
+
+- kembalikan yang sudah di hapus tadi garis putih
+- maksud garis putih yang saya suruh hapus yaitu di bagian bawah semua menu text navbar
+- cek gambarnya di file fix.png
+- test sampai lulus
+- jika sudah lulus test update CHANGELOG.md dan di fix.md
+- Jangan di push dulu
+
+## Perbaikan 7: navbar public
+
+- maksud saya hapus nya garis putih yang ini check di file image.png
+- hapus garis putih panjang itu di text navbarnya
+- test sampai lulus
+- jika sudah lulus test update CHANGELOG.md dan di fix.md
+- Jangan di push dulu
+
+## Update navbar
+
+- kembalikan garis putih tadi searah semula
+- test sampai lulus
+- jika sudah lulus test update CHANGELOG.md dan di fix.md
+- Jangan di push dulu

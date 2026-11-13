@@ -36,3 +36,12 @@
 
 ### Perbaikan 5
 - Navbar public: menghapus garis putih panjang pada mode dark.
+
+### Perbaikan 6
+- Navbar public: mengembalikan garis putih pada mode dark (sesuai permintaan).
+
+### Perbaikan 7
+- Navbar public: menghapus kembali garis putih panjang pada container navbar mode dark, underline aktif tetap putih.
+
+### Update Navbar
+- Navbar public: mengembalikan garis putih pada mode dark seperti semula.

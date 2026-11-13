@@ -73,5 +73,14 @@ Perbaikan dilakukan agar aplikasi Museum Karya SMKN 4 lolos pengujian fungsional
 ## Perbaikan 5 (Navbar Public)
 - Menghapus garis putih panjang pada mode dark di navbar (border container diubah agar tidak terlihat).
 
+## Perbaikan 6 (Navbar Public)
+- Mengembalikan garis putih pada mode dark di navbar (sesuai permintaan: garis putih di bawah menu text).
+
+## Perbaikan 7 (Navbar Public)
+- Menghapus kembali garis putih panjang pada mode dark di container navbar, sementara underline aktif pada link tetap berwarna putih.
+
+## Update Navbar
+- Mengembalikan garis putih pada mode dark di navbar seperti semula (sesuai permintaan).
+
 ## Catatan
 - Tidak ada `git add`/commit/push dilakukan sesuai larangan.
