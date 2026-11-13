@@ -112,5 +112,11 @@ Perbaikan dilakukan agar aplikasi Museum Karya SMKN 4 lolos pengujian fungsional
 - README.md diperbarui dengan dokumentasi project (judul, deskripsi, tujuan, peran, alur, fitur, teknologi, catatan).
 - CHANGELOG.md diformat ulang dengan struktur Fitur/Update/Fixx.
 
+## Update Perbaikan
+- Badge jurusan di halaman profil publik (/u/{id}) disesuaikan warnanya dengan jurusan.
+- Modal feedback global ditambahkan di layout admin (menampilkan session success/error).
+- Spinner "Tunggu bentar....." ditambahkan pada tombol login dan register.
+- Profil siswa: card karya menampilkan preview iframe dari link project.
+
 ## Catatan
 - Tidak ada `git add`/commit/push dilakukan sesuai larangan.

@@ -9,8 +9,10 @@ Dengan tampilan yang modern dan ramah pengguna, platform ini memungkinkan karya 
 - Menampung dan memamerkan seluruh karya siswa-siswi SMKN 4 Tasikmalaya.
 - Memberikan ruang apresiasi melalui like, komentar, dan kunjungan.
 - Membantu siswa membangun portofolio digital.
-- Memudahkan guru dan admin dalam memoderasi serta mengelola karya.
+- Memudahkan admin dalam memoderasi serta mengelola karya.
 - Menjadi inspirasi dan aspirasi bagi adik-adik kelas.
+- Menjadi etalase digital profesional yang memudahkan pihak industri atau perekrut melihat langsung kompetensi lulusan SMKN 4 Tasikmalaya.
+- Mendorong kolaborasi lintas keahlian antarjurusan dalam melahirkan project kreatif berbasis digital.
 
 ## Peran Pengguna
 - **Siswa:** mengunggah karya, melihat karya, berkomentar, memberi like, dan mengelola profil.
@@ -18,11 +20,13 @@ Dengan tampilan yang modern dan ramah pengguna, platform ini memungkinkan karya 
 - **Super Admin:** mengelola akun admin dan melihat statistik global.
 
 ## Alur / Workflow
-1. Siswa mendaftar menggunakan kode undangan atau login Google yang dilengkapi kode undangan.
-2. Siswa mengunggah karya sesuai jurusannya (form menyesuaikan otomatis).
-3. Admin jurusan menyetujui atau menolak karya disertai catatan.
-4. Karya yang disetujui tampil di halaman publik (Museum Karya).
-5. Pengunjung dapat melihat detail, memberi like, dan berkomentar.
+1. Admin membuat kode undangan (jurusan, kelas, batas pemakaian, masa berlaku).
+2. Siswa mendaftar menggunakan kode undangan, atau login Google yang dilengkapi kode undangan saat pertama kali masuk.
+3. Siswa mengunggah karya lewat form yang otomatis sesuai jurusan akunnya (PPLG wajib mengisi link GitHub, TJKT dan TSM mengisi Instagram di profil).
+4. Karya baru berstatus pending dan hanya bisa di-review oleh admin dari jurusan yang sama (Super Admin bisa semuanya).
+5. Admin jurusan menyetujui karya, atau menolaknya disertai alasan.
+6. Karya yang disetujui tampil di halaman publik (beranda, daftar karya, dan profil publik siswa).
+7. Pengunjung dapat melihat detail karya, memberi like, dan (setelah login) berkomentar, termasuk membalas.
 
 ## Fitur-Fitur
 - Etalase karya publik dengan filter jurusan.

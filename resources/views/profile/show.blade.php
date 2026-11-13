@@ -58,7 +58,18 @@
                 <div class="flex-1 min-w-0 text-center sm:text-left space-y-3 sm:pt-4">
                     <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
                         <h1 class="text-2xl sm:text-3xl font-black tracking-tight break-words">{{ $user->name }}</h1>
-                        <span class="self-center sm:self-auto px-2.5 py-1 bg-yellow-300 text-zinc-900 text-[11px] font-black rounded-lg border-2 border-zinc-900 shadow-[2px_2px_0px_#18181b]">
+                        @php
+                            $pj = strtoupper(trim($user->jurusan ?? 'PPLG'));
+                            $pcolor = match ($pj) {
+                                'PPLG' => 'bg-green-600 text-white',
+                                'TKJ'  => 'bg-blue-600 text-white',
+                                'DKV'  => 'bg-orange-500 text-white',
+                                'TOI'  => 'bg-gray-500 text-white',
+                                'TSM'  => 'bg-red-600 text-white',
+                                default => 'bg-yellow-300 text-zinc-900',
+                            };
+                        @endphp
+                        <span class="self-center sm:self-auto px-2.5 py-1 {{ $pcolor }} text-[11px] font-black rounded-lg border-2 border-zinc-900 shadow-[2px_2px_0px_#18181b]">
                             {{ $user->jurusan ?? 'PPLG' }}
                         </span>
                     </div>

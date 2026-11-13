@@ -140,6 +140,27 @@
         }
     </script>
 
+    {{-- MODAL FEEDBACK GLOBAL --}}
+    @if (session('success') || session('error'))
+        <div id="adminFeedbackModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl border-3 border-black shadow-[6px_6px_0px_#000] max-w-md w-full overflow-hidden">
+                <div class="bg-[#BBF7D0] border-b-3 border-black p-5 text-black flex items-center gap-3">
+                    <h3 class="text-lg font-black tracking-tight">Informasi</h3>
+                </div>
+                <div class="p-6 text-center">
+                    <p class="text-gray-800 font-bold leading-relaxed text-base">
+                        {{ session('success') ?? session('error') }}
+                    </p>
+                </div>
+                <div class="bg-gray-50 px-6 py-4 flex justify-end border-t-3 border-black">
+                    <button type="button" onclick="document.getElementById('adminFeedbackModal').classList.add('hidden')" class="px-5 py-2.5 bg-[#ffcc00] text-black rounded-xl btn-neubrutal cursor-pointer">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
+
     @stack('scripts')
 </body>
 </html>

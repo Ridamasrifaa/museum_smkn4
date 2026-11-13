@@ -34,3 +34,8 @@ Fixx:
 Catatan:
 - File Agent.md, TASKS.md, fix.md, dan file laporan tidak disertakan dalam commit sesuai aturan.
 - Pengujian: php artisan test lulus.
+
+### Update Perbaikan
+- Badge jurusan di halaman profil publik disesuaikan warnanya.
+- Modal feedback global ditambahkan di layout admin.
+- Spinner "Tunggu bentar....." ditambahkan pada tombol login dan register.

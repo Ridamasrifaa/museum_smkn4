@@ -51,7 +51,7 @@
               <label for="show-password">Tampilkan Password</label>
             </div>
 
-            <button type="submit" class="login-button">Daftar Sekarang</button>
+            <button type="submit" class="login-button" id="registerBtn">Daftar Sekarang</button>
           </form>
 
           <p class="login-register-text dark:text-gray-400">
@@ -88,6 +88,21 @@
         </div>
       </div>
     </div>
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form.login-form');
+    const btn = document.getElementById('registerBtn');
+    if (form && btn) {
+        form.addEventListener('submit', function () {
+            btn.disabled = true;
+            btn.innerHTML = '<svg class="animate-spin h-4 w-4 mr-2 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg> Tunggu bentar.....';
+        });
+    }
+});
+</script>
+@endpush
+
 @endsection
 
 @push('scripts')
