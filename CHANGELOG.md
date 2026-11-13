@@ -39,3 +39,6 @@ Catatan:
 - Badge jurusan di halaman profil publik disesuaikan warnanya.
 - Modal feedback global ditambahkan di layout admin.
 - Spinner "Tunggu bentar....." ditambahkan pada tombol login dan register.
+
+### Bug 4
+- Card project di profil siswa tidak menampilkan iframe dari link project; diperbaiki dengan normalisasi URL dan fallback iframe.

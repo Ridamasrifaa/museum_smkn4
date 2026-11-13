@@ -118,5 +118,9 @@ Perbaikan dilakukan agar aplikasi Museum Karya SMKN 4 lolos pengujian fungsional
 - Spinner "Tunggu bentar....." ditambahkan pada tombol login dan register.
 - Profil siswa: card karya menampilkan preview iframe dari link project.
 
+## Bug 4 (Card Project Profil Siswa)
+- Temuan: card karya tidak menampilkan iframe dari link project (karena path/URL tidak dinormalisasi dan fallback tidak menampilkan iframe).
+- Perbaikan: normalisasi URL live_link dan menampilkan iframe pada card jika tidak ada gambar/video.
+
 ## Catatan
 - Tidak ada `git add`/commit/push dilakukan sesuai larangan.

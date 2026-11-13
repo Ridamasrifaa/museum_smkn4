@@ -90,6 +90,10 @@
                                 $isImage = in_array($extension, ['jpg', 'jpeg', 'png', 'webp', 'gif']);
                                 $isVideo = in_array($extension, ['mp4', 'webm', 'ogg', 'mov']);
                                 $fileUrl = $project->file_path ? asset('storage/' . $project->file_path) : '';
+                                $liveUrl = $project->live_link;
+                                if ($liveUrl && !preg_match('#^https?://#i', $liveUrl)) {
+                                    $liveUrl = 'https://' . $liveUrl;
+                                }
 
                                 [$statusLabel, $statusClass] = match ($project->status) {
                                     'approved' => ['Disetujui', 'bg-[#BBF7D0] text-emerald-800'],
@@ -105,7 +109,7 @@
                                 data-status-label="{{ $statusLabel }}"
                                 data-status-class="{{ $statusClass }}"
                                 data-tech="{{ $project->technology_stack ?? '' }}"
-                                data-live="{{ $project->live_link ?? '' }}"
+                                data-live="{{ $liveUrl ?? '' }}"
                                 data-file-path="{{ $fileUrl }}"
                                 data-file-type="{{ $isImage ? 'image' : ($isVideo ? 'video' : '') }}"
                                 data-tahun="{{ $project->created_at->format('Y') }}"
@@ -123,6 +127,8 @@
                                                 <source src="{{ $fileUrl }}" type="video/{{ $extension }}">
                                                 Browser kamu tidak mendukung pemutar video.
                                             </video>
+                                        @elseif ($liveUrl)
+                                            <iframe src="{{ $liveUrl }}" class="w-full h-full border-0" loading="lazy" title="{{ $project->title }}"></iframe>
                                         @else
                                             <div class="flex flex-col items-center justify-center text-slate-900 p-4 text-center">
                                                 <svg class="w-10 h-10 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
