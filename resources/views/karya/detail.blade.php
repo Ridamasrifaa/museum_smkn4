@@ -284,8 +284,6 @@
         label.textContent = open ? 'Sembunyikan balasan' : `Lihat ${list.children.length} balasan`;
     }
 
-    }
-
     // ===== Kirim komentar =====
     function postComment(e) {
         e.preventDefault();

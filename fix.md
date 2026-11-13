@@ -133,5 +133,9 @@ Perbaikan dilakukan agar aplikasi Museum Karya SMKN 4 lolos pengujian fungsional
 - Temuan: pemanggilan `toggleGifPicker(false)` yang sudah dihapus menyebabkan error JS saat menutup modal, memengaruhi interaksi.
 - Perbaikan: menghapus pemanggilan tersebut dan membersihkan referensi GIF. Like tetap memperbarui jumlah secara realtime.
 
+## Bug 6 (Komentar Tidak Bisa Dibuka)
+- Temuan: ada kurung kurawal ekstra pada script detail karya yang menyebabkan seluruh JavaScript error, sehingga modal komentar dan like tidak berfungsi.
+- Perbaikan: menghapus kurung kurawal ekstra agar script berjalan normal.
+
 ## Catatan
 - Tidak ada `git add`/commit/push dilakukan sesuai larangan.

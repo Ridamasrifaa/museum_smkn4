@@ -50,5 +50,8 @@ Catatan:
 ### Bug 5
 - Komentar di mobile/desktop tidak membuka modal dan unlike tidak berfungsi; diperbaiki dengan menghapus referensi GIF yang sudah dihapus.
 
+### Bug 6
+- Komentar tidak bisa dibuka dan like/unlike tidak berfungsi karena kurung kurawal ekstra pada script; diperbaiki.
+
 ### Bug 4
 - Card project di profil siswa tidak menampilkan iframe dari link project; diperbaiki dengan normalisasi URL dan fallback iframe.
