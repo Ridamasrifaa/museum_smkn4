@@ -58,7 +58,14 @@
 - update commit harus menggunakan Bahasa Indonesia dan update di CHANGELOG.md semuanya dengan jelas
 - jik terjadi konflik , Perbaiki konflik tersebut.
 
-## Perbaikan 4 : navbar public 
-- di folder partials atau navbar coba check di navbar tersebut ketika mode dark dia ada garis putih di bawah, nah sesuaikan dengan link active misal di beranda garis bawah text beranda garis putih 
-- test sampai lulus 
-- jika sudah lulus test update CHANGELOG.md dan di fix.md 
+## Perbaikan 4 : navbar public
+
+- di folder partials atau navbar coba check di navbar tersebut ketika mode dark dia ada garis putih di bawah, nah sesuaikan dengan link active misal di beranda garis bawah text beranda garis putih
+- test sampai lulus
+- jika sudah lulus test update CHANGELOG.md dan di fix.md
+
+## Perbaikan 5 : Navbar public
+
+- itu disana di navbar ketika mode dark ada garis putih panjang nah itu di hapus saja
+- test sampai lulus
+- jika sudah lulus test update CHANGELOG.md dan di fix.md

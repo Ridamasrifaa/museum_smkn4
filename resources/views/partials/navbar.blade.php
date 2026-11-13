@@ -19,7 +19,7 @@
 @endphp
 
 <header class="sticky top-4 z-50 px-4">
-    <nav class="relative mx-auto max-w-7xl bg-white dark:bg-zinc-900 rounded-full border-4 border-black dark:border-white shadow-[6px_6px_0px_#000] dark:shadow-[6px_6px_0px_#fff] px-4 sm:px-6 py-3 transition-all duration-300">
+    <nav class="relative mx-auto max-w-7xl bg-white dark:bg-zinc-900 rounded-full border-4 border-black dark:border-zinc-900 shadow-[6px_6px_0px_#000] dark:shadow-[6px_6px_0px_#fff] px-4 sm:px-6 py-3 transition-all duration-300">
         <div class="flex items-center justify-between">
 
             <div class="flex items-center gap-2 sm:gap-3">
@@ -33,7 +33,7 @@
                 class="hidden md:flex flex-col md:flex-row gap-3 md:gap-8 md:items-center
                     absolute md:static left-0 right-0 top-[calc(100%+16px)] md:top-auto
                     bg-white dark:bg-zinc-900 md:bg-transparent md:dark:bg-transparent
-                    rounded-3xl md:rounded-none border-3 md:border-0 border-black dark:border-white
+                    rounded-3xl md:rounded-none border-3 md:border-0 border-black dark:border-zinc-800
                     shadow-[6px_6px_0px_#000] dark:shadow-[6px_6px_0px_#fff] md:shadow-none
                     p-5 md:p-0 z-50 text-center md:text-left transition-all">
 

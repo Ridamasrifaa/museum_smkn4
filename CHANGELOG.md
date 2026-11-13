@@ -33,3 +33,6 @@
 
 ### Perbaikan 4
 - Navbar public: underline link aktif pada mode dark disesuaikan berwarna putih.
+
+### Perbaikan 5
+- Navbar public: menghapus garis putih panjang pada mode dark.
