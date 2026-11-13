@@ -26,7 +26,10 @@
             @csrf
             <div class="login-form-group">
               <label class="login-label dark:text-gray-300" for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="Masukan Email Anda" class="login-input dark:bg-gray-800 dark:text-white dark:border-gray-700" required autofocus />
+              <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Masukan Email Anda" class="login-input dark:bg-gray-800 dark:text-white dark:border-gray-700" required autofocus />
+              @error('email')
+                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+              @enderror
             </div>
 
             <div class="login-form-group">

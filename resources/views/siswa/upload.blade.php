@@ -67,7 +67,7 @@
     {{-- Penanda session success dan jurusan aktif jika terjadi error validasi --}}
     <div id="pageData"
         data-success="{{ session('success') ? 'true' : 'false' }}"
-        data-active-jurusan="{{ session('active_jurusan', old('jurusan')) }}"
+        data-active-jurusan="{{ session('active_jurusan', old('jurusan', Auth::user()->jurusan)) }}"
         class="hidden"></div>
 
     <div class="p-4 sm:p-6 md:p-8 w-full flex justify-center items-start">
@@ -133,7 +133,7 @@
 
                     {{-- Nomor WhatsApp untuk jurusan TJKT & TSM diambil dari profil siswa (users.phone_number),
                          tidak lagi diisi ulang di sini. Kalau belum diisi, arahkan ke halaman profil. --}}
-                    @if (in_array($key, ['TKJ', 'TSM']) && empty(Auth::user()->phone_number))
+                    @if (in_array($key, ['TKJ', 'TSM']) && empty(Auth::user()->instagram))
                         <div class="rounded-xl bg-[#FDE68A] neo-border neo-shadow-sm px-4 py-3">
                             <p class="text-xs font-extrabold text-slate-900 leading-relaxed">
                                 Nomor WhatsApp kamu belum diisi. Karya jurusan {{ $key === 'TKJ' ? 'TJKT' : 'TSM' }} butuh nomor WhatsApp aktif agar bisa dihubungi.
@@ -172,8 +172,8 @@
                             <label class="block text-sm font-extrabold text-slate-800 mb-2">
                                 Link Repository GitHub <span class="text-[#F43F5E]">* (Wajib Khusus PPLG)</span>
                             </label>
-                            <input type="url" name="github_link" required value="{{ $isActiveForm ? old('github_link') : '' }}"
-                                placeholder="https://github.com/username/repository-kamu" class="{{ $input }}" />
+                            <input type="text" name="github_link" required value="{{ $isActiveForm ? old('github_link') : '' }}"
+                                placeholder="github.com/username/repository-kamu" class="{{ $input }}" />
                             @if ($isActiveForm)
                                 @error('github_link')
                                     <p class="{{ $errorText }}">{{ $message }}</p>
@@ -185,8 +185,8 @@
                     {{-- Live Demo / Link Portfolio Umum --}}
                     <div>
                         <label class="block text-sm font-extrabold text-slate-800 mb-2">{{ $f['live_label'] }}</label>
-                        <input type="url" name="live_link" value="{{ $isActiveForm ? old('live_link') : '' }}"
-                            placeholder="https://" class="{{ $input }}" />
+                        <input type="text" name="live_link" value="{{ $isActiveForm ? old('live_link') : '' }}"
+                            placeholder="web.com" class="{{ $input }}" />
                         @if ($isActiveForm)
                             @error('live_link')
                                 <p class="{{ $errorText }}">{{ $message }}</p>
@@ -199,8 +199,8 @@
                         <label class="block text-sm font-extrabold text-slate-800 mb-2">
                             Link Embed / Iframe <span class="text-xs text-slate-500 font-normal">(Opsional jika mengunggah foto)</span>
                         </label>
-                        <input type="url" name="iframe_link" value="{{ $isActiveForm ? old('iframe_link') : '' }}"
-                            placeholder="https://www.youtube.com/embed/xxxxx" class="{{ $input }}" />
+                        <input type="text" name="iframe_link" value="{{ $isActiveForm ? old('iframe_link') : '' }}"
+                            placeholder="youtube.com/embed/xxxxx" class="{{ $input }}" />
                         @if ($isActiveForm)
                             @error('iframe_link')
                                 <p class="{{ $errorText }}">{{ $message }}</p>

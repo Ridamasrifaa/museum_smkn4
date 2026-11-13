@@ -128,30 +128,21 @@
                         @enderror
                     </div>
 
-                </div>
-
-                <div class="border-b-[3px] border-slate-900 my-8"></div>
-
-                {{-- ============ GANTI PASSWORD ============ --}}
-                <div>
-                    <h3 class="font-black text-base text-slate-900 mb-1">Ganti Password</h3>
-                    <p class="text-xs font-bold text-slate-500 mb-4">Kosongkan bagian ini jika tidak ingin mengganti password.</p>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div>
-                            <label for="password" class="block text-sm font-black text-slate-900 mb-1.5">Password Baru</label>
-                            <input type="password" name="password" id="password" placeholder="••••••••"
-                                class="{{ $input }}">
-                            @error('password')
-                                <p class="mt-1 text-xs font-extrabold text-rose-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div>
-                            <label for="password_confirmation" class="block text-sm font-black text-slate-900 mb-1.5">Konfirmasi Password</label>
-                            <input type="password" name="password_confirmation" id="password_confirmation" placeholder="••••••••"
-                                class="{{ $input }}">
-                        </div>
+                    {{-- Ganti Password digabung dalam panel yang sama --}}
+                    <div class="md:col-span-2">
+                        <label for="password" class="block text-sm font-black text-slate-900 mb-1.5">Password Baru (opsional)</label>
+                        <input type="password" name="password" id="password" placeholder="Kosongkan jika tidak ingin ganti"
+                            class="{{ $input }}">
+                        @error('password')
+                            <p class="mt-1 text-xs font-extrabold text-rose-600">{{ $message }}</p>
+                        @enderror
                     </div>
+                    <div class="md:col-span-2">
+                        <label for="password_confirmation" class="block text-sm font-black text-slate-900 mb-1.5">Konfirmasi Password</label>
+                        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Ulangi password baru"
+                            class="{{ $input }}">
+                    </div>
+
                 </div>
 
                 {{-- ============ TOMBOL AKSI ============ --}}

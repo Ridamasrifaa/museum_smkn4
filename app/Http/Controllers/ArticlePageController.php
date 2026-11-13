@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class ArticlePageController extends Controller
 {
@@ -42,5 +43,10 @@ class ArticlePageController extends Controller
             ->get();
 
         return view('artikel.show', compact('article', 'categories', 'popular', 'related'));
+    }
+
+    public function storeComment(Request $request, Article $article)
+    {
+        return back()->with('error', 'Komentar pada artikel belum didukung.');
     }
 }

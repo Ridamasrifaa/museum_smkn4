@@ -1,7 +1,7 @@
 @extends('layouts.siswa')
 
 @section('title', 'My karya Gue')
-@section('page_title', 'Karya gue')
+@section('page_title', 'My Karya gue')
 
 @section('content')
     <div class="flex-1 p-4 sm:p-6 lg:p-8 relative">
@@ -41,7 +41,18 @@
                                     {{ $project->title }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="px-3 py-1 bg-[#E0E7FF] text-indigo-800 rounded-full text-xs font-black neo-border">
+                                    @php
+                                        $jk = strtoupper(trim($project->jurusan ?? ''));
+                                        $jcolor = match ($jk) {
+                                            'PPLG' => 'bg-green-600 text-white',
+                                            'TKJ'  => 'bg-blue-600 text-white',
+                                            'DKV'  => 'bg-orange-500 text-white',
+                                            'TOI'  => 'bg-gray-500 text-white',
+                                            'TSM'  => 'bg-red-600 text-white',
+                                            default => 'bg-gray-400 text-white',
+                                        };
+                                    @endphp
+                                    <span class="px-3 py-1 {{ $jcolor }} rounded-full text-xs font-black neo-border">
                                         {{ $project->jurusan ?? '-' }}
                                     </span>
                                 </td>

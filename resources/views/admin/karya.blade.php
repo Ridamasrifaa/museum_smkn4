@@ -91,7 +91,18 @@
                                 <div class="text-xs text-gray-500 font-semibold mt-0.5">Siswa: {{ $project->user->name ?? '-' }}</div>
                             </td>
                             <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 border-2 border-black rounded-lg text-xs font-black shadow-[2px_2px_0px_#000]">{{ $project->jurusan }}</span>
+                                @php
+                                    $jk = strtoupper(trim($project->jurusan ?? ''));
+                                    $jcolor = match ($jk) {
+                                        'PPLG' => 'bg-green-600 text-white',
+                                        'TKJ'  => 'bg-blue-600 text-white',
+                                        'DKV'  => 'bg-orange-500 text-white',
+                                        'TOI'  => 'bg-gray-500 text-white',
+                                        'TSM'  => 'bg-red-600 text-white',
+                                        default => 'bg-gray-400 text-white',
+                                    };
+                                @endphp
+                                <span class="px-3 py-1 {{ $jcolor }} border-2 border-black rounded-lg text-xs font-black shadow-[2px_2px_0px_#000]">{{ $project->jurusan }}</span>
                             </td>
                             <td class="px-6 py-4 text-center">
                                 @php

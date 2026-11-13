@@ -82,6 +82,12 @@
                                     </td>
                                 </tr>
 
+                                {{-- Teknologi / Alat --}}
+                                <tr class="bg-white">
+                                    <td class="px-6 py-4 font-black text-slate-900 w-1/3 bg-[#F1F5F9] border-r-[3px] border-slate-900">Teknologi / Alat</td>
+                                    <td class="px-6 py-4 text-slate-800 font-extrabold">{{ $project->technology_stack ?? '-' }}</td>
+                                </tr>
+
                                 {{-- Deskripsi --}}
                                 <tr class="bg-white">
                                     <td class="px-6 py-4 font-black text-slate-900 w-1/3 bg-[#F1F5F9] border-r-[3px] border-slate-900">Deskripsi</td>

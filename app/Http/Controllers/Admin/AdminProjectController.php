@@ -7,6 +7,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Services\MuseumCache;
 
 class AdminProjectController extends Controller
 {
@@ -60,6 +61,11 @@ class AdminProjectController extends Controller
             ]);
         }
 
+        MuseumCache::flush('karya');
+        MuseumCache::flush('stat');
+        MuseumCache::flush('artikel');
+        MuseumCache::flush('komentar.' . $project->id);
+
         return redirect('/admin/karya')
             ->with('success', 'Status berhasil diperbarui');
     }
@@ -76,6 +82,10 @@ class AdminProjectController extends Controller
         }
 
         $project->delete();
+
+        MuseumCache::flush('karya');
+        MuseumCache::flush('stat');
+        MuseumCache::flush('komentar.' . $project->id);
 
         return redirect('/admin/karya')
             ->with('success', 'Karya berhasil dihapus.');

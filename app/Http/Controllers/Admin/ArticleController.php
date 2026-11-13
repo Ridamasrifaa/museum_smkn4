@@ -9,6 +9,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Services\MuseumCache;
 
 class ArticleController extends Controller
 {
@@ -54,7 +55,14 @@ class ArticleController extends Controller
             'published_at' => $request->status == 'published' ? now() : null,
         ]);
 
+        MuseumCache::flush('artikel');
+
         return redirect()->route('articles.index')->with('success', 'Artikel berhasil ditambahkan.');
+    }
+
+    public function show($id)
+    {
+        return redirect()->route('articles.edit', $id);
     }
 
     public function edit($id)
@@ -99,6 +107,8 @@ class ArticleController extends Controller
             'published_at' => $request->status == 'published' ? now() : null,
         ]);
 
+        MuseumCache::flush('artikel');
+
         return redirect()->route('articles.index')->with('success', 'Artikel berhasil diperbarui.');
     }
 
@@ -106,6 +116,8 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
         $article->delete();
+
+        MuseumCache::flush('artikel');
 
         return redirect()->route('articles.index')->with('success', 'Artikel berhasil dihapus');
     }

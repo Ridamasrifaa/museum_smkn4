@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\ProjectLike;
 use Illuminate\Support\Facades\Auth;
+use App\Services\MuseumCache;
 
 class InteractionController extends Controller
 {
@@ -21,6 +22,10 @@ class InteractionController extends Controller
 
         $userId = Auth::id();
         $liked = $this->toggleForUser($project, $userId);
+
+        MuseumCache::flush('karya');
+        MuseumCache::flush('stat');
+        MuseumCache::flush('komentar.' . $project->id);
 
         return response()->json([
             'success'     => true,

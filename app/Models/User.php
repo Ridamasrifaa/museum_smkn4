@@ -18,6 +18,7 @@ class User extends Authenticatable
         'email',
         'password',
         'avatar',
+        'instagram',
         'google_id',
         'kelas',
         'role',

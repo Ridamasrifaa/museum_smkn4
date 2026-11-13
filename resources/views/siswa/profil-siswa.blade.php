@@ -347,7 +347,17 @@
 
             $id('profilModalTitle').textContent = d.title || 'Detail Karya';
             $id('profilModalDesc').textContent = d.desc || 'Tidak ada deskripsi.';
-            $id('profilModalJurusan').textContent = d.jurusan || '-';
+            const jurusanEl = $id('profilModalJurusan');
+            const j = (d.jurusan || '').toUpperCase();
+            const jurusanColor = {
+                'PPLG': 'bg-green-600 text-white',
+                'TKJ': 'bg-blue-600 text-white',
+                'DKV': 'bg-orange-500 text-white',
+                'TOI': 'bg-gray-500 text-white',
+                'TSM': 'bg-red-600 text-white',
+            }[j] || 'bg-gray-400 text-white';
+            jurusanEl.textContent = d.jurusan || '-';
+            jurusanEl.className = 'px-3 py-1 rounded-full text-sm font-black neo-border ' + jurusanColor;
             $id('profilModalTahun').textContent = d.tahun || '-';
             $id('profilModalTech').textContent = d.tech || '-';
 

@@ -52,7 +52,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Email atau password salah.',
+            'email' => 'email atau password anda salah',
         ]);
     }
     public function showRegister()
@@ -67,13 +67,15 @@ class AuthController extends Controller
             'email'     => 'required|email|unique:users,email',
             'password'  => 'required|string|min:6',
             'kode_unik' => 'required|string',
+        ], [
+            'kode_unik.required' => 'isi dulu kode undangannya',
         ]);
 
         $invitationCode = InvitationCode::where('code', $request->kode_unik)->first();
 
         if (!$invitationCode || !$invitationCode->isValid()) {
             throw ValidationException::withMessages([
-                'kode_unik' => 'Kode undangan tidak valid, sudah penuh, atau sudah tidak aktif.',
+                'kode_unik' => 'kode unik sudah dipakai / sudah kadaluarsa',
             ]);
         }
 
@@ -118,6 +120,8 @@ class AuthController extends Controller
     {
         $request->validate([
             'kode_unik' => 'required|string',
+        ], [
+            'kode_unik.required' => 'isi dulu kode undangannya',
         ]);
 
         if (!session()->has('google_user')) {
@@ -128,7 +132,7 @@ class AuthController extends Controller
 
         if (!$invitationCode || !$invitationCode->isValid()) {
             throw ValidationException::withMessages([
-                'kode_unik' => 'Kode undangan tidak valid, sudah penuh, atau sudah tidak aktif.',
+                'kode_unik' => 'kode unik sudah dipakai / sudah kadaluarsa',
             ]);
         }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\MuseumCache;
 
 class KaryaController extends Controller
 {
@@ -66,6 +67,8 @@ class KaryaController extends Controller
         ]);
 
         $comment->load('user');
+
+        MuseumCache::flush('komentar.' . $project->id);
 
         return response()->json([
             'success'        => true,

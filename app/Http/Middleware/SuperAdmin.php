@@ -13,7 +13,7 @@ class SuperAdmin
     {
         $user = Auth::user();
 
-        if (!$user || $user->role !== 0) {
+        if (!$user || !$user->isSuperAdmin()) {
             abort(403, 'Akses ditolak. Hanya Super Admin yang diizinkan.');
         }
 

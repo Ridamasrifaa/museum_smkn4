@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Services\MuseumCache;
 
 class AdminManagementController extends Controller
 {
@@ -45,6 +46,8 @@ class AdminManagementController extends Controller
             'status'   => 'approved',
         ]);
 
+        MuseumCache::flush('stat');
+
         return redirect()->back()->with('success', 'Akun Admin berhasil ditambahkan!');
     }
 
@@ -72,6 +75,8 @@ class AdminManagementController extends Controller
 
         $user->save();
 
+        MuseumCache::flush('stat');
+
         return back()->with('success', 'Data Admin berhasil diperbarui!');
     }
 
@@ -86,6 +91,8 @@ class AdminManagementController extends Controller
         }
 
         $user->delete();
+
+        MuseumCache::flush('stat');
 
         return back()->with('success', 'Admin berhasil dihapus');
     }

@@ -7,6 +7,7 @@ use App\Models\InvitationCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use App\Services\MuseumCache;
 
 class AdminInvitationCodeController extends Controller
 {
@@ -39,8 +40,15 @@ class AdminInvitationCodeController extends Controller
 
         InvitationCode::create($validated);
 
+        MuseumCache::flush('stat');
+
         return redirect()->route('admin.kode-undangan.index')
             ->with('success', 'Kode undangan berhasil ditambahkan.');
+    }
+
+    public function show(InvitationCode $kodeUndangan)
+    {
+        return redirect()->route('admin.kode-undangan.index');
     }
 
     public function edit(InvitationCode $kodeUndangan)
@@ -67,6 +75,8 @@ class AdminInvitationCodeController extends Controller
 
         $kodeUndangan->update($validated);
 
+        MuseumCache::flush('stat');
+
         return redirect()->route('admin.kode-undangan.index')
             ->with('success', 'Kode undangan berhasil diperbarui.');
     }
@@ -74,6 +84,8 @@ class AdminInvitationCodeController extends Controller
     public function destroy(InvitationCode $kodeUndangan)
     {
         $kodeUndangan->delete();
+
+        MuseumCache::flush('stat');
 
         return redirect()->route('admin.kode-undangan.index')
             ->with('success', 'Kode undangan berhasil dihapus.');

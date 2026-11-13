@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Services\MuseumCache;
 
 class ProjectController extends Controller
 {
@@ -46,12 +47,32 @@ class ProjectController extends Controller
 
         $project->delete();
 
+        MuseumCache::flush('karya');
+        MuseumCache::flush('stat');
+        MuseumCache::flush('komentar.' . $project->id);
+
         return redirect('/siswa/karya')
             ->with('success', 'Karya berhasil dihapus.');
     }
 
     public function store(Request $request)
     {
+        // Auto jurusan dari akun siswa yang login
+        if (Auth::check() && Auth::user()->jurusan) {
+            $request->merge(['jurusan' => Auth::user()->jurusan]);
+        }
+
+        // Normalisasi link: izinkan input tanpa https://
+        foreach (['github_link', 'live_link', 'iframe_link'] as $field) {
+            if ($request->filled($field)) {
+                $value = trim((string) $request->input($field));
+                if (!preg_match('#^https?://#i', $value)) {
+                    $value = 'https://' . $value;
+                }
+                $request->merge([$field => $value]);
+            }
+        }
+
         // 1. VALIDASI LANGSUNG DI DALAM CONTROLLER
         $request->validate([
             'title'            => 'required|string|max:255',
@@ -104,6 +125,9 @@ class ProjectController extends Controller
             'status'           => 'pending',
         ]);
 
+        MuseumCache::flush('karya');
+        MuseumCache::flush('stat');
+
         return redirect('/siswa/upload')
             ->with('success', 'Karya berhasil diupload dan dikompres.')
             ->with('active_jurusan', $request->jurusan);
@@ -111,7 +135,10 @@ class ProjectController extends Controller
 
     public function upload()
     {
-        $jurusanList = self::JURUSAN_LIST;
+        $userJurusan = Auth::user()->jurusan ?? null;
+        $jurusanList = in_array($userJurusan, self::JURUSAN_LIST, true)
+            ? [$userJurusan]
+            : self::JURUSAN_LIST;
 
         // Warna tombol jurusan & tombol kirim (setara Bootstrap:
         // PPLG = success, TKJ = primary, DKV = warning, TOI = secondary, TSM = danger)

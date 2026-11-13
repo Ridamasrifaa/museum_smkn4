@@ -179,7 +179,7 @@
             
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-white dark:bg-blue-600 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] rounded-lg flex items-center justify-center text-sm">
-                    🏛️
+                    <img src="{{ asset('images/smk4.png') }}" alt="Logo" class="w-6 h-6 sm:w-7 sm:h-7 object-cover rounded-md" />
                 </div>
                 <span class="text-base sm:text-lg font-black tracking-tight text-black dark:text-white uppercase">MUSEUM.KARYA</span>
             </div>
@@ -200,9 +200,20 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                     </svg>
                 </button>
-                <a href="{{ url('/login') }}" class="neop-btn-box px-4 py-1.5 bg-cyan-300 dark:bg-cyan-600 text-black dark:text-white font-black text-xs sm:text-sm rounded-full uppercase tracking-wider">
-                    LOGIN
-                </a>
+                @if (Auth::check())
+                    @php
+                        $dashUrl = Auth::user()->isSuperAdmin()
+                            ? '/superadmin/dashboard'
+                            : (Auth::user()->isAdmin() ? '/admin/dashboard' : '/siswa/dashboard');
+                    @endphp
+                    <a href="{{ url($dashUrl) }}" class="neop-btn-box px-4 py-1.5 bg-cyan-300 dark:bg-cyan-600 text-black dark:text-white font-black text-xs sm:text-sm rounded-full uppercase tracking-wider">
+                        DASHBOARD
+                    </a>
+                @else
+                    <a href="{{ url('/login') }}" class="neop-btn-box px-4 py-1.5 bg-cyan-300 dark:bg-cyan-600 text-black dark:text-white font-black text-xs sm:text-sm rounded-full uppercase tracking-wider">
+                        LOGIN
+                    </a>
+                @endif
             </div>
 
         </nav>
@@ -347,12 +358,16 @@
         </div>
     </section>
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="bg-gray-900 dark:bg-black text-white text-center py-12">
+    <footer class="bg-gray-900 dark:bg-black text-white text-center py-12 mt-16 border-t-4 border-black dark:border-white">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
-            <div class="border-t border-gray-800 pt-8">
-                <p class="text-gray-400 text-sm">&copy; 2026 Museum Karya SMKN 4 Tasikmalaya</p>
-                <p class="text-gray-400 text-sm">Design &amp; Development By PPLG</p>
+            <div class="pt-4">
+                <p class="text-gray-300 font-bold text-sm">&copy; {{ date('Y') }} Museum Karya SMKN 4 Tasikmalaya</p>
+                <p class="text-gray-400 text-xs mt-1">
+                    Design &amp; Development By 
+                    <a href="{{ route('developer') }}" class="text-blue-500 dark:text-blue-400 font-bold underline decoration-2 underline-offset-4 hover:text-blue-600 transition-colors">
+                        Team Developer PPLG
+                    </a>
+                </p>
             </div>
         </div>
     </footer>

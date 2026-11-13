@@ -51,10 +51,25 @@
                                 <tr class="bg-gray-50">
                                     <td class="p-3 sm:p-4 border-r-2 border-black bg-amber-200">Jurusan</td>
                                     <td class="p-3 sm:p-4">
-                                        <span class="px-3 py-1 bg-pink-400 text-black border-2 border-black rounded-md text-[11px] sm:text-xs font-black">
+                                        @php
+                                            $jurusanBadgeColor = match (strtoupper(trim($project->jurusan ?? ''))) {
+                                                'PPLG' => 'bg-green-600 text-white',
+                                                'TKJ'  => 'bg-blue-600 text-white',
+                                                'DKV'  => 'bg-orange-500 text-white',
+                                                'TOI'  => 'bg-gray-500 text-white',
+                                                'TSM'  => 'bg-red-600 text-white',
+                                                default => 'bg-gray-400 text-white',
+                                            };
+                                        @endphp
+                                        <span class="px-3 py-1 {{ $jurusanBadgeColor }} border-2 border-black rounded-md text-[11px] sm:text-xs font-black">
                                             {{ $project->jurusan }}
                                         </span>
                                     </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="p-3 sm:p-4 border-r-2 border-black bg-amber-200">Teknologi / Alat</td>
+                                    <td class="p-3 sm:p-4 font-bold">{{ $project->technology_stack ?? '-' }}</td>
                                 </tr>
 
                                 <tr>

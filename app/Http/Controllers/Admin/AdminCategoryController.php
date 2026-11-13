@@ -15,6 +15,11 @@ class AdminCategoryController extends Controller
         return view('admin.kategori', compact('categories'));
     }
 
+    public function create()
+    {
+        return redirect()->route('admin.kategori.index');
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -41,6 +46,16 @@ class AdminCategoryController extends Controller
         ]);
 
         return back()->with('success', 'Kategori berhasil diubah.');
+    }
+
+    public function show($id)
+    {
+        return redirect()->route('admin.kategori.index');
+    }
+
+    public function edit($id)
+    {
+        return redirect()->route('admin.kategori.index');
     }
 
     public function destroy($id)
