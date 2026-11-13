@@ -2,55 +2,35 @@
 
 ## 0.1.0 (13 November 2026)
 
-### Ditambahkan
-- Class `MuseumCache` (App\Services, App\Cache, App\Helpers, App\Support) dengan method `remember()` dan `flush()` untuk cache publik berbasis grup (`karya`, `stat`, `artikel`, `komentar.{id}`).
-- Alias global `MuseumCache` melalui `AppServiceProvider`.
-- Normalisasi URL pada form upload karya (pengguna dapat mengetik tanpa `https://`).
-- Baris "Teknologi / Alat" pada detail karya (siswa dan admin).
-- Pesan feedback login/register sesuai permintaan.
+Fitur:
+- MuseumCache untuk cache publik berbasis grup (karya, stat, artikel, komentar.{id}).
+- Form upload karya otomatis menyesuaikan jurusan siswa.
+- Validasi wajib link GitHub untuk jurusan PPLG.
+- Kolom Instagram untuk seluruh siswa.
+- Kompresi gambar pada upload karya.
+- Moderasi karya oleh admin jurusan dan super admin.
+- Profil siswa sebagai portofolio karya.
+- Like, komentar, dan berbagi karya.
+- Cache publik untuk performa beranda.
 
-### Diubah
-- Form upload karya siswa otomatis menyesuaikan jurusan akun yang login.
-- Input link (GitHub/live/iframe) diubah dari `type="url"` menjadi `type="text"`.
-- Kolom ganti password pada edit profil siswa digabung ke dalam satu panel/form.
-- Navbar halaman show artikel menampilkan DASHBOARD jika pengguna sudah login.
-- Footer halaman index disesuaikan dengan footer halaman publik lainnya.
-- Badge jurusan (profil siswa, admin detail, tabel siswa/admin) disesuaikan warnanya dengan tombol form jurusan.
-- `config/cache.php`: `serializable_classes` diaktifkan.
-- Migrasi `modify_projects_table_remove_category` dibuat kompatibel dengan SQLite.
+Update:
+- Navbar halaman show artikel menampilkan Dashboard jika sudah login.
+- Footer halaman index disesuaikan dengan halaman publik lainnya.
+- Badge jurusan disesuaikan warnanya dengan form jurusan.
+- Tombol filter jurusan di halaman karya disesuaikan warnanya dengan form jurusan.
+- Edit profil siswa: ganti password digabung ke satu panel.
+- README.md diperbarui dengan dokumentasi project.
 
-### Diperbaiki
-- `AdminSiswaController` memfilter siswa berdasarkan jurusan admin (kecuali super admin).
-- Middleware `SuperAdmin` menggunakan `isSuperAdmin()`.
-- Route resource yang memanggil method belum ada diberi method redirect aman.
-- `User` model menambahkan `instagram` ke `$fillable`.
-- Peringatan upload TKJ/TSM menggunakan `instagram`.
-- URL normalisasi memungkinkan input `github.com/username/project` untuk PPLG.
-- Cache flush dipanggil pada aksi moderasi/admin dan perubahan data terkait.
-- Navbar public: underline aktif pada mode dark berwarna putih.
-- Navbar public: garis putih panjang pada mode dark dihapus/dikembalikan sesuai permintaan terakhir (searah semula).
+Fixx:
+- AdminSiswaController memfilter siswa berdasarkan jurusan admin.
+- Middleware SuperAdmin menggunakan isSuperAdmin().
+- Migrasi modify_projects_table_remove_category kompatibel SQLite.
+- Path avatar ganda di halaman karya diperbaiki.
+- Warna tombol filter jurusan yang tidak muncul diperbaiki (inline style).
+- Validasi dan feedback login/register (kode undangan kosong/penuh/kadaluarsa).
+- Normalisasi URL pada form upload (tanpa https://).
+- Navbar public: garis putih pada mode dark disesuaikan.
 
-### Catatan
-- File `Agent.md` dan `TASKS.md` tidak disertakan dalam commit sesuai aturan.
-- Pengujian: `php artisan test` lulus.
-
-### Perbaikan 8
-- Card karya public/index: modal label kategori diubah menjadi jurusan; tombol filter jurusan disesuaikan warna form dan state aktif.
-
-### Update Tombol
-- Tombol filter jurusan di halaman karya disesuaikan warnanya dengan form jurusan masing-masing dan state aktif.
-
-### Ganti Warna Button
-- Tombol filter jurusan di halaman karya disesuaikan warnanya dengan form jurusan masing-masing dan state aktif.
-
-### Ganti Warna Button (Lanjutan)
-- Tombol filter jurusan: warna border pada state aktif disesuaikan dengan jurusan.
-
-### Bug 2
-- Tombol filter jurusan: warna tidak muncul karena kelas Tailwind dinamis; diperbaiki dengan inline style berdasarkan jurusan.
-
-### Bug 3
-- Foto avatar di halaman karya tidak muncul karena path ganda; diperbaiki dengan normalisasi path avatar.
-
-### Isi Readme
-- README.md diperbarui dengan dokumentasi project Museum Karya SMKN 4 Tasikmalaya.
+Catatan:
+- File Agent.md, TASKS.md, fix.md, dan file laporan tidak disertakan dalam commit sesuai aturan.
+- Pengujian: php artisan test lulus.

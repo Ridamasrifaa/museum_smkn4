@@ -108,5 +108,9 @@ Perbaikan dilakukan agar aplikasi Museum Karya SMKN 4 lolos pengujian fungsional
 ## Isi Readme
 - README.md diganti dengan dokumentasi project Museum Karya SMKN 4 Tasikmalaya (tujuan, teknologi, peran, alur, fitur, instalasi, pengujian).
 
+## Update Readme
+- README.md diperbarui dengan dokumentasi project (judul, deskripsi, tujuan, peran, alur, fitur, teknologi, catatan).
+- CHANGELOG.md diformat ulang dengan struktur Fitur/Update/Fixx.
+
 ## Catatan
 - Tidak ada `git add`/commit/push dilakukan sesuai larangan.

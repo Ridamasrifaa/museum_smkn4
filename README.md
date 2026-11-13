@@ -1,57 +1,42 @@
 # Museum Karya SMKN 4 Tasikmalaya
 
-Aplikasi web untuk menampung, memamerkan, dan memoderasi karya siswa SMKN 4 Tasikmalaya dari berbagai jurusan (PPLG, TKJ/TJKT, DKV, TOI, TSM).
+## Deskripsi
+Museum Karya SMKN 4 Tasikmalaya adalah platform digital yang dibuat untuk menampung, memamerkan, dan melestarikan seluruh karya siswa-siswi SMKN 4 Tasikmalaya dari berbagai jurusan. Aplikasi ini menjadi rumah bagi karya-karya kreatif, inovatif, dan orisinal, sehingga setiap siswa dapat berbagi hasil belajarnya kepada komunitas sekolah maupun publik.
+
+Dengan tampilan yang modern dan ramah pengguna, platform ini memungkinkan karya apa pun—mulai dari aplikasi, website, desain, jaringan, otomasi, hingga karya teknik—untuk disimpan, dilihat, dan diapresiasi. Harapannya, website ini menjadi aspirasi bagi adik-adik kelas untuk terus berkarya, berinovasi, dan berkontribusi bagi sekolah.
 
 ## Tujuan
-- Menyediakan etalase karya siswa (website, aplikasi, desain, jaringan, otomasi, mesin, dll.).
-- Memberikan apresiasi (like, komentar) dari komunitas sekolah.
-- Moderasi karya oleh admin jurusan dan super admin.
-- Profil siswa sebagai portofolio.
-
-## Teknologi
-- Backend: Laravel 13 (PHP 8.3+)
-- Database: MySQL/MariaDB
-- Frontend: Blade + Tailwind (CDN) + JavaScript
-- Cache: Laravel Cache (database/array)
-- Autentikasi: Laravel Auth + Google Socialite
-- Upload: kompresi gambar di sisi klien & server
+- Menampung dan memamerkan seluruh karya siswa-siswi SMKN 4 Tasikmalaya.
+- Memberikan ruang apresiasi melalui like, komentar, dan kunjungan.
+- Membantu siswa membangun portofolio digital.
+- Memudahkan guru dan admin dalam memoderasi serta mengelola karya.
+- Menjadi inspirasi dan aspirasi bagi adik-adik kelas.
 
 ## Peran Pengguna
-- **Siswa (role 2):** upload karya, melihat karya, komentar, like, edit profil.
-- **Admin Jurusan (role 1):** moderasi karya jurusannya, kelola siswa/kategori/artikel/kode undangan.
-- **Super Admin (role 0):** kelola akun admin, lihat statistik global.
+- **Siswa:** mengunggah karya, melihat karya, berkomentar, memberi like, dan mengelola profil.
+- **Admin Jurusan:** memoderasi karya dari jurusannya, mengelola siswa, kategori, artikel, dan kode undangan.
+- **Super Admin:** mengelola akun admin dan melihat statistik global.
 
-## Alur Utama
-1. Siswa mendaftar dengan kode undangan atau login Google + kode undangan.
-2. Siswa mengunggah karya sesuai jurusannya (form otomatis menyesuaikan).
-3. Admin jurusan menyetujui/menolak karya dengan catatan.
+## Alur / Workflow
+1. Siswa mendaftar menggunakan kode undangan atau login Google yang dilengkapi kode undangan.
+2. Siswa mengunggah karya sesuai jurusannya (form menyesuaikan otomatis).
+3. Admin jurusan menyetujui atau menolak karya disertai catatan.
 4. Karya yang disetujui tampil di halaman publik (Museum Karya).
 5. Pengunjung dapat melihat detail, memberi like, dan berkomentar.
 
-## Fitur Utama
-- Cache publik berbasis grup (`MuseumCache::remember/flush`).
-- Validasi kode undangan (masa berlaku, batas pemakaian, status aktif).
+## Fitur-Fitur
+- Etalase karya publik dengan filter jurusan.
 - Upload karya dengan kompresi gambar.
-- Wajib link GitHub untuk jurusan PPLG.
+- Validasi khusus jurusan (misalnya wajib link GitHub untuk PPLG).
 - Kolom Instagram untuk seluruh siswa.
-- Detail karya menampilkan semua kolom yang diisi.
-- Profil siswa dengan portofolio karya.
-- Desain Neubrutalism (border tebal, shadow keras, font Plus Jakarta Sans).
+- Moderasi karya oleh admin jurusan dan super admin.
+- Profil siswa sebagai portofolio.
+- Like, komentar, dan berbagi karya.
+- Cache publik untuk performa.
+- Desain Neubrutalism yang modern dan konsisten.
 
-## Instalasi (Lokal)
-```bash
-composer install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate --seed
-php artisan serve
-```
-
-## Pengujian
-```bash
-php artisan test
-```
+## Teknologi
+- Dibangun menggunakan **Laravel**.
 
 ## Catatan
-- Aplikasi dirancang untuk server terbatas (1 GB RAM). Gunakan OPcache, tuning PHP-FPM/MySQL, dan cache publik.
-- Tidak ada `git push` file sensitif (`Agent.md`, `TASKS.md`, dll.) sesuai aturan.
+Website ini dibuat sebagai wadah aspirasi dan inspirasi bagi adik-adik kelas SMKN 4 Tasikmalaya untuk terus berkarya, berinovasi, dan memamerkan hasil kreativitasnya.
