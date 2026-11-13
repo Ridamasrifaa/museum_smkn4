@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.1.0 - 13 November 2026
+## 0.1.0 (13 November 2026)
 
 ### Ditambahkan
 - Class `MuseumCache` (App\Services, App\Cache, App\Helpers, App\Support) dengan method `remember()` dan `flush()` untuk cache publik berbasis grup (`karya`, `stat`, `artikel`, `komentar.{id}`).
