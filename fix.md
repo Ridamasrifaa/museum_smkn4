@@ -97,5 +97,9 @@ Perbaikan dilakukan agar aplikasi Museum Karya SMKN 4 lolos pengujian fungsional
 ## Ganti Warna Button (Filter Jurusan) - Lanjutan
 - Tombol filter jurusan di halaman karya kini menggunakan warna border sesuai jurusan pada state aktif.
 
+## Bug 2 (Tombol Filter Jurusan)
+- Temuan: warna tombol filter jurusan tidak muncul karena kelas Tailwind dinamis tidak ter-generate (browser CDN).
+- Perbaikan: menerapkan warna melalui inline style (background, text, border) berdasarkan jurusan, sehingga warna pasti muncul.
+
 ## Catatan
 - Tidak ada `git add`/commit/push dilakukan sesuai larangan.

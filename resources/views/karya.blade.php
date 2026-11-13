@@ -445,23 +445,43 @@
             searchInput.addEventListener("input", runFilter);
         }
 
-        const allColorClasses = ["bg-yellow-300","bg-green-600","bg-orange-500","bg-gray-500","bg-blue-600","bg-red-600","text-white","text-zinc-900","border-yellow-300","border-green-600","border-orange-500","border-gray-500","border-blue-600","border-red-600","shadow-[2px_2px_0px_#000]"];
+        const colorMap = {
+            all:   { bg: "#facc15", text: "#18181b", border: "#18181b" },
+            pplg:  { bg: "#16a34a", text: "#ffffff", border: "#16a34a" },
+            dkv:   { bg: "#f97316", text: "#ffffff", border: "#f97316" },
+            toi:   { bg: "#6b7280", text: "#ffffff", border: "#6b7280" },
+            tkj:   { bg: "#2563eb", text: "#ffffff", border: "#2563eb" },
+            tsm:   { bg: "#dc2626", text: "#ffffff", border: "#dc2626" },
+        };
+
+        function resetPill(p) {
+            p.style.backgroundColor = "";
+            p.style.color = "";
+            p.style.borderColor = "";
+            p.classList.remove("shadow-[2px_2px_0px_#000]");
+            p.classList.add("bg-white", "dark:bg-zinc-800", "text-zinc-900", "dark:text-white", "border-zinc-900", "dark:border-zinc-100");
+        }
+
+        function activatePill(p) {
+            const c = colorMap[p.dataset.filter] || colorMap.all;
+            p.classList.remove("bg-white", "dark:bg-zinc-800", "text-zinc-900", "dark:text-white", "border-zinc-900", "dark:border-zinc-100");
+            p.style.backgroundColor = c.bg;
+            p.style.color = c.text;
+            p.style.borderColor = c.border;
+            p.classList.add("shadow-[2px_2px_0px_#000]");
+        }
 
         filterPills.forEach((pill) => {
             pill.addEventListener("click", function () {
-                filterPills.forEach((p) => {
-                    p.classList.remove(...allColorClasses);
-                    p.classList.add("bg-white", "dark:bg-zinc-800", "text-zinc-900", "dark:text-white", "border-zinc-900", "dark:border-zinc-100");
-                });
-
-                const colorClasses = (this.dataset.color || "bg-yellow-300 text-zinc-900 border-yellow-300").split(/\s+/);
-                this.classList.remove("bg-white", "dark:bg-zinc-800", "text-zinc-900", "dark:text-white", "border-zinc-900", "dark:border-zinc-100");
-                this.classList.add(...colorClasses, "shadow-[2px_2px_0px_#000]");
-
+                filterPills.forEach(resetPill);
+                activatePill(this);
                 activeCategory = this.dataset.filter || "all";
                 runFilter();
             });
         });
+
+        // Aktifkan tombol pertama (Semua) saat load
+        if (filterPills.length) activatePill(filterPills[0]);
         runFilter();
     });
 </script>

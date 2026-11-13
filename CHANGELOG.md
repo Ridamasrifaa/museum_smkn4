@@ -45,3 +45,6 @@
 
 ### Ganti Warna Button (Lanjutan)
 - Tombol filter jurusan: warna border pada state aktif disesuaikan dengan jurusan.
+
+### Bug 2
+- Tombol filter jurusan: warna tidak muncul karena kelas Tailwind dinamis; diperbaiki dengan inline style berdasarkan jurusan.
