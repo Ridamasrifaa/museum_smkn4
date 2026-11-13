@@ -67,5 +67,8 @@ Perbaikan dilakukan agar aplikasi Museum Karya SMKN 4 lolos pengujian fungsional
 - Halaman siswa (My Karya): badge jurusan pada tabel disesuaikan warnanya dengan tombol form jurusan.
 - Halaman admin (Daftar Karya): badge jurusan pada tabel disesuaikan warnanya dengan tombol form jurusan.
 
+## Perbaikan 4 (Navbar Public)
+- Navbar partial sudah menggunakan underline aktif berwarna putih pada mode dark (`border-b-4 border-black dark:border-white`) sehingga sesuai dengan link aktif (mis. Beranda).
+
 ## Catatan
 - Tidak ada `git add`/commit/push dilakukan sesuai larangan.

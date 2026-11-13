@@ -57,3 +57,8 @@
 - Tolong di git push ke branch main dan tambahkan apa saja yang sudah di tambahkan dan juga perbaiki
 - update commit harus menggunakan Bahasa Indonesia dan update di CHANGELOG.md semuanya dengan jelas
 - jik terjadi konflik , Perbaiki konflik tersebut.
+
+## Perbaikan 4 : navbar public 
+- di folder partials atau navbar coba check di navbar tersebut ketika mode dark dia ada garis putih di bawah, nah sesuaikan dengan link active misal di beranda garis bawah text beranda garis putih 
+- test sampai lulus 
+- jika sudah lulus test update CHANGELOG.md dan di fix.md 

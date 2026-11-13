@@ -30,3 +30,6 @@
 
 ### Catatan
 - Tidak ada git add/commit/push dilakukan selama pengerjaan sesuai larangan; commit ini dibuat setelah konfirmasi pengguna.
+
+### Perbaikan 4
+- Navbar public: underline link aktif pada mode dark disesuaikan berwarna putih.
